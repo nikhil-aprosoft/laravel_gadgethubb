@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->string('slug')->unique()->after('category_name');
-        });
+        // Check if the column exists before adding it
+        if (!Schema::hasColumn('categories', 'slug')) {
+            Schema::table('categories', function (Blueprint $table) {
+                $table->string('slug')->after('category_name');
+            });
+        }
     }
 
     /**
@@ -25,8 +28,11 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn('slug');
-        });
+        // Drop the column if it exists
+        if (Schema::hasColumn('categories', 'slug')) {
+            Schema::table('categories', function (Blueprint $table) {
+                $table->dropColumn('slug');
+            });
+        }
     }
 };

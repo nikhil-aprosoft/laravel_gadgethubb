@@ -17,13 +17,19 @@ use Illuminate\Support\Str;
 |
  */
 
-// Route::get('/', function () {
-//     return view('website.index');
-// });
+//  Website View Start Here
+Route::get('/', function () {
+    return view('website.index');
+});
 Route::view('index', 'website.index');
 Route::view('login', 'website.login');
+Route::view('cat_product', 'website.cat_product');
+Route::view('product_detail', 'website.product_detail');
+//  Website View End Here
+
 Route::controller(CategoryController::class)->group(function () {
     Route::get('index', 'index');
+    Route::get('cat_product', 'getData');
     Route::get('/search', 'search')->name('search');
 });
 Route::controller(UserController::class)->group(function () {
