@@ -16,7 +16,7 @@ class CategoryController extends Controller
         $parentCategoriesNormal = ParentCategory::with('categories')->whereNull('rank')->get();
         return view('website.index', compact('categories', 'parentCategoriesMega','parentCategoriesNormal'));
     }
-    // Category product Page Showing Data Code Start Here
+    // Category product Page Showing Data Code Start Heres
     public function getData()
     {
         $categories = Category::all();
