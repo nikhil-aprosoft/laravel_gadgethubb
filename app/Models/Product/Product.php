@@ -3,6 +3,7 @@
 namespace App\Models\Product;
 
 use App\Models\Category;
+use App\Models\DailyDeal;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,9 +16,12 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    } public function dailyDeals()
+    {
+        return $this->hasMany(DailyDeal::class, 'product_id', 'product_id');
     }
     public function getPriceAttribute($value)
     {
-        return '₹' . number_format($value, 2);
+        return '₹' . number_format($value);
     }
 }
