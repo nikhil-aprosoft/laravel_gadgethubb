@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Product;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
@@ -15,5 +15,9 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function getPriceAttribute($value)
+    {
+        return '₹' . number_format($value, 2);
     }
 }

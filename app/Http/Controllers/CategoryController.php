@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Models\Banner\Banner;
-use App\Models\ParentCategory;
-use Illuminate\Support\Facades\DB;
 use App\Models\Banner\Featurewallpaper;
+use App\Models\Category;
+use App\Models\Order\Order;
+use App\Models\ParentCategory;
+use App\Models\Product\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -20,13 +21,28 @@ class CategoryController extends Controller
         $parentCategoriesNormal = ParentCategory::with('categories')->whereNull('rank')->get();
         $banners = $this->banners();
         $featureBanners = $this->featureBanners();
-        return view('website.index', compact('categories', 'parentCategoriesMega','parentCategoriesNormal','banners','featureBanners'));
+        $bestSeller = $this->bestSeller();
+        return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners','bestSeller'));
     }
-    public function banners(){
+    public function banners()
+    {
         return Banner::latest()->limit(2)->get();
     }
-    public function featureBanners(){
+    public function featureBanners()
+    {
         return Featurewallpaper::latest()->get();
+    }
+    public function bestSeller()
+    {
+        $buyProductLists = Order::select('orderproduct_id', DB::raw('count(*) as total'))
+            ->groupBy('orderproduct_id')
+            ->get();
+        if ($buyProductLists) {
+
+            return Product::whereIn('product_id', $buyProductLists->pluck('orderproduct_id'))
+            ->limit(9)
+            ->get();
+        }
     }
     public function search(Request $request)
     {

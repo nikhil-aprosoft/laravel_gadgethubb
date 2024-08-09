@@ -8,7 +8,7 @@
             <div class="header-left mr-md-4">
                 <a href="#" class="mobile-menu-toggle  w-icon-hamburger" aria-label="menu-toggle">
                 </a>
-                <a href="demo1.html" class="logo ml-lg-0">
+                <a href="index" class="logo ml-lg-0">
                     <img src="assets/images/logo.png" alt="logo" width="144" height="45" />
                 </a>
                 <form class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
@@ -180,7 +180,7 @@
                     <nav class="main-nav">
                         <ul class="menu active-underline">
                             <li class="active">
-                                <a href="demo1.html">Home</a>
+                                <a href="index">Home</a>
                             </li>
                             <li>
                                 <a href="shop-banner-sidebar.html">Shop</a>
