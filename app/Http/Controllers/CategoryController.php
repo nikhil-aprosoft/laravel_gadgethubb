@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\ParentCategory;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\Banner\Banner;
+use App\Models\ParentCategory;
+use Illuminate\Support\Facades\DB;
+use App\Models\Banner\Featurewallpaper;
 
 class CategoryController extends Controller
 {
@@ -14,7 +17,15 @@ class CategoryController extends Controller
         $categories = Category::all();
         $parentCategoriesMega = ParentCategory::with('categories')->whereNotNull('rank')->orderBy('rank', 'asc')->get();
         $parentCategoriesNormal = ParentCategory::with('categories')->whereNull('rank')->get();
-        return view('website.index', compact('categories', 'parentCategoriesMega','parentCategoriesNormal'));
+        $banners = $this->banners();
+        $featureBanners = $this->featureBanners();
+        return view('website.index', compact('categories', 'parentCategoriesMega','parentCategoriesNormal','banners','featureBanners'));
+    }
+    public function banners(){
+        return Banner::latest()->limit(2)->get();
+    }
+    public function featureBanners(){
+        return Featurewallpaper::latest()->get();
     }
     public function search(Request $request)
     {

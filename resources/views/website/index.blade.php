@@ -80,58 +80,60 @@
                     }
                 }">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide banner banner-fixed intro-slide intro-slide1"
-                            style="background-image: url(assets/images/demos/demo1/sliders/slide-1.jpg); background-color: #ebeef2;">
-                            <div class="container">
-                                <figure class="slide-image skrollable slide-animate">
-                                    <img src="assets/images/demos/demo1/sliders/shoes.png" alt="Banner"
-                                        data-bottom-top="transform: translateY(10vh);"
-                                        data-top-bottom="transform: translateY(-10vh);" width="474"
-                                        height="397">
-                                </figure>
-                                <div class="banner-content y-50 text-right">
-                                    <h5 class="banner-subtitle font-weight-normal text-default ls-50 lh-1 mb-2 slide-animate"
-                                        data-animation-options="{
-                                    'name': 'fadeInRightShorter',
-                                    'duration': '1s',
-                                    'delay': '.2s'
-                                }">
-                                        Custom <span class="p-relative d-inline-block">Men’s</span>
-                                    </h5>
-                                    <h3 class="banner-title font-weight-bolder ls-25 lh-1 slide-animate"
-                                        data-animation-options="{
-                                    'name': 'fadeInRightShorter',
-                                    'duration': '1s',
-                                    'delay': '.4s'
-                                }">
-                                        RUNNING SHOES
-                                    </h3>
-                                    <p class="font-weight-normal text-default slide-animate"
-                                        data-animation-options="{
-                                    'name': 'fadeInRightShorter',
-                                    'duration': '1s',
-                                    'delay': '.6s'
-                                }">
-                                        Sale up to <span class="font-weight-bolder text-secondary">30% OFF</span>
-                                    </p>
+                       @foreach ($featureBanners as $fb)
+                       <div class="swiper-slide banner banner-fixed intro-slide intro-slide1"
+                       style="background-image: url(assets/images/demos/demo1/sliders/slide-1.jpg); background-color: #ebeef2;">
+                       <div class="container">
+                           <figure class="slide-image skrollable slide-animate">
+                               <img src="assets/images/demos/demo1/sliders/shoes.png" alt="Banner"
+                                   data-bottom-top="transform: translateY(10vh);"
+                                   data-top-bottom="transform: translateY(-10vh);" width="474" height="397">
+                           </figure>
+                           <div class="banner-content y-50 text-right">
+                               <h5 class="banner-subtitle font-weight-normal text-default ls-50 lh-1 mb-2 slide-animate"
+                                   data-animation-options="{
+                               'name': 'fadeInRightShorter',
+                               'duration': '1s',
+                               'delay': '.2s'
+                           }">
+                                   Custom <span class="p-relative d-inline-block">Men’s</span>
+                               </h5>
+                               <h3 class="banner-title font-weight-bolder ls-25 lh-1 slide-animate"
+                                   data-animation-options="{
+                               'name': 'fadeInRightShorter',
+                               'duration': '1s',
+                               'delay': '.4s'
+                           }">
+                                   RUNNING SHOES
+                               </h3>
+                               {{-- <p class="font-weight-normal text-default slide-animate"
+                                   data-animation-options="{
+                               'name': 'fadeInRightShorter',
+                               'duration': '1s',
+                               'delay': '.6s'
+                           }">
+                                   Sale up to <span class="font-weight-bolder text-secondary">30% OFF</span>
+                               </p> --}}
 
-                                    <a href="shop-list.html"
-                                        class="btn btn-dark btn-outline btn-rounded btn-icon-right slide-animate"
-                                        data-animation-options="{
-                                    'name': 'fadeInRightShorter',
-                                    'duration': '1s',
-                                    'delay': '.8s'
-                                }">SHOP
-                                        NOW<i class="w-icon-long-arrow-right"></i></a>
+                               <a href="shop-list.html"
+                                   class="btn btn-dark btn-outline btn-rounded btn-icon-right slide-animate"
+                                   data-animation-options="{
+                               'name': 'fadeInRightShorter',
+                               'duration': '1s',
+                               'delay': '.8s'
+                           }">SHOP
+                                   NOW<i class="w-icon-long-arrow-right"></i></a>
 
-                                </div>
-                                <!-- End of .banner-content -->
-                            </div>
-                            <!-- End of .container -->
-                        </div>
+                           </div>
+                           <!-- End of .banner-content -->
+                       </div>
+                       <!-- End of .container -->
+                   </div>
+                       @endforeach
+                        
                         <!-- End of .intro-slide1 -->
 
-                        <div class="swiper-slide banner banner-fixed intro-slide intro-slide2"
+                        {{-- <div class="swiper-slide banner banner-fixed intro-slide intro-slide2"
                             style="background-image: url(assets/images/demos/demo1/sliders/slide-2.jpg); background-color: #ebeef2;">
                             <div class="container">
                                 <figure class="slide-image skrollable slide-animate"
@@ -141,8 +143,7 @@
                                 }">
                                     <img src="assets/images/demos/demo1/sliders/men.png" alt="Banner"
                                         data-bottom-top="transform: translateX(10vh);"
-                                        data-top-bottom="transform: translateX(-10vh);" width="480"
-                                        height="633">
+                                        data-top-bottom="transform: translateX(-10vh);" width="480" height="633">
                                 </figure>
                                 <div class="banner-content d-inline-block y-50">
                                     <h5 class="banner-subtitle font-weight-normal text-default ls-50 slide-animate"
@@ -237,7 +238,7 @@
                                 </div>
                                 <!-- End of .container -->
                             </div>
-                        </div>
+                        </div> --}}
                         <!-- End of .intro-slide3 -->
                     </div>
                     <div class="swiper-pagination"></div>
@@ -307,41 +308,27 @@
                 <!-- End of Iocn Box Wrapper -->
 
                 <div class="row category-banner-wrapper appear-animate pt-6 pb-8">
-                    <div class="col-md-6 mb-4">
-                        <div class="banner banner-fixed br-xs">
-                            <figure>
-                                <img src="assets/images/demos/demo1/categories/1-1.jpg" alt="Category Banner"
-                                    width="610" height="160" style="background-color: #ecedec;" />
-                            </figure>
-                            <div class="banner-content y-50 mt-0">
-                                <h5 class="banner-subtitle font-weight-normal text-dark">Get up to <span
-                                        class="text-secondary font-weight-bolder text-uppercase ls-25">20% Off</span>
-                                </h5>
-                                <h3 class="banner-title text-uppercase">Sports Outfits<br><span
-                                        class="font-weight-normal                       text-capitalize">Collection</span>
-                                </h3>
-                                <div class="banner-price-info font-weight-normal">Starting at <span
-                                        class="text-secondary                       font-weight-bolder">$170.00</span>
+                    @foreach ($banners as $b)
+                        <div class="col-md-6 mb-4">
+                            <div class="banner banner-fixed br-xs">
+                                <figure>
+                                    <img src="assets/images/demos/demo1/categories/1-1.jpg" alt="Category Banner"
+                                        width="610" height="160" style="background-color: #ecedec;" />
+                                </figure>
+                                <div class="banner-content y-50 mt-0">
+                                    {{-- <h5 class="banner-subtitle font-weight-normal text-dark">Get up to <span
+                                            class="text-secondary font-weight-bolder text-uppercase ls-25">20%
+                                            Off</span> --}}
+                                    </h5>
+                                    <h3 class="banner-title text-uppercase">{{$b->banner_text}}
+                                    </h3>
+                                    {{-- <div class="banner-price-info font-weight-normal">Starting at <span
+                                            class="text-secondary                       font-weight-bolder">$170.00</span>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                        <div class="banner banner-fixed br-xs">
-                            <figure>
-                                <img src="assets/images/demos/demo1/categories/1-2.jpg" alt="Category Banner"
-                                    width="610" height="160" style="background-color: #636363;" />
-                            </figure>
-                            <div class="banner-content y-50 mt-0">
-                                <h5 class="banner-subtitle font-weight-normal text-capitalize">New Arrivals</h5>
-                                <h3 class="banner-title text-white text-uppercase">Accessories<br><span
-                                        class="font-weight-normal text-capitalize">Collection</span></h3>
-                                <div class="banner-price-info text-white font-weight-normal text-capitalize">Only From
-                                    <span class="text-secondary font-weight-bolder">$90.00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <!-- End of Category Banner Wrapper -->
 
@@ -4075,24 +4062,24 @@
 
         <!-- Start of Footer -->
         @include('website.partials.footer')
-    <!-- End of Quick view -->
+        <!-- End of Quick view -->
 
-    <!-- Plugin JS File -->
-    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
-    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/vendor/zoom/jquery.zoom.js"></script>
-    <script src="assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
-    <script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-    <script src="assets/vendor/skrollr/skrollr.min.js"></script>
+        <!-- Plugin JS File -->
+        <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+        <script src="assets/vendor/jquery/jquery.min.js"></script>
+        <script src="assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
+        <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+        <script src="assets/vendor/zoom/jquery.zoom.js"></script>
+        <script src="assets/vendor/jquery.countdown/jquery.countdown.min.js"></script>
+        <script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+        <script src="assets/vendor/skrollr/skrollr.min.js"></script>
 
-    <!-- Swiper JS -->
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+        <!-- Swiper JS -->
+        <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
-    <!-- Main JS -->
-    <script src="assets/js/main.min.js"></script>
-    <script src="{{ asset('assets/js/search.js') }}"></script>
+        <!-- Main JS -->
+        <script src="assets/js/main.min.js"></script>
+        <script src="{{ asset('assets/js/search.js') }}"></script>
 </body>
 
 
