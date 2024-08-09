@@ -15,6 +15,10 @@
                     <div class="select-box">
                         <select id="category" name="category">
                             <option value="">All Categories</option>
+                            <?php
+                                $commonData = app('commonData');
+                                $categories = $commonData['categories'];
+                            ?>
                             @foreach ($categories as $cat)
                                 <option value="{{ $cat->category_id }}">{{ $cat->category_name }}</option>
                             @endforeach
@@ -139,7 +143,7 @@
 
                         <div class="dropdown-box">
                             <ul class="menu vertical-menu category-menu">
-                                @foreach ($parentCategoriesMega as $item)
+                                @foreach ($commonData['parentCategoriesMega'] as $item)
                                     <li>
                                         <a href="shop-fullwidth-banner.html">
                                             <i class="w-icon-tshirt2"></i>{{ $item->name }}
@@ -157,7 +161,7 @@
                                         </ul>
                                     </li>
                                 @endforeach
-                                @foreach ($parentCategoriesNormal as $cat)
+                                @foreach ($commonData['parentCategoriesNormal'] as $cat)
                                     <li>
                                         <a href="shop-fullwidth-banner.html">
                                             <i class="w-icon-heartbeat"></i>{{ $cat->name }}

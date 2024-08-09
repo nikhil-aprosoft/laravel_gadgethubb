@@ -34,7 +34,7 @@ Route::view('daily_deal', 'website.daily_deal');
 Route::controller(CategoryController::class)->group(function () {
     Route::get('index', 'index');
 //------------------------------- Nikhil Chages Start Here -------------------------------
-    Route::get('cat_product', 'getData');
+    // Route::get('cat_product', 'getData');
 //------------------------------- Nikhil Chages End Here ---------------------------------
     Route::get('/search', 'search')->name('search');
 });

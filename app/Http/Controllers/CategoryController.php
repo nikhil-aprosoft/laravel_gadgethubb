@@ -14,7 +14,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $commonData = app('commonData');
+        $categories = $commonData['categories'];
         $parentCategoriesMega = ParentCategory::with('categories')->whereNotNull('rank')->orderBy('rank', 'asc')->get();
         $parentCategoriesNormal = ParentCategory::with('categories')->whereNull('rank')->get();
         $banners = $this->banners();
