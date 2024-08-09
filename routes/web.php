@@ -23,13 +23,19 @@ Route::get('/', function () {
 });
 Route::view('index', 'website.index');
 Route::view('login', 'website.login');
+//------------------------------- Nikhil Chages Start Here -------------------------------
 Route::view('cat_product', 'website.cat_product');
 Route::view('product_detail', 'website.product_detail');
+Route::view('daily_deal', 'website.daily_deal');
+//------------------------------- Nikhil Chages End Here ---------------------------------
+
 //  Website View End Here
 
 Route::controller(CategoryController::class)->group(function () {
     Route::get('index', 'index');
+//------------------------------- Nikhil Chages Start Here -------------------------------
     Route::get('cat_product', 'getData');
+//------------------------------- Nikhil Chages End Here ---------------------------------
     Route::get('/search', 'search')->name('search');
 });
 Route::controller(UserController::class)->group(function () {
