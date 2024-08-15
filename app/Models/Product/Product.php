@@ -16,12 +16,16 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
-    } public function dailyDeals()
+    }
+    public function dailyDeals()
     {
         return $this->hasMany(DailyDeal::class, 'product_id', 'product_id');
     }
     public function getPriceAttribute($value)
     {
         return '₹' . number_format($value);
+    }
+    public function getSizeAttribute($value){
+        return explode(',', $value);
     }
 }

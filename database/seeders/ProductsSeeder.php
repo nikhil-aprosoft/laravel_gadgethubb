@@ -30,7 +30,7 @@ class ProductsSeeder extends Seeder
                     'model' => 'Model ' . Str::random(5),
                     'sku' => 'SKU-' . Str::upper(Str::random(8)), // Unique SKU
                     'cost' => rand(5, 500),
-                    'size' => 'Size ' . Str::random(2),
+                    'size' => "small,medium,large",
                     'thumbnail' => 'https://via.placeholder.com/50', // Placeholder thumbnail URL
                     'slug' => Str::slug('Sample Product ' . Str::random(5)),
                     'created_at' => now(),

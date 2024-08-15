@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Banner\Banner;
 use App\Models\Banner\Featurewallpaper;
 use App\Models\Category;
+use App\Models\DailyDeal;
 use App\Models\Order\Order;
 use App\Models\ParentCategory;
 use App\Models\Product\Product;
@@ -21,8 +22,9 @@ class CategoryController extends Controller
         $parentCategoriesNormal = ParentCategory::with('categories')->whereNull('rank')->get();
         $banners = $this->banners();
         $featureBanners = $this->featureBanners();
+        $dailyDeals = DailyDeal::With('product')->latest()->get();
         $bestSeller = $this->bestSeller();
-        return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners','bestSeller'));
+        return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners', 'bestSeller', 'dailyDeals'));
     }
     public function banners()
     {
@@ -40,8 +42,8 @@ class CategoryController extends Controller
         if ($buyProductLists) {
 
             return Product::whereIn('product_id', $buyProductLists->pluck('orderproduct_id'))
-            ->limit(9)
-            ->get();
+                ->limit(9)
+                ->get();
         }
     }
     public function search(Request $request)
