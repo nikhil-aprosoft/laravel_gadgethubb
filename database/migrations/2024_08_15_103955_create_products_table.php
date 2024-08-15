@@ -18,6 +18,7 @@ return new class extends Migration
             $table->uuid('product_id')->primary();
             $table->uuid('category_id');
             $table->string('product_name');
+            $table->string('slug')->nullable();            
             $table->string('search_product_name')->nullable();
             $table->decimal('price', 10, 2);
             $table->decimal('current_value', 10, 2)->nullable();
@@ -32,7 +33,6 @@ return new class extends Migration
             $table->decimal('cost', 10, 2)->nullable();
             $table->string('size')->nullable();
             $table->string('thumbnail')->nullable();
-            $table->string('slug')->nullable();            
             // Foreign key constraint
             $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');
         });       

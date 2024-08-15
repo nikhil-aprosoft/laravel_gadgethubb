@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('parent_categories', function (Blueprint $table) {
+        Schema::create('feature_wallpapers', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('rank')->nullable();
-            $table->longText('desc')->nullable();
+            $table->string("desc");
+            $table->string("image");
+            $table->string('sku')->nullable();
+            $table->decimal('cost', 8, 2)->nullable(); 
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parent_categories');
+        Schema::dropIfExists('feature_wallpapers');
     }
 };

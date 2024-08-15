@@ -13,8 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('parent_categories', function (Blueprint $table) {
-            $table->string('rank')->nullable();
+        Schema::create('users', function (Blueprint $table) {
+            $table->uuid('userid')->primary();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
         });
     }
 
@@ -25,8 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('parent_categories', function (Blueprint $table) {
-            $table->dropColumn('rank');
-        });
+        Schema::dropIfExists('users');
     }
 };

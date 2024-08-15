@@ -15,45 +15,45 @@ class ParentCategoriesSeeder extends Seeder
     public function run()
     {
         DB::table('parent_categories')->insert([
-            // [
-            //     'name' => 'Fashion',
-            //     'desc' => 'Fashion and apparel for all styles and trends',
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
-            // [
-            //     'name' => 'Home & Garden',
-            //     'desc' => 'Furniture, decor, and gardening supplies for your home',
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
-            // [
-            //     'name' => 'Electronics',
-            //     'desc' => 'Latest gadgets and electronic devices',
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
-            // [
-            //     'name' => 'Furniture',
-            //     'desc' => 'Wide range of furniture for your home and office',
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
-            // [
-            //     'name' => 'Sports',
-            //     'desc' => 'Sports equipment and accessories for all activities',
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
-            // [
-            //     'name' => 'Accessories',
-            //     'desc' => 'accessories for all activities',
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
+            [
+                'name' => 'Fashion',
+                'desc' => 'Fashion and apparel for all styles and trends',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Home & Garden',
+                'desc' => 'Furniture, decor, and gardening supplies for your home',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Electronics',
+                'desc' => 'Latest gadgets and electronic devices',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Furniture',
+                'desc' => 'Wide range of furniture for your home and office',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Sports',
+                'desc' => 'Sports equipment and accessories for all activities',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Accessories',
+                'desc' => 'accessories for all activities',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
             [
                 'name' => 'Other',
-                'desc' => '',
+                'desc' => 'Other',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
