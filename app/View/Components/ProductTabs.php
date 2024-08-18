@@ -1,19 +1,21 @@
 <?php
 
-namespace App\View\Components\website;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class ComponentName extends Component
+class ProductTabs extends Component
 {
+    public $tabs;
+
     /**
      * Create a new component instance.
      *
-     * @return void
+     * @param array $tabs
      */
-    public function __construct()
+    public function __construct(array $tabs)
     {
-        //
+        $this->tabs = $tabs;
     }
 
     /**
@@ -23,6 +25,6 @@ class ComponentName extends Component
      */
     public function render()
     {
-        return view('components.website.component-name');
+        return view('components.product-tabs');
     }
 }

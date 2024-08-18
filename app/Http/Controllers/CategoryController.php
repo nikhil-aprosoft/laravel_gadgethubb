@@ -24,7 +24,9 @@ class CategoryController extends Controller
         $featureBanners = $this->featureBanners();
         $dailyDeals = DailyDeal::With('product')->latest()->get();
         $bestSeller = $this->bestSeller();
-        return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners', 'bestSeller', 'dailyDeals'));
+        $newArrival = Product::with('category')->latest()->limit(10)->get();
+        $shoesSection = Product::with('category')->where('category_id','=',"1449b012-f7d7-4004-a08f-aa227390bed3")->limit(8)->get();
+        return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners', 'bestSeller', 'dailyDeals','newArrival','shoesSection'));
     }
     public function banners()
     {
@@ -42,7 +44,7 @@ class CategoryController extends Controller
         if ($buyProductLists) {
 
             return Product::whereIn('product_id', $buyProductLists->pluck('orderproduct_id'))
-                ->limit(9)
+                ->limit(10)
                 ->get();
         }
     }

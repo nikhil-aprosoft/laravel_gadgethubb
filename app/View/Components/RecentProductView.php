@@ -4,13 +4,14 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class PopularDepartments extends Component
+class RecentProductView extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
+    
     public function __construct()
     {
         //
@@ -23,6 +24,6 @@ class PopularDepartments extends Component
      */
     public function render()
     {
-        return view('components.popular-departments');
+        return view('components.recent-product-view');
     }
 }

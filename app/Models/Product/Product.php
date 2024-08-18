@@ -28,4 +28,7 @@ class Product extends Model
     public function getSizeAttribute($value){
         return explode(',', $value);
     }
+    public function getImagesAttribute($value){
+        return explode(',', $value);
+    }
 }
