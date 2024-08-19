@@ -13,7 +13,8 @@ class ProductsSeeder extends Seeder
         // Get some category IDs from the categories table
         $categoryIds = DB::table('categories')->pluck('category_id');
 
-        foreach ($categoryIds as $categoryId) {
+        for($i=0; $i <= 100 ; $i++){
+         foreach ($categoryIds as $categoryId) {
             DB::table('products')->insert([
                 [
                     'product_id' => Str::uuid(), // Generate UUID for the product
@@ -39,5 +40,7 @@ class ProductsSeeder extends Seeder
                 // Add more products as needed
             ]);
         }
+        }
+        
     }
 }

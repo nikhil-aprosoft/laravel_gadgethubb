@@ -18,6 +18,15 @@ class Category extends Model
     protected $primaryKey = 'category_id'; // Specify the primary key column
     public $incrementing = false; // Set to false if your primary key is not auto-incrementing
     protected $keyType = 'string';
+
+    protected $fillable = [
+        'category_id',
+        'parent_category_id',
+        'category_name',
+        'slug',
+        'category_image',
+    ];
+    
     /**
      * Get the parent category that owns the category.
      */

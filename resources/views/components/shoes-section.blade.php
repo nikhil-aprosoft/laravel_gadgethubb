@@ -8,7 +8,7 @@
                 <div class="col-lg-3 col-sm-4 mb-4">
                     <div class="banner h-100 br-sm" style="background-image: url(assets/images/demos/demo1/banners/2.jpg); 
                         background-color: #ebeced;">
-                        <div class="banner-content content-top">
+                        <div class="banner-content content-top" style="margin: 40px;">
                             <h5 class="banner-subtitle font-weight-normal mb-2">Weekend Sale</h5>
                             <hr class="banner-divider bg-dark mb-2">
                             <h3 class="banner-title font-weight-bolder ls-25 text-uppercase">

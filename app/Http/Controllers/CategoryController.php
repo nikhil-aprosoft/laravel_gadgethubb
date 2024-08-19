@@ -16,7 +16,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $commonData = app('commonData');
+       $commonData = app('commonData');
         $categories = $commonData['categories'];
         $parentCategoriesMega = ParentCategory::with('categories')->whereNotNull('rank')->orderBy('rank', 'asc')->get();
         $parentCategoriesNormal = ParentCategory::with('categories')->whereNull('rank')->get();
@@ -25,8 +25,8 @@ class CategoryController extends Controller
         $dailyDeals = DailyDeal::With('product')->latest()->get();
         $bestSeller = $this->bestSeller();
         $newArrival = Product::with('category')->latest()->limit(10)->get();
-        $shoesSection = Product::with('category')->where('category_id','=',"1449b012-f7d7-4004-a08f-aa227390bed3")->limit(8)->get();
-        return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners', 'bestSeller', 'dailyDeals','newArrival','shoesSection'));
+        $shoesSection = Product::with('category')->where('category_id', '=', "1449b012-f7d7-4004-a08f-aa227390bed3")->limit(8)->get();
+        return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners', 'bestSeller', 'dailyDeals', 'newArrival', 'shoesSection'));
     }
     public function banners()
     {
@@ -74,6 +74,15 @@ class CategoryController extends Controller
         return response()->json([
             'data' => $formattedProducts,
         ], 200);
+    }
+    public function showCategoryProducts($slug)
+    {
+        $category = Category::with(['parentCategory'])->where('slug', $slug)->firstOrFail();
+    
+        if ($category) {
+           
+            return view('website.category-products', compact('category'));
+        }
     }
 
 }

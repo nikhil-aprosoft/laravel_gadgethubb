@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use Database\Seeders\CategoriesSeeder;
 use Database\Seeders\ParentCategoriesSeeder;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,12 +17,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-           // ParentCategoriesSeeder::class,
-           // CategoriesSeeder::class,
-           //BannersSeeder::class,
-           //FeatureWallpapersSeeder::class,
-        ProductsSeeder::class,
-           DailyDealsSeeder::class,
+            // ParentCategoriesSeeder::class,
+            // CategoriesSeeder::class,
+            // BannersSeeder::class,
+            // FeatureWallpapersSeeder::class,
+            ProductsSeeder::class,
+            // DailyDealsSeeder::class,
         ]);
     }
 }

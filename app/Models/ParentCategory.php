@@ -11,7 +11,12 @@ class ParentCategory extends Model
     use HasFactory;
 
     protected $table = 'parent_categories';
-      
+  
+    protected $fillable = [
+        'name',
+        'rank',
+        'desc',
+    ];
 
     public function categories()
     {
