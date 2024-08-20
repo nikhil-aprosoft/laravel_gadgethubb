@@ -26,12 +26,14 @@ return new class extends Migration
             $table->text('specification')->nullable();
             $table->integer('quantity');
             $table->text('description')->nullable();
+            $table->longText('short_desc')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->string('model')->nullable();
             $table->string('sku')->unique()->nullable();
             $table->decimal('cost', 10, 2)->nullable();
             $table->string('size')->nullable();
+            $table->string('color')->nullable();
             $table->string('thumbnail')->nullable();
             // Foreign key constraint
             $table->foreign('category_id')->references('category_id')->on('categories')->onDelete('cascade');

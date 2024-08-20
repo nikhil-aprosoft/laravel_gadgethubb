@@ -4,18 +4,18 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class ProductWrap extends Component
+class QuickView extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public $products;
+    public $product;
 
-    public function __construct($products)
+    public function __construct($product)
     {
-       $this->products = $products;
+        $this->product=$product;
     }
 
     /**
@@ -25,6 +25,6 @@ class ProductWrap extends Component
      */
     public function render()
     {
-        return view('components.product-wrap');
+        return view('components.quick-view');
     }
 }

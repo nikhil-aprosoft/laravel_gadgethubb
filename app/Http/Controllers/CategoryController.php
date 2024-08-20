@@ -80,8 +80,11 @@ class CategoryController extends Controller
         $category = Category::with(['parentCategory'])->where('slug', $slug)->firstOrFail();
     
         if ($category) {
-           
-            return view('website.category-products', compact('category'));
+            
+
+             $products = Product::with('category')->where('category_id', $category->category_id)->limit(1)->get();
+
+            return view('website.category-products', compact('products'));
         }
     }
 

@@ -36,7 +36,7 @@
                 </div>
             </nav>
             <!-- End of Breadcrumb -->
-        
+
             <!-- Start of Page Content -->
             <div class="page-content mb-10">
                 <div class="shop-default-banner shop-boxed-banner banner d-flex align-items-center mb-6"
@@ -53,7 +53,7 @@
                     <!-- Start of Shop Content -->
                     <div class="shop-content">
                         <!-- Start of Shop Main Content -->
-                        <x-product-wrap :productData="$category" />
+                        <x-product-wrap :products="$products" />
                         <!-- End of Shop Main Content -->
                     </div>
                     <!-- End of Shop Content -->
@@ -61,7 +61,8 @@
             </div>
             <!-- End of Page Content -->
         </main>
-        
+
+
         <!-- End of Main -->
         @include('website.partials.footer')
         <!-- End of Footer -->
@@ -71,7 +72,8 @@
 
 
     <!-- Plugin JS File -->
-    <script data-cfasync="false" src="{{ asset('cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
+    <script data-cfasync="false" src="{{ asset('cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}">
+    </script>
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/sticky/sticky.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery.plugin/jquery.plugin.min.js') }}"></script>
@@ -81,10 +83,10 @@
     <script src="{{ asset('assets/vendor/zoom/jquery.zoom.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery.countdown/jquery.countdown.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
-    
+
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.min.js') }}"></script>
-    
+
 </body>
 
 
