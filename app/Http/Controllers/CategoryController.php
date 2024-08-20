@@ -16,7 +16,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-       $commonData = app('commonData');
+        $commonData = app('commonData');
         $categories = $commonData['categories'];
         $parentCategoriesMega = ParentCategory::with('categories')->whereNotNull('rank')->orderBy('rank', 'asc')->get();
         $parentCategoriesNormal = ParentCategory::with('categories')->whereNull('rank')->get();
@@ -78,24 +78,13 @@ class CategoryController extends Controller
     public function showCategoryProducts($slug)
     {
         $category = Category::with(['parentCategory'])->where('slug', $slug)->firstOrFail();
-    
+
         if ($category) {
-            
 
-             $products = Product::with('attributes')->where('category_id', $category->category_id)->limit(1)->get();
-
-             $response = $products->toArray();
-
-             // Customize attributes if necessary
-             $response['attributes'] = $products->attributes->map(function($attribute) {
-                 return [
-                     'id' => $attribute->id,
-                     'color' => $attribute->color->name, 
-                     'size' => $attribute->size->size,   
-                     'stock' => $attribute->stock,
-                 ];
-             })->toArray();
-             return $response;
+            $products = Product::with('attributes.color', 'attributes.size')
+                ->where('category_id', $category->category_id)
+                ->limit(1)
+                ->get();
 
             return view('website.category-products', compact('products'));
         }

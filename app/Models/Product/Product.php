@@ -4,8 +4,9 @@ namespace App\Models\Product;
 
 use App\Models\Category;
 use App\Models\DailyDeal;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -13,10 +14,13 @@ class Product extends Model
 
     protected $table = 'products';
 
-    // public function category()
-    // {
-    //     return $this->belongsTo(Category::class, 'category_id');
-    // }
+    protected $appends = ['category'];
+
+    public function getCategoryAttribute()
+    {
+        return DB::table('categories')->where('category_id', $this->category_id)->first();
+    }
+
     public function dailyDeals()
     {
         return $this->hasMany(DailyDeal::class, 'product_id', 'product_id');

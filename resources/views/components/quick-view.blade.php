@@ -5,8 +5,7 @@
             <div class="product-gallery product-gallery-sticky">
                 <div class="swiper-container product-single-swiper swiper-theme nav-inner">
                     <div class="swiper-wrapper row cols-1 gutter-no">
-                        <div class="swiper-slide">
-                           
+                        <div class="swiper-slide">                           
                             <figure class="product-image">
                                 <img src="{{ asset('assets/images/products/popup/1-440x494.jpg') }}"
                                     data-zoom-image="{{ asset('assets/images/products/popup/1-800x900.jpg') }}"
@@ -77,10 +76,10 @@
                             width="102" height="48" />
                     </figure> --}}
                     <div class="product-meta">
-                        {{-- <div class="product-categories">
+                        <div class="product-categories">
                             Category:
                             <span class="product-category"><a href="#">{{$product->category->category_name}}</a></span>
-                        </div> --}}
+                        </div>
                         <div class="product-sku">
                             SKU: <span>{{$product->sku}}</span>
                         </div>
@@ -114,23 +113,23 @@
 
                 <div class="product-form product-variation-form product-color-swatch">
                     <label>Color:</label>
-                    @foreach($product['attributes'] as $color)
                     <div class="d-flex align-items-center product-variations">
-                        <a href="#" class="color" style="background-color: #ffcc01"></a>
-                        <a href="#" class="color" style="background-color: #ca6d00;"></a>
-                        <a href="#" class="color" style="background-color: #1c93cb;"></a>
-                        <a href="#" class="color" style="background-color: #ccc;"></a>
-                        <a href="#" class="color" style="background-color: #333;"></a>
+                        @foreach($product['attributes'] as $attribute)
+                            @if($attribute['color']) {{-- Ensure the color exists --}}
+                                <a href="#" class="color" style="background-color: {{ $attribute['color']['hex_value'] }};" title="{{ $attribute['color']['name'] }}"></a>
+                            @endif
+                        @endforeach
                     </div>
-                    @endforeach
+                    
                 </div>
                 <div class="product-form product-variation-form product-size-swatch">
                     <label class="mb-1">Size:</label>
                     <div class="flex-wrap d-flex align-items-center product-variations">
-                        <a href="#" class="size">Small</a>
-                        <a href="#" class="size">Medium</a>
-                        <a href="#" class="size">Large</a>
-                        <a href="#" class="size">Extra Large</a>
+                        @foreach($product['attributes'] as $attribute)
+                        @if($attribute['color']) {{-- Ensure the color exists --}}                         
+                            <a href="#" class="size">{{ $attribute['size']['size'] }}</a>
+                        @endif
+                    @endforeach                                              
                     </div>
                     <a href="#" class="product-variation-clean">Clean All</a>
                 </div>
