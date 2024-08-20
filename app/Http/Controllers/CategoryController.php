@@ -24,8 +24,8 @@ class CategoryController extends Controller
         $featureBanners = $this->featureBanners();
         $dailyDeals = DailyDeal::With('product')->latest()->get();
         $bestSeller = $this->bestSeller();
-        $newArrival = Product::with('category')->latest()->limit(10)->get();
-        $shoesSection = Product::with('category')->where('category_id', '=', "1449b012-f7d7-4004-a08f-aa227390bed3")->limit(8)->get();
+        $newArrival = Product::latest()->limit(10)->get();
+        $shoesSection = Product::where('category_id', '=', "1449b012-f7d7-4004-a08f-aa227390bed3")->limit(8)->get();
         return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners', 'bestSeller', 'dailyDeals', 'newArrival', 'shoesSection'));
     }
     public function banners()
@@ -82,7 +82,20 @@ class CategoryController extends Controller
         if ($category) {
             
 
-             $products = Product::with('category')->where('category_id', $category->category_id)->limit(1)->get();
+             $products = Product::with('attributes')->where('category_id', $category->category_id)->limit(1)->get();
+
+             $response = $products->toArray();
+
+             // Customize attributes if necessary
+             $response['attributes'] = $products->attributes->map(function($attribute) {
+                 return [
+                     'id' => $attribute->id,
+                     'color' => $attribute->color->name, 
+                     'size' => $attribute->size->size,   
+                     'stock' => $attribute->stock,
+                 ];
+             })->toArray();
+             return $response;
 
             return view('website.category-products', compact('products'));
         }

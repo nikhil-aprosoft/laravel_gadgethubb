@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->longText('short_desc')->nullable();
+        Schema::create('sizes', function (Blueprint $table) {
+            $table->uuid('size_id')->primary();
+            $table->string('size');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-        $table->dropColumn('short_desc');
-        });
+        Schema::dropIfExists('sizes');
     }
 };

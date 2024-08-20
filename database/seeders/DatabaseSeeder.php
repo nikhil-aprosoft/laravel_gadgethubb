@@ -16,12 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            // ParentCategoriesSeeder::class,
-            // CategoriesSeeder::class,
+        $this->call([       
             // BannersSeeder::class,
             // FeatureWallpapersSeeder::class,
-            ProductsSeeder::class,
+            // ParentCategoriesSeeder::class,
+            // CategoriesSeeder::class,
+            // ProductsSeeder::class,
+            // ColorSeeder::class,
+            // SizeSeeder::class,
+            // ProductAttributeSeeder::class,
             // DailyDealsSeeder::class,
         ]);
     }

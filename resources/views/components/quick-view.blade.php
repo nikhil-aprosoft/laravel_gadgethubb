@@ -77,10 +77,10 @@
                             width="102" height="48" />
                     </figure> --}}
                     <div class="product-meta">
-                        <div class="product-categories">
+                        {{-- <div class="product-categories">
                             Category:
                             <span class="product-category"><a href="#">{{$product->category->category_name}}</a></span>
-                        </div>
+                        </div> --}}
                         <div class="product-sku">
                             SKU: <span>{{$product->sku}}</span>
                         </div>
@@ -114,6 +114,7 @@
 
                 <div class="product-form product-variation-form product-color-swatch">
                     <label>Color:</label>
+                    @foreach($product['attributes'] as $color)
                     <div class="d-flex align-items-center product-variations">
                         <a href="#" class="color" style="background-color: #ffcc01"></a>
                         <a href="#" class="color" style="background-color: #ca6d00;"></a>
@@ -121,6 +122,7 @@
                         <a href="#" class="color" style="background-color: #ccc;"></a>
                         <a href="#" class="color" style="background-color: #333;"></a>
                     </div>
+                    @endforeach
                 </div>
                 <div class="product-form product-variation-form product-size-swatch">
                     <label class="mb-1">Size:</label>

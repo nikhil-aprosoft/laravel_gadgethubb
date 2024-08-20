@@ -13,13 +13,17 @@ class Product extends Model
 
     protected $table = 'products';
 
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
+    // public function category()
+    // {
+    //     return $this->belongsTo(Category::class, 'category_id');
+    // }
     public function dailyDeals()
     {
         return $this->hasMany(DailyDeal::class, 'product_id', 'product_id');
+    }
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttribute::class, 'product_id', 'product_id');
     }
     public function getPriceAttribute($value)
     {

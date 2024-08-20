@@ -38,10 +38,10 @@
                         </div>
                     </figure>
                     <div class="product-details">
-                        <div class="product-cat">
+                        {{-- <div class="product-cat">
 
                             <a href="shop-banner-sidebar.html">{{ $item->category->category_name }}</a>
-                        </div>
+                        </div> --}}
                         <h3 class="product-name">
                             <a
                                 href="{{ route('product-details', ['slug' => $item->slug]) }}">{{ $item->product_name }}</a>
