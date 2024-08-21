@@ -5,7 +5,7 @@
             <div class="product-gallery product-gallery-sticky">
                 <div class="swiper-container product-single-swiper swiper-theme nav-inner">
                     <div class="swiper-wrapper row cols-1 gutter-no">
-                        <div class="swiper-slide">                           
+                        <div class="swiper-slide">
                             <figure class="product-image">
                                 <img src="{{ asset('assets/images/products/popup/1-440x494.jpg') }}"
                                     data-zoom-image="{{ asset('assets/images/products/popup/1-800x900.jpg') }}"
@@ -69,7 +69,7 @@
         </div>
         <div class="col-md-6 overflow-hidden p-relative">
             <div class="product-details scrollable pl-0">
-                <h2 class="product-title">{{$product->product_name}}</h2>
+                <h2 class="product-title">{{ $product->product_name }}</h2>
                 <div class="product-bm-wrapper">
                     {{-- <figure class="brand">
                         <img src="{{ asset('assets/images/products/brand/brand-1.jpg') }}" alt="Brand"
@@ -78,17 +78,18 @@
                     <div class="product-meta">
                         <div class="product-categories">
                             Category:
-                            <span class="product-category"><a href="#">{{$product->category->category_name}}</a></span>
+                            <span class="product-category"><a
+                                    href="#">{{ $product->category->category_name }}</a></span>
                         </div>
                         <div class="product-sku">
-                            SKU: <span>{{$product->sku}}</span>
+                            SKU: <span>{{ $product->sku }}</span>
                         </div>
                     </div>
                 </div>
 
                 <hr class="product-divider">
 
-                <div class="product-price">{{$product->price}}</div>
+                <div class="product-price">{{ $product->price }}</div>
 
                 <div class="ratings-container">
                     <div class="ratings-full">
@@ -100,43 +101,63 @@
 
                 <div class="product-short-desc">
                     <ul class="list-type-check list-style-none">
-                        @foreach(explode("|", $product->short_desc) as $desc)
-                            @if(trim($desc))
+                        @foreach (explode('|', $product->short_desc) as $desc)
+                            @if (trim($desc))
                                 <li>{{ trim($desc) }}</li>
                             @endif
                         @endforeach
                     </ul>
                 </div>
-                               
+
 
                 <hr class="product-divider">
+                @if ($product['attributes'])
+                    @php
+                        $hasColor = false;
+                        $hasSize = false;
 
-                <div class="product-form product-variation-form product-color-swatch">
-                    <label>Color:</label>
-                    <div class="d-flex align-items-center product-variations">
-                        @foreach($product['attributes'] as $attribute)
-                            @if($attribute['color']) {{-- Ensure the color exists --}}
-                                <a href="#" class="color" style="background-color: {{ $attribute['color']['hex_value'] }};" title="{{ $attribute['color']['name'] }}"></a>
-                            @endif
-                        @endforeach
-                    </div>
-                    
-                </div>
-                <div class="product-form product-variation-form product-size-swatch">
-                    <label class="mb-1">Size:</label>
-                    <div class="flex-wrap d-flex align-items-center product-variations">
-                        @foreach($product['attributes'] as $attribute)
-                        @if($attribute['color']) {{-- Ensure the color exists --}}                         
-                            <a href="#" class="size">{{ $attribute['size']['size'] }}</a>
-                        @endif
-                    @endforeach                                              
-                    </div>
-                    <a href="#" class="product-variation-clean">Clean All</a>
-                </div>
+                        foreach ($product['attributes'] as $attribute) {
+                            if (isset($attribute['color']) && !empty($attribute['color'])) {
+                                $hasColor = true;
+                            }
 
-                <div class="product-variation-price">
-                    <span></span>
-                </div>
+                            if (isset($attribute['size']) && !empty($attribute['size'])) {
+                                $hasSize = true;
+                            }
+                        }
+                    @endphp
+
+                    @if ($hasColor)
+                        <div class="product-form product-variation-form product-color-swatch">
+                            <label>Color:</label>
+                            <div class="d-flex align-items-center product-variations">
+                                @foreach ($product['attributes'] as $attribute)
+                                    @if (isset($attribute['color']) && !empty($attribute['color']))
+                                        <a href="#" class="color"
+                                            style="background-color: {{ $attribute['color']['hex_value'] }};"
+                                            title="{{ $attribute['color']['name'] }}"></a>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    @if ($hasSize)
+                        <div class="product-form product-variation-form product-size-swatch">
+                            <label class="mb-1">Size:</label>
+                            <div class="flex-wrap d-flex align-items-center product-variations">
+                                @foreach ($product['attributes'] as $attribute)
+                                    @if (isset($attribute['size']) && !empty($attribute['size']))
+                                        <a href="#" class="size">{{ $attribute['size']['size'] }}</a>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <a href="#" class="product-variation-clean">Clean All</a>
+                        </div>
+                    @endif
+                @endif
+
+
 
                 <div class="product-form">
                     <div class="product-qty-form">
@@ -151,15 +172,14 @@
                         <span>Add to Cart</span>
                     </button>
                 </div>
-
+{{-- 
                 <div class="social-links-wrapper">
                     <div class="social-links">
                         <div class="social-icons social-no-color border-thin">
-                            <a href="#" class="social-icon social-facebook w-icon-facebook"></a>
-                            <a href="#" class="social-icon social-twitter w-icon-twitter"></a>
-                            <a href="#" class="social-icon social-pinterest fab fa-pinterest-p"></a>
+                            <a href="#" class="social-icon social-facebook w-icon-facebook"></a>                            
+                        
                             <a href="#" class="social-icon social-whatsapp fab fa-whatsapp"></a>
-                            <a href="#" class="social-icon social-youtube fab fa-linkedin-in"></a>
+                            
                         </div>
                     </div>
                     <span class="divider d-xs-show"></span>
@@ -168,7 +188,7 @@
                         <a href="#"
                             class="btn-product-icon btn-compare btn-icon-left w-icon-compare"><span></span></a>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

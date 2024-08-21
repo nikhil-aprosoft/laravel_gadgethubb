@@ -81,7 +81,7 @@ class CategoryController extends Controller
 
         if ($category) {
 
-            $products = Product::with('attributes.color', 'attributes.size')
+                 $products = Product::with('attributes.color', 'attributes.size')
                 ->where('category_id', $category->category_id)
                 ->limit(1)
                 ->get();
