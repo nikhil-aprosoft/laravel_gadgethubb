@@ -10,9 +10,18 @@ class ProductAttribute extends Model
     use HasFactory;
 
     protected $primaryKey = 'id';
+    
     protected $keyType = 'string';
+    
     public $incrementing = false;
-
+    
+    protected $fillable = [
+        'id',
+        'product_id',
+        'color_id',
+        'size_id',
+        'stock',
+    ];
     // Define relationship with Product
     public function product()
     {

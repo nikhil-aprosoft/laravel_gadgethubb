@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('product_id');
-            $table->uuid('color_id');
-            $table->uuid('size_id');
-            $table->integer('stock');
+            $table->uuid('color_id')->nullable();
+            $table->uuid('size_id')->nullable();
             $table->timestamps();
 
             // Foreign key constraints

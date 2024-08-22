@@ -1,0 +1,130 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Product\Color;
+use App\Models\Product\Product;
+use App\Models\Product\ProductAttribute;
+use App\Models\Product\Size;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
+
+// Assuming you use the Intervention Image library for resizing
+
+class ProductController extends Controller
+{
+    // Show the form for creating a new product
+    public function create()
+    {
+        $categories = Category::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+
+        return view('admin.add-product', compact('categories', 'colors', 'sizes'));
+    }
+
+    // Store a newly created product in storage
+    public function store(Request $request)
+    {
+        // return $request->all();
+
+        $product = new Product();
+
+        $this->setProductAttributes($product, $request);
+
+        $this->handleImages($request, $product);
+
+        $this->handleThumbnail($request, $product);
+
+        $product->save();
+
+        $this->handleAttributes($request, $product);
+
+        return redirect()->back()->with('success', 'Product added successfully.');
+    }
+    protected function setProductAttributes(Product $product, Request $request)
+    {
+        $product->product_name = $request->input('product_name');
+        $product->search_product_name = $request->input('product_name');
+        $product->category_id = $request->input('category_id');
+        $product->price = $request->input('price');
+        $product->cost = $request->input('cost');
+        $product->quantity = $request->input('quantity');
+        $product->description = $request->input('description');
+        $product->short_desc = $request->input('short_desc');
+        $product->model = $request->input('model');
+        $product->sku = $request->input('sku');
+        $product->is_active = $request->input('is_active', true);
+        $product->slug = Str::slug($request->input('product_name'));
+        $product->product_id = (string) Str::uuid();
+    }
+
+    protected function handleImages(Request $request, Product $product)
+    {
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
+            $imagePaths = [];
+
+            foreach ($images as $image) {
+                $path = $image->store('products', 'public');
+                $imagePaths[] = $path;
+
+                // Resize image
+                $img = Image::make(public_path("storage/{$path}"))->resize(300, 300)->save();
+            }
+
+            $product->images = json_encode($imagePaths);
+        }
+    }
+
+    protected function handleThumbnail(Request $request, Product $product)
+    {
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+
+            // Resize thumbnail image
+            $img = Image::make(public_path("storage/{$path}"))->resize(150, 150)->save();
+
+            $product->thumbnail = $path;
+        }
+    }
+
+    protected function handleAttributes(Request $request, Product $product)
+    {
+        $attributes = $request->input('attributes', []);
+
+        foreach ($attributes as $attribute) {
+
+            $ProductAttribute = new ProductAttribute;
+            $ProductAttribute->product_id = $product->product_id;
+            $ProductAttribute->id = (string) Str::uuid();
+
+            if (isset($attribute['color_id'])) {
+                $colorId = $attribute['color_id'];
+                if (Color::where('color_id', $colorId)->exists()) {
+                    $ProductAttribute->color_id = $colorId;
+                } else {
+                    \Log::error('Invalid Color ID:', $colorId);
+                    continue; // Skip this attribute
+                }
+            }
+
+            // Check and validate 'size_id'
+            if (isset($attribute['size_id'])) {
+                $sizeId = $attribute['size_id'];
+                if (Size::where('size_id', $sizeId)->exists()) {
+                    $ProductAttribute->size_id = $sizeId;
+                } else {
+                    \Log::error('Invalid Size ID:', $sizeId);
+                    continue; // Skip this attribute
+                }
+            }
+
+            $ProductAttribute->save();
+        }
+    }
+
+}

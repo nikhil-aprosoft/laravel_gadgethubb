@@ -172,7 +172,7 @@
                         <span>Add to Cart</span>
                     </button>
                 </div>
-{{-- 
+                {{-- 
                 <div class="social-links-wrapper">
                     <div class="social-links">
                         <div class="social-icons social-no-color border-thin">

@@ -2,15 +2,34 @@
 
 namespace App\Models\Product;
 
-use App\Models\Category;
 use App\Models\DailyDeal;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'product_id',
+        'category_id',
+        'product_name',
+        'slug',
+        'search_product_name',
+        'price',
+        'current_value',
+        'cost',
+        'quantity',
+        'images',
+        'thumbnail',
+        'specification',
+        'description',
+        'short_desc',
+        'model',
+        'sku',
+        'is_active',
+    ];
 
     protected $table = 'products';
 
@@ -20,7 +39,6 @@ class Product extends Model
     {
         return DB::table('categories')->where('category_id', $this->category_id)->first();
     }
-
     public function dailyDeals()
     {
         return $this->hasMany(DailyDeal::class, 'product_id', 'product_id');
@@ -45,5 +63,10 @@ class Product extends Model
     {
         // Add pipe symbol after each full stop
         return preg_replace('/\.(?!\s*$)/', '. |', $value);
+    }
+    public function setSearchProductNameAttribute($value)
+    {
+        // Remove extra spaces between words, convert to lowercase
+        $this->attributes['search_product_name'] = preg_replace('/\s+/', ' ', trim(strtolower($value)));
     }
 }

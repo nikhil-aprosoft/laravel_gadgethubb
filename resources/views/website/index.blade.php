@@ -233,9 +233,9 @@
                             <div class="swiper">
                                 <div class="swiper-container swiper-theme nav-top swiper-nav-lg"
                                     data-swiper-options="{
-                'spaceBetween': 20,
-                'slidesPerView': 1
-            }">
+                                        'spaceBetween': 20,
+                                        'slidesPerView': 1
+                                    }">
                                     <div class="swiper-wrapper row cols-1 gutter-no">
                                         @foreach ($dailyDeals as $dd)
                                             <div class="swiper-slide">
@@ -248,7 +248,7 @@
                                                                 <div class="swiper-wrapper row cols-1 gutter-no">
                                                                     <div class="swiper-slide">
                                                                         <figure class="product-image">
-                                                                            <img src="{{ $dd['product']->image }}"
+                                                                            <img src="{{ $dd['product']->images }}"
                                                                                 data-zoom-image="{{ $dd->zoom_image }}"
                                                                                 alt="Product Image" width="800"
                                                                                 height="900">
@@ -286,12 +286,12 @@
                                                                 <!-- Implement countdown logic -->
                                                             </div>
                                                             <!-- <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width: 80%;"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="#" class="rating-reviews">(3 Reviews)</a>
-                                    </div> -->
+                                                                  <div class="ratings-full">
+                                                                      <span class="ratings" style="width: 80%;"></span>
+                                                                      <span class="tooltiptext tooltip-top"></span>
+                                                                  </div>
+                                                                  <a href="#" class="rating-reviews">(3 Reviews)</a>
+                                                              </div> -->
                                                             @if ($dd['product']->size)
                                                                 <div
                                                                     class="product-form product-variation-form product-size-swatch mb-3">
