@@ -117,7 +117,6 @@
                                     class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 gap-4 gap-md-0">
                                     <div class="d-flex flex-column justify-content-center">
                                         <h4 class="mb-1">Add a new Product</h4>
-                                        <p class="mb-0">Orders placed across your store</p>
                                     </div>
                                     <div class="d-flex align-content-center flex-wrap gap-4">
                                         <button type="button" id="discard-button"
@@ -185,24 +184,22 @@
                                             </div>
                                         </div>
                                         <!-- /Product Information -->
-
-                                        <!-- Media -->
                                         <div class="card mb-6">
                                             <div class="card-header d-flex justify-content-between align-items-center">
                                                 <h5 class="mb-0 card-title">Product Images</h5>
                                             </div>
                                             <div class="card-body">
-                                                <input type="file" class="form-control"id="image-upload"
+                                                <input type="file" class="form-control" id="image-upload"
                                                     name="images[]" multiple accept="image/*"
                                                     onchange="previewImages(event)">
                                             </div>
                                         </div>
-
+                                        
                                         <div class="card mb-6">
                                             <div id="image-preview"
                                                 style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
                                         </div>
-
+                                        
                                         <div class="card mb-6">
                                             <div class="card-header d-flex justify-content-between align-items-center">
                                                 <h5 class="mb-0 card-title">Thumbnail Image</h5>
@@ -218,18 +215,23 @@
                                             </div>
                                         </div>
                                         <!-- /Media -->
-
+                                        
                                         <script>
+                                            let selectedImages = [];
+                                        
                                             function previewImages(event) {
                                                 const previewDiv = document.getElementById("image-preview");
                                                 previewDiv.innerHTML = ""; // Clear previous previews
-
-                                                const files = event.target.files;
-                                                for (let i = 0; i < files.length; i++) {
-                                                    const file = files[i];
+                                                selectedImages = Array.from(event.target.files); // Update selected images list
+                                                
+                                                selectedImages.forEach((file, index) => {
                                                     const reader = new FileReader();
-
+                                                    
                                                     reader.onload = function(e) {
+                                                        const imgContainer = document.createElement("div");
+                                                        imgContainer.style.position = "relative";
+                                                        imgContainer.style.display = "inline-block";
+                                                        
                                                         const img = document.createElement("img");
                                                         img.src = e.target.result;
                                                         img.style.maxWidth = "100px"; // Adjust the image preview size if needed
@@ -237,64 +239,91 @@
                                                         img.style.objectFit = "cover"; // Ensure images are not distorted
                                                         img.style.border = "1px solid #ddd"; // Optional: Add a border for better visibility
                                                         img.style.borderRadius = "4px"; // Optional: Round the corners
-
-                                                        // Add double-click event listener to remove image
-                                                        img.addEventListener('dblclick', function() {
-                                                            previewDiv.removeChild(img); // Remove the image from the preview
+                                                        
+                                                        const removeBtn = document.createElement("button");
+                                                        removeBtn.textContent = "Remove";
+                                                        removeBtn.style.position = "absolute";
+                                                        removeBtn.style.bottom = "5px";
+                                                        removeBtn.style.right = "5px";
+                                                        removeBtn.style.backgroundColor = "#ff4d4d"; // Red background
+                                                        removeBtn.style.color = "#fff"; // White text
+                                                        removeBtn.style.border = "none";
+                                                        removeBtn.style.padding = "5px";
+                                                        removeBtn.style.borderRadius = "4px";
+                                                        removeBtn.style.cursor = "pointer";
+                                                        
+                                                        removeBtn.addEventListener('click', function() {
+                                                            removeImage(index);
                                                         });
-
-                                                        previewDiv.appendChild(img);
+                                        
+                                                        imgContainer.appendChild(img);
+                                                        imgContainer.appendChild(removeBtn);
+                                                        
+                                                        previewDiv.appendChild(imgContainer);
                                                     };
-
+                                        
                                                     reader.readAsDataURL(file);
-                                                }
+                                                });
                                             }
-
+                                        
+                                            function removeImage(index) {
+                                                selectedImages.splice(index, 1); // Remove the image from the selectedImages array
+                                                
+                                                const imageInput = document.getElementById("image-upload");
+                                                const dataTransfer = new DataTransfer();
+                                                selectedImages.forEach(file => dataTransfer.items.add(file));
+                                                imageInput.files = dataTransfer.files; // Update the input value
+                                                
+                                                previewImages({ target: { files: selectedImages } }); // Refresh the preview
+                                            }
+                                        
                                             function previewThumbnail(event) {
                                                 const thumbnailImage = document.getElementById("thumbnail-image");
                                                 const file = event.target.files[0];
-
+                                        
                                                 if (file) {
                                                     const reader = new FileReader();
-
+                                        
                                                     reader.onload = function(e) {
                                                         thumbnailImage.src = e.target.result;
                                                         thumbnailImage.style.display = "block"; // Show the image preview
                                                         thumbnailImage.style.border = "1px solid #ddd"; // Optional: Add a border for better visibility
                                                         thumbnailImage.style.borderRadius = "4px"; // Optional: Round the corners
                                                     };
-
+                                        
                                                     reader.readAsDataURL(file);
                                                 } else {
                                                     thumbnailImage.style.display = "none"; // Hide the image preview if no file is selected
                                                 }
                                             }
-
+                                        
                                             document.addEventListener('DOMContentLoaded', function() {
                                                 const discardButton = document.getElementById('discard-button');
                                                 const form = document.getElementById('product-form');
                                                 const notification = document.getElementById('notification');
-
+                                        
                                                 discardButton.addEventListener('click', function() {
                                                     form.reset();
                                                     document.getElementById("image-preview").innerHTML = "";
                                                     document.getElementById("thumbnail-image").style.display = "none";
+                                                    selectedImages = []; // Clear the selected images list
+                                                    document.getElementById("image-upload").files = new DataTransfer().files; // Clear the file input
                                                 });
-
+                                        
                                                 form.addEventListener('submit', function(event) {
                                                     event.preventDefault(); // Prevent the default form submission
-
+                                        
                                                     // Simulate a successful product addition (replace with your actual form submission logic)
                                                     setTimeout(function() {
                                                         notification.style.display = 'block'; // Show the notification
                                                         setTimeout(function() {
-                                                            notification.style.display =
-                                                            'none'; // Hide the notification after a few seconds
+                                                            notification.style.display = 'none'; // Hide the notification after a few seconds
                                                         }, 5000); // Hide after 5 seconds
                                                     }, 1000); // Simulate network delay
                                                 });
                                             });
                                         </script>
+                                        
 
 
 
