@@ -308,19 +308,7 @@
                                                     document.getElementById("thumbnail-image").style.display = "none";
                                                     selectedImages = []; // Clear the selected images list
                                                     document.getElementById("image-upload").files = new DataTransfer().files; // Clear the file input
-                                                });
-                                        
-                                                form.addEventListener('submit', function(event) {
-                                                    event.preventDefault(); // Prevent the default form submission
-                                        
-                                                    // Simulate a successful product addition (replace with your actual form submission logic)
-                                                    setTimeout(function() {
-                                                        notification.style.display = 'block'; // Show the notification
-                                                        setTimeout(function() {
-                                                            notification.style.display = 'none'; // Hide the notification after a few seconds
-                                                        }, 5000); // Hide after 5 seconds
-                                                    }, 1000); // Simulate network delay
-                                                });
+                                                });                                                                                    
                                             });
                                         </script>
                                         

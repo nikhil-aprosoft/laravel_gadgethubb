@@ -26,14 +26,14 @@ class Category extends Model
         'slug',
         'category_image',
     ];
-    
+
     /**
      * Get the parent category that owns the category.
      */
     public function parentCategory()
     {
         return $this->belongsTo(ParentCategory::class, 'parent_category_id');
-    }
+    } 
     public function products()
     {
         return $this->hasMany(Product::class);
