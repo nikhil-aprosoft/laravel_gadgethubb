@@ -26,8 +26,7 @@ class ProductAttributeSeeder extends Seeder
                     'id' => Str::uuid(),
                     'product_id' => $productId,
                     'color_id' => $colorId,
-                    'size_id' => $sizeId,
-                    'stock' => 20,
+                    'size_id' => $sizeId,                
                 ],
             ];
     
