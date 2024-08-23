@@ -75,6 +75,7 @@ class CategoryController extends Controller
             'data' => $formattedProducts,
         ], 200);
     }
+    //showCategoryProducts
     public function showCategoryProducts($slug)
     {
         $category = Category::with(['parentCategory'])->where('slug', $slug)->firstOrFail();
