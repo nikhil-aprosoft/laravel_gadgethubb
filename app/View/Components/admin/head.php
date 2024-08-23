@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\admin;
 
 use Illuminate\View\Component;
 
-class admin.navbar extends Component
+class head extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class admin.navbar extends Component
      */
     public function render()
     {
-        return view('components.admin.navbar');
+        return view('components.admin.head');
     }
 }
