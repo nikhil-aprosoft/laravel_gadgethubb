@@ -248,10 +248,10 @@
                                                                 <div class="swiper-wrapper row cols-1 gutter-no">
                                                                     <div class="swiper-slide">
                                                                         <figure class="product-image">
-                                                                            <img src="{{ $dd['product']->images }}"
+                                                                            {{-- <img src="{{ $dd['product']->images }}"
                                                                                 data-zoom-image="{{ $dd->zoom_image }}"
                                                                                 alt="Product Image" width="800"
-                                                                                height="900">
+                                                                                height="900"> --}}
                                                                         </figure>
                                                                     </div>
                                                                     <!-- Repeat for other images if you have multiple -->
