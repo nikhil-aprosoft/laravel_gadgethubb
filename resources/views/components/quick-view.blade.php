@@ -5,62 +5,37 @@
             <div class="product-gallery product-gallery-sticky">
                 <div class="swiper-container product-single-swiper swiper-theme nav-inner">
                     <div class="swiper-wrapper row cols-1 gutter-no">
-                        <div class="swiper-slide">
-                            <figure class="product-image">
-                                <img src="{{ asset('assets/images/products/popup/1-440x494.jpg') }}"
-                                    data-zoom-image="{{ asset('assets/images/products/popup/1-800x900.jpg') }}"
-                                    alt="Water Boil Black Utensil" width="800" height="900">
-                            </figure>
-                        </div>
-                        <div class="swiper-slide">
-                            <figure class="product-image">
-                                <img src="{{ asset('assets/images/products/popup/2-440x494.jpg') }}"
-                                    data-zoom-image="{{ asset('assets/images/products/popup/2-800x900.jpg') }}"
-                                    alt="Water Boil Black Utensil" width="800" height="900">
-                            </figure>
-                        </div>
-                        <div class="swiper-slide">
-                            <figure class="product-image">
-                                <img src="{{ asset('assets/images/products/popup/3-440x494.jpg') }}"
-                                    data-zoom-image="{{ asset('assets/images/products/popup/3-800x900.jpg') }}"
-                                    alt="Water Boil Black Utensil" width="800" height="900">
-                            </figure>
-                        </div>
-                        <div class="swiper-slide">
-                            <figure class="product-image">
-                                <img src="{{ asset('assets/images/products/popup/4-440x494.jpg') }}"
-                                    data-zoom-image="{{ asset('assets/images/products/popup/4-800x900.jpg') }}"
-                                    alt="Water Boil Black Utensil" width="800" height="900">
-                            </figure>
-                        </div>
+
+                        @php
+                            $imageCount = count($product->images);
+                        @endphp
+
+                        @for ($i = 0; $i < $imageCount; $i++)
+                            <div class="swiper-slide">
+                                <figure class="product-image">
+                                    <img src="{{ $product->images[$i] }}" data-zoom-image="{{ $product->pop_images[$i] }}"
+                                        alt="pop-images" width="800" height="900">
+                                </figure>
+                            </div>
+                        @endfor
+
                     </div>
                     <button class="swiper-button-next"></button>
                     <button class="swiper-button-prev"></button>
                 </div>
                 <div class="product-thumbs-wrap swiper-container"
                     data-swiper-options="{
-                'navigation': {
-                    'nextEl': '.swiper-button-next',
-                    'prevEl': '.swiper-button-prev'
-                }
-            }">
+                    'navigation': {
+                        'nextEl': '.swiper-button-next',
+                        'prevEl': '.swiper-button-prev'
+                    }
+                }">
                     <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
-                        <div class="product-thumb swiper-slide">
-                            <img src="{{ asset('assets/images/products/popup/1-103x116.jpg') }}" alt="Product Thumb"
-                                width="103" height="116">
-                        </div>
-                        <div class="product-thumb swiper-slide">
-                            <img src="{{ asset('assets/images/products/popup/2-103x116.jpg') }}" alt="Product Thumb"
-                                width="103" height="116">
-                        </div>
-                        <div class="product-thumb swiper-slide">
-                            <img src="{{ asset('assets/images/products/popup/3-103x116.jpg') }}" alt="Product Thumb"
-                                width="103" height="116">
-                        </div>
-                        <div class="product-thumb swiper-slide">
-                            <img src="{{ asset('assets/images/products/popup/4-103x116.jpg') }}" alt="Product Thumb"
-                                width="103" height="116">
-                        </div>
+                        @foreach ($product->small_thumbs as $smallThumb)
+                            <div class="product-thumb swiper-slide">
+                                <img src="{{ $smallThumb }}" alt="Product Thumb" width="103" height="116">
+                            </div>
+                        @endforeach
                     </div>
                     <button class="swiper-button-next"></button>
                     <button class="swiper-button-prev"></button>
@@ -134,8 +109,9 @@
                                 @foreach ($product['attributes'] as $attribute)
                                     @if (isset($attribute['color']) && !empty($attribute['color']))
                                         <a href="#" class="color"
-                                            style="background-color: {{ $attribute['color']['hex_value'] }};"
-                                            title="{{ $attribute['color']['name'] }}"></a>
+                                            style="background-color: {{ $attribute['color']['hex_value'] }};display: inline-block;width: 30px;heig;height: 29px;"
+                                            title="{{ $attribute['color']['name'] }}">
+                                        </a>
                                     @endif
                                 @endforeach
                             </div>

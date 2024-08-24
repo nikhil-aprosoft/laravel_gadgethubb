@@ -16,80 +16,8 @@
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar  ">
         <div class="layout-container">
-
             <!-- Menu -->
-
-            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-                <div class="app-brand demo ">
-                    <a href="index.html" class="app-brand-link">
-                        <span class="app-brand-logo demo me-1">
-                            <span style="color:var(--bs-primary);">
-                                <svg width="30" height="24" viewBox="0 0 250 196" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M12.3002 1.25469L56.655 28.6432C59.0349 30.1128 60.4839 32.711 60.4839 35.5089V160.63C60.4839 163.468 58.9941 166.097 56.5603 167.553L12.2055 194.107C8.3836 196.395 3.43136 195.15 1.14435 191.327C0.395485 190.075 0 188.643 0 187.184V8.12039C0 3.66447 3.61061 0.0522461 8.06452 0.0522461C9.56056 0.0522461 11.0271 0.468577 12.3002 1.25469Z"
-                                        fill="currentColor" />
-                                    <path opacity="0.077704" fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M0 65.2656L60.4839 99.9629V133.979L0 65.2656Z" fill="black" />
-                                    <path opacity="0.077704" fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M0 65.2656L60.4839 99.0795V119.859L0 65.2656Z" fill="black" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M237.71 1.22393L193.355 28.5207C190.97 29.9889 189.516 32.5905 189.516 35.3927V160.631C189.516 163.469 191.006 166.098 193.44 167.555L237.794 194.108C241.616 196.396 246.569 195.151 248.856 191.328C249.605 190.076 250 188.644 250 187.185V8.09597C250 3.64006 246.389 0.027832 241.935 0.027832C240.444 0.027832 238.981 0.441882 237.71 1.22393Z"
-                                        fill="currentColor" />
-                                    <path opacity="0.077704" fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M250 65.2656L189.516 99.8897V135.006L250 65.2656Z" fill="black" />
-                                    <path opacity="0.077704" fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M250 65.2656L189.516 99.0497V120.886L250 65.2656Z" fill="black" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M12.2787 1.18923L125 70.3075V136.87L0 65.2465V8.06814C0 3.61223 3.61061 0 8.06452 0C9.552 0 11.0105 0.411583 12.2787 1.18923Z"
-                                        fill="currentColor" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M12.2787 1.18923L125 70.3075V136.87L0 65.2465V8.06814C0 3.61223 3.61061 0 8.06452 0C9.552 0 11.0105 0.411583 12.2787 1.18923Z"
-                                        fill="white" fill-opacity="0.15" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
-                                        fill="currentColor" />
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M237.721 1.18923L125 70.3075V136.87L250 65.2465V8.06814C250 3.61223 246.389 0 241.935 0C240.448 0 238.99 0.411583 237.721 1.18923Z"
-                                        fill="white" fill-opacity="0.3" />
-                                </svg>
-                            </span>
-                        </span>
-                        <span class="app-brand-text demo menu-text fw-semibold ms-2">Materio</span>
-                    </a>
-
-                    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
-                        <i class="menu-toggle-icon d-xl-block align-middle"></i>
-                    </a>
-                </div>
-                <div class="menu-inner-shadow"></div>
-                <ul class="menu-inner py-1">
-                    <!-- Dashboards -->
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons ri-git-commit-line"></i>
-                            <div data-i18n="Wizard Examples">Products</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="{{ url('add-product') }}" class="menu-link">
-                                    <div data-i18n="Checkout">Add-Product</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="wizard-ex-property-listing.html" class="menu-link">
-                                    <div data-i18n="Property Listing">Property Listing</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="wizard-ex-create-deal.html" class="menu-link">
-                                    <div data-i18n="Create Deal">Create Deal</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </aside>
+            <x-admin.aside-menu />
             <!-- / Menu -->
             <!-- Layout container -->
             <div class="layout-page">
@@ -194,12 +122,12 @@
                                                     onchange="previewImages(event)">
                                             </div>
                                         </div>
-                                        
+
                                         <div class="card mb-6">
-                                            <div id="image-preview"
-                                                style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+                                            <div id="image-preview" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                            </div>
                                         </div>
-                                        
+
                                         <div class="card mb-6">
                                             <div class="card-header d-flex justify-content-between align-items-center">
                                                 <h5 class="mb-0 card-title">Thumbnail Image</h5>
@@ -215,23 +143,23 @@
                                             </div>
                                         </div>
                                         <!-- /Media -->
-                                        
+
                                         <script>
                                             let selectedImages = [];
-                                        
+
                                             function previewImages(event) {
                                                 const previewDiv = document.getElementById("image-preview");
                                                 previewDiv.innerHTML = ""; // Clear previous previews
                                                 selectedImages = Array.from(event.target.files); // Update selected images list
-                                                
+
                                                 selectedImages.forEach((file, index) => {
                                                     const reader = new FileReader();
-                                                    
+
                                                     reader.onload = function(e) {
                                                         const imgContainer = document.createElement("div");
                                                         imgContainer.style.position = "relative";
                                                         imgContainer.style.display = "inline-block";
-                                                        
+
                                                         const img = document.createElement("img");
                                                         img.src = e.target.result;
                                                         img.style.maxWidth = "100px"; // Adjust the image preview size if needed
@@ -239,7 +167,7 @@
                                                         img.style.objectFit = "cover"; // Ensure images are not distorted
                                                         img.style.border = "1px solid #ddd"; // Optional: Add a border for better visibility
                                                         img.style.borderRadius = "4px"; // Optional: Round the corners
-                                                        
+
                                                         const removeBtn = document.createElement("button");
                                                         removeBtn.textContent = "Remove";
                                                         removeBtn.style.position = "absolute";
@@ -251,67 +179,72 @@
                                                         removeBtn.style.padding = "5px";
                                                         removeBtn.style.borderRadius = "4px";
                                                         removeBtn.style.cursor = "pointer";
-                                                        
+
                                                         removeBtn.addEventListener('click', function() {
                                                             removeImage(index);
                                                         });
-                                        
+
                                                         imgContainer.appendChild(img);
                                                         imgContainer.appendChild(removeBtn);
-                                                        
+
                                                         previewDiv.appendChild(imgContainer);
                                                     };
-                                        
+
                                                     reader.readAsDataURL(file);
                                                 });
                                             }
-                                        
+
                                             function removeImage(index) {
                                                 selectedImages.splice(index, 1); // Remove the image from the selectedImages array
-                                                
+
                                                 const imageInput = document.getElementById("image-upload");
                                                 const dataTransfer = new DataTransfer();
                                                 selectedImages.forEach(file => dataTransfer.items.add(file));
                                                 imageInput.files = dataTransfer.files; // Update the input value
-                                                
-                                                previewImages({ target: { files: selectedImages } }); // Refresh the preview
+
+                                                previewImages({
+                                                    target: {
+                                                        files: selectedImages
+                                                    }
+                                                }); // Refresh the preview
                                             }
-                                        
+
                                             function previewThumbnail(event) {
                                                 const thumbnailImage = document.getElementById("thumbnail-image");
                                                 const file = event.target.files[0];
-                                        
+
                                                 if (file) {
                                                     const reader = new FileReader();
-                                        
+
                                                     reader.onload = function(e) {
                                                         thumbnailImage.src = e.target.result;
                                                         thumbnailImage.style.display = "block"; // Show the image preview
                                                         thumbnailImage.style.border = "1px solid #ddd"; // Optional: Add a border for better visibility
                                                         thumbnailImage.style.borderRadius = "4px"; // Optional: Round the corners
                                                     };
-                                        
+
                                                     reader.readAsDataURL(file);
                                                 } else {
                                                     thumbnailImage.style.display = "none"; // Hide the image preview if no file is selected
                                                 }
                                             }
-                                        
+
                                             document.addEventListener('DOMContentLoaded', function() {
                                                 const discardButton = document.getElementById('discard-button');
                                                 const form = document.getElementById('product-form');
                                                 const notification = document.getElementById('notification');
-                                        
+
                                                 discardButton.addEventListener('click', function() {
                                                     form.reset();
                                                     document.getElementById("image-preview").innerHTML = "";
                                                     document.getElementById("thumbnail-image").style.display = "none";
                                                     selectedImages = []; // Clear the selected images list
-                                                    document.getElementById("image-upload").files = new DataTransfer().files; // Clear the file input
-                                                });                                                                                    
+                                                    document.getElementById("image-upload").files = new DataTransfer()
+                                                    .files; // Clear the file input
+                                                });
                                             });
                                         </script>
-                                        
+
 
 
 

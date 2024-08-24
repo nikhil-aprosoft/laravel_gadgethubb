@@ -7,6 +7,7 @@ use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class Category extends Model
 {
@@ -33,7 +34,7 @@ class Category extends Model
     public function parentCategory()
     {
         return $this->belongsTo(ParentCategory::class, 'parent_category_id');
-    } 
+    }
     public function products()
     {
         return $this->hasMany(Product::class);
@@ -45,5 +46,9 @@ class Category extends Model
     public function getProductsAttribute()
     {
         return DB::table('products')->whereIn('category_id', [$this->category_id])->get();
+    }
+    public function getCategoryImageAttribute($value)
+    {
+        return Storage::disk('public')->url($value);
     }
 }

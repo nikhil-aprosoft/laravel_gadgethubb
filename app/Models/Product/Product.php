@@ -3,11 +3,11 @@
 namespace App\Models\Product;
 
 use App\Models\DailyDeal;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Product\ProductAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -31,6 +31,8 @@ class Product extends Model
         'model',
         'sku',
         'is_active',
+        'small_thumbs',
+        'pop_images',
     ];
 
     protected $table = 'products';
@@ -68,9 +70,31 @@ class Product extends Model
             return Storage::disk('public')->url($path);
         }, $imagePaths);
     }
+    public function getPopImagesAttribute($value)
+    {
+        $imagePaths = json_decode($value, true);
+
+        if (!is_array($imagePaths)) {
+            return [];
+        }
+        return array_map(function ($path) {
+            return Storage::disk('public')->url($path);
+        }, $imagePaths);
+    }
+    public function getSmallThumbsAttribute($value)
+    {
+        $imagePaths = json_decode($value, true);
+
+        if (!is_array($imagePaths)) {
+            return [];
+        }
+        return array_map(function ($path) {
+            return Storage::disk('public')->url($path);
+        }, $imagePaths);
+    }
     public function getThumbnailAttribute($value)
     {
-      return Storage::disk('public')->url($value);       
+        return Storage::disk('public')->url($value);
     }
     public function getShortDescAttribute($value)
     {
@@ -79,7 +103,8 @@ class Product extends Model
     }
     public function setSearchProductNameAttribute($value)
     {
-        // Remove extra spaces between words, convert to lowercase
-        $this->attributes['search_product_name'] = preg_replace('/\s+/', ' ', trim(strtolower($value)));
+        // Remove all spaces, convert to lowercase
+        $this->attributes['search_product_name'] = strtolower(str_replace(' ', '', $value));
     }
+
 }
