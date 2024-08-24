@@ -468,7 +468,7 @@
                             <div class="swiper-slide category category-classic category-absolute overlay-zoom br-xs">
                                 <a href="{{ url('category/' . $cat->slug) }}" class="category-media">
 
-                                    <img src="assets/images/demos/demo1/categories/2-1.jpg" alt="Category"
+                                    <img src="{{$cat->category_image}}" alt="Category"
                                         width="130" height="130">
                                 </a>
                                 <div class="category-content">

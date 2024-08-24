@@ -19,10 +19,10 @@
                         <div class="product text-center">
                             <figure class="product-media">
                                 <a href="{{ url('product-details/'.$product['slug']) }}">
-                                    <img src="assets/images/demos/demo1/products/3-4-1.jpg" alt="Product"
+                                    <img src="{{$product['thumbnail']}}" alt="Product"
                                         width="300" height="338" />
 
-                                    <img src="assets/images/demos/demo1/products/3-4-2.jpg" alt="Product"
+                                    <img src="{{$product['images'][1]}}" alt="Product"
                                         width="300" height="338" />
 
                                 </a>

@@ -32,7 +32,7 @@ class CategoryController extends Controller
             $imagePath = $image->store('categories', 'public'); // Store the image
 
             // Optionally, resize the image
-            $img = Image::make(public_path("storage/{$imagePath}"))->resize(300, 300);
+            $img = Image::make(public_path("storage/{$imagePath}"))->resize(190, 184);
             $img->save(); // Save the resized image
         }
 

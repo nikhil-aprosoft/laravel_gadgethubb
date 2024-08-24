@@ -48,7 +48,7 @@ class ProductController extends Controller
     protected function setProductAttributes(Product $product, Request $request)
     {
         $product->product_name = $request->input('product_name');
-        $product->search_product_name = $request->input('product_name');
+        $product->search_product_name = strtolower(str_replace(' ', '', $request->input('product_name')));
         $product->category_id = $request->input('category_id');
         $product->price = $request->input('price');
         $product->cost = $request->input('cost');
@@ -66,28 +66,72 @@ class ProductController extends Controller
     {
         if ($request->hasFile('images')) {
             $images = $request->file('images');
-            $imagePaths = [];
+            $popImagePaths = [];
+            $smallThumbPaths = [];
+            $mainImageResizedPaths = [];
 
             foreach ($images as $image) {
-                $path = $image->store('products', 'public');
-                $imagePaths[] = $path;
+                $mainImagePath = $this->storeImage($image, 'temp');
 
-                // Resize image
-                $img = Image::make(public_path("storage/{$path}"))->resize(300, 300)->save();
+                // Resize main image to 600x600
+                $resizedPath = $this->resizeAndStoreImage($mainImagePath, 600, 600, 'products/resized_images');
+
+                // Create pop and small thumb images from the resized image
+                $popImagePath = $this->resizeAndStoreImage($resizedPath, 800, 900, 'products/pop');
+                $smallThumbPath = $this->resizeAndStoreImage($resizedPath, 100, 110, 'products/small_thumb');
+
+                // Collect the paths
+                $popImagePaths[] = $popImagePath;
+                $smallThumbPaths[] = $smallThumbPath;
+                $mainImageResizedPaths[] = $resizedPath;
+
+                \File::delete(public_path("storage/{$mainImagePath}"));
             }
 
-            $product->images = json_encode($imagePaths);
+            // Save paths to the product model
+            $product->pop_images = json_encode($popImagePaths); // Store as JSON array
+            $product->small_thumbs = json_encode($smallThumbPaths); // Store as JSON array
+            $product->images = json_encode($mainImageResizedPaths); // Store as JSON array
         }
     }
 
+    private function storeImage($image, $folder)
+    {
+        return $image->store($folder, 'public');
+    }
+
+    private function resizeAndStoreImage($path, $width, $height, $folder)
+    {
+        $this->ensureDirectoryExists($folder);
+        $img = Image::make(public_path("storage/{$path}"))->resize($width, $height);
+        $filename = basename($path);
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $filenameWithoutExt = pathinfo($filename, PATHINFO_FILENAME);
+
+        $newFilename = "{$filenameWithoutExt}_{$width}x{$height}.{$extension}";
+        $newPath = "{$folder}/{$newFilename}";
+        $img->save(public_path("storage/{$newPath}"));
+
+        return $newPath;
+    }
+
+    private function ensureDirectoryExists($path)
+    {
+        $fullPath = public_path("storage/{$path}");
+        if (!file_exists($fullPath)) {
+            mkdir($fullPath, 0755, true);
+        }
+    }
     protected function handleThumbnail(Request $request, Product $product)
     {
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            // Store the thumbnail in the 'products/thumbnails' directory
+            $path = $request->file('thumbnail')->store('products/thumbnails', 'public');
 
-            // Resize thumbnail image
-            $img = Image::make(public_path("storage/{$path}"))->resize(150, 150)->save();
+            // Resize the thumbnail image
+            $img = Image::make(public_path("storage/{$path}"))->resize(400, 400)->save(public_path("storage/{$path}"));
 
+            // Update the product's thumbnail path
             $product->thumbnail = $path;
         }
     }

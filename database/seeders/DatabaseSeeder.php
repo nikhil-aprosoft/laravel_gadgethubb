@@ -20,12 +20,12 @@ class DatabaseSeeder extends Seeder
             BannersSeeder::class,
             FeatureWallpapersSeeder::class,
             ParentCategoriesSeeder::class,
-            CategoriesSeeder::class,
-            ProductsSeeder::class,
+            // CategoriesSeeder::class,
+            // ProductsSeeder::class,
             ColorSeeder::class,
             SizeSeeder::class,
-            ProductAttributeSeeder::class,
-            DailyDealsSeeder::class,
+            // ProductAttributeSeeder::class,
+            // DailyDealsSeeder::class,
         ]);
     }
 }
