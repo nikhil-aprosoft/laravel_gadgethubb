@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\ParentCategory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ParentCategoriesSeeder extends Seeder
 {
@@ -22,15 +21,28 @@ class ParentCategoriesSeeder extends Seeder
             'Books',
             'Sports',
             'Beauty & Health',
-            'Shoes'
+            'Shoes',
         ];
 
-        foreach ($parentCategoryNames as $name) {
-            ParentCategory::create([
-                'name' => $name,
-                'rank' => '1', 
-                'desc' => null, 
-            ]);
-        }
+        // foreach ($parentCategoryNames as $name) {
+        ParentCategory::create([
+            'name' => "Electronics",
+            'rank' => '1',
+            'desc' => null,
+            'image' => 'w-icon-electronics',
+        ]);
+        ParentCategory::create([
+            'name' => "Furniture",
+            'rank' => '1',
+            'desc' => null,
+            'image' => 'w-icon-electronics',
+        ]);
+        ParentCategory::create([
+            'name' => "Furniture",
+            'rank' => '1',
+            'desc' => null,
+            'image' => 'w-icon-electronics',
+        ]);
+        // }
     }
 }

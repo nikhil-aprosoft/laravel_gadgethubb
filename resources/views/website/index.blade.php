@@ -489,11 +489,11 @@
 
         <x-product-tabs :tabs="[
             [
-                'title' => 'New arrivals',
+                'title' => 'FEATURED',
                 'products' => $newArrival,
             ],
             [
-                'title' => 'Best seller',
+                'title' => 'BEST SELLER',
                 'products' => $bestSeller,
             ],
         ]" />

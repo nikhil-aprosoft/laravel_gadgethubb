@@ -16,6 +16,7 @@ class ParentCategory extends Model
         'name',
         'rank',
         'desc',
+        'icon'
     ];
 
     public function categories()

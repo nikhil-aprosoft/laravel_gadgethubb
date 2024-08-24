@@ -391,7 +391,7 @@
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <input type="number" class="form-control"
                                                         id="ecommerce-product-discount-price"
-                                                        placeholder="Discounted Price" name="cost"
+                                                        placeholder="Cost" name="cost"
                                                         aria-label="Product discounted price">
                                                     <label for="ecommerce-product-discount-price">Cost</label>
                                                 </div>

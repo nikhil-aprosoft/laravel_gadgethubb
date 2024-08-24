@@ -32,7 +32,7 @@
                                     <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
                                         title="Add to wishlist"></a>
                                     <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="Quickview"></a>
+                                        title="Quickview" data-product="{{ json_encode($product) }}"></a>
                                     <!-- <a href="#" class="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a> -->
                                 </div>
                             </figure>
@@ -57,5 +57,28 @@
             </div>
         </div>
         <!-- End of Tab Pane -->
+        <!-- Placeholder for dynamic component content -->
+        <div id="quick-view-placeholder"></div>
+
+        <!-- Hidden Blade components for each product -->
+        @foreach ($tab['products'] as $item)
+            <x-quick-view :product="$item" id="quick-view-{{ $item['product_id'] }}" style="display: none;" />
+        @endforeach
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('.btn-quickview').on('click', function(e) {
+                    e.preventDefault();
+                    var productData = $(this).data('product');
+                    var productId = productData.id; // Ensure each product has a unique ID
+
+                    // Find the hidden component and show it
+                    var quickViewHtml = $(`#quick-view-${productId}`).html();
+                    $('#quick-view-placeholder').html(quickViewHtml).show();
+                });
+            });
+        </script>
     @endforeach
 </div>
