@@ -18,13 +18,13 @@
                     <div class="product-wrap">
                         <div class="product text-center">
                             <figure class="product-media">
-                                <a href="{{ url('product-details/'.$product['slug']) }}">
-                                    <img src="{{$product['thumbnail']}}" alt="Product"
-                                        width="300" height="338" />
-
-                                    <img src="{{$product['images'][1]}}" alt="Product"
-                                        width="300" height="338" />
-
+                                <a href="{{ url('product-details/' . $product['slug']) }}">
+                                    <img src="{{ $product['thumbnail'] }}" alt="Product" width="300"
+                                        height="338" />
+                                    @if (isset($product['images'][1]))
+                                        <img src="{{ $product['images'][1] }}" alt="Product" width="300"
+                                            height="338" />
+                                    @endif
                                 </a>
                                 <div class="product-action-vertical">
                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
@@ -38,7 +38,8 @@
                             </figure>
                             <div class="product-details">
                                 <h4 class="product-name"><a
-                                        href="{{ url('product-details/'.$product['slug']) }}">{{ $product['product_name'] }}</a></h4>
+                                        href="{{ url('product-details/' . $product['slug']) }}">{{ $product['product_name'] }}</a>
+                                </h4>
                                 <div class="ratings-container">
                                     <div class="ratings-full">
                                         <span class="ratings" style="width: 90%;"></span>
