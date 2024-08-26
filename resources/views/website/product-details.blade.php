@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
     <title>Product-Detail</title>
-    <x-head/>
+    <x-head />
 </head>
 
 <body>
@@ -19,7 +20,7 @@
             <!-- Start of Breadcrumb -->
             <nav class="breadcrumb-nav container">
                 <ul class="breadcrumb bb-no">
-                    <li><a href="demo1.html">Home</a></li>
+                    <li><a href="{{ url('index') }}">Home</a></li>
                     <li>Products</li>
                 </ul>
                 <ul class="product-nav list-style-none">
@@ -55,91 +56,47 @@
                             <div class="product product-single row">
                                 <div class="col-md-6 mb-6">
                                     <div class="product-gallery product-gallery-sticky">
-                                        <div class="swiper-container product-single-swiper swiper-theme nav-inner" data-swiper-options="{
+                                        <div class="swiper-container product-single-swiper swiper-theme nav-inner"
+                                            data-swiper-options="{
                                             'navigation': {
                                                 'nextEl': '.swiper-button-next',
                                                 'prevEl': '.swiper-button-prev'
                                             }
                                         }">
-                                            <div class="swiper-wrapper row cols-1 gutter-no">
+                                        <div class="swiper-wrapper row cols-1 gutter-no">
+
+                                            @php
+                                                $imageCount = count($product->images);
+                                            @endphp
+                    
+                                            @for ($i = 0; $i < $imageCount; $i++)
                                                 <div class="swiper-slide">
                                                     <figure class="product-image">
-                                                        <img src="assets/images/products/default/1-800x900.jpg"
-                                                            data-zoom-image="assets/images/products/default/1-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
+                                                        <img src="{{ $product->images[$i] }}" data-zoom-image="{{ $product->pop_images[$i] }}"
+                                                            alt="pop-images" width="800" height="900">
                                                     </figure>
                                                 </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="assets/images/products/default/2-800x900.jpg"
-                                                            data-zoom-image="assets/images/products/default/2-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="488" height="549">
-                                                    </figure>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="assets/images/products/default/3-800x900.jpg"
-                                                            data-zoom-image="assets/images/products/default/3-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                    </figure>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="assets/images/products/default/4-800x900.jpg"
-                                                            data-zoom-image="assets/images/products/default/4-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                    </figure>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="assets/images/products/default/5-800x900.jpg"
-                                                            data-zoom-image="assets/images/products/default/5-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                    </figure>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <figure class="product-image">
-                                                        <img src="assets/images/products/default/6-800x900.jpg"
-                                                            data-zoom-image="assets/images/products/default/6-800x900.jpg"
-                                                            alt="Electronics Black Wrist Watch" width="800" height="900">
-                                                    </figure>
-                                                </div>
-                                            </div>
+                                            @endfor
+                    
+                                        </div>
                                             <button class="swiper-button-next"></button>
                                             <button class="swiper-button-prev"></button>
-                                            <a href="#" class="product-gallery-btn product-image-full"><i class="w-icon-zoom"></i></a>
+                                            <a href="#" class="product-gallery-btn product-image-full"><i
+                                                    class="w-icon-zoom"></i></a>
                                         </div>
-                                        <div class="product-thumbs-wrap swiper-container" data-swiper-options="{
+                                        <div class="product-thumbs-wrap swiper-container"
+                                            data-swiper-options="{
                                             'navigation': {
                                                 'nextEl': '.swiper-button-next',
                                                 'prevEl': '.swiper-button-prev'
                                             }
                                         }">
                                             <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm">
+                                                @foreach ($product->small_thumbs as $smallThumb)
                                                 <div class="product-thumb swiper-slide">
-                                                    <img src="assets/images/products/default/1-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
+                                                    <img src="{{ $smallThumb }}" alt="Product Thumb" width="103" height="116">
                                                 </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="assets/images/products/default/2-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="assets/images/products/default/3-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="assets/images/products/default/4-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="assets/images/products/default/5-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
-                                                <div class="product-thumb swiper-slide">
-                                                    <img src="assets/images/products/default/6-800x900.jpg"
-                                                        alt="Product Thumb" width="800" height="900">
-                                                </div>
+                                            @endforeach                                                                                        
                                             </div>
                                             <button class="swiper-button-next"></button>
                                             <button class="swiper-button-prev"></button>
@@ -148,26 +105,28 @@
                                 </div>
                                 <div class="col-md-6 mb-4 mb-md-6">
                                     <div class="product-details" data-sticky-options="{'minWidth': 767}">
-                                        <h1 class="product-title">Electronics Black Wrist Watch</h1>
+                                        <h1 class="product-title">{{ $product->product_name }}</h1>
                                         <div class="product-bm-wrapper">
-                                            <figure class="brand">
+                                            {{-- <figure class="brand">
                                                 <img src="assets/images/products/brand/brand-1.jpg" alt="Brand"
                                                     width="102" height="48" />
-                                            </figure>
+                                            </figure> --}}
                                             <div class="product-meta">
                                                 <div class="product-categories">
                                                     Category:
-                                                    <span class="product-category"><a href="#">Electronics</a></span>
+                                                    <span class="product-category"><a
+                                                            href="#">{{ $product->category->category_name }}</a></span>
                                                 </div>
                                                 <div class="product-sku">
-                                                    SKU: <span>MS46891340</span>
+                                                    SKU: <span>{{ $product->sku }}</span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <hr class="product-divider">
 
-                                        <div class="product-price"><ins class="new-price">$40.00</ins></div>
+                                        <div class="product-price"><ins class="new-price">{{ $product->price }}</ins>
+                                        </div>
 
                                         <div class="ratings-container">
                                             <div class="ratings-full">
@@ -180,45 +139,71 @@
 
                                         <div class="product-short-desc">
                                             <ul class="list-type-check list-style-none">
-                                                <li>Ultrices eros in cursus turpis massa cursus mattis.</li>
-                                                <li>Volutpat ac tincidunt vitae semper quis lectus.</li>
-                                                <li>Aliquam id diam maecenas ultricies mi eget mauris.</li>
+                                                @foreach (explode('|', $product->short_desc) as $desc)
+                                                    @if (trim($desc))
+                                                        <li>{{ trim($desc) }}</li>
+                                                    @endif
+                                                @endforeach
                                             </ul>
                                         </div>
 
                                         <hr class="product-divider">
 
-                                        <div class="product-form product-variation-form product-color-swatch">
-                                            <label>Color:</label>
-                                            <div class="d-flex align-items-center product-variations">
-                                                <a href="#" class="color" style="background-color: #ffcc01"></a>
-                                                <a href="#" class="color" style="background-color: #ca6d00;"></a>
-                                                <a href="#" class="color" style="background-color: #1c93cb;"></a>
-                                                <a href="#" class="color" style="background-color: #ccc;"></a>
-                                                <a href="#" class="color" style="background-color: #333;"></a>
-                                            </div>
-                                        </div>
-                                        <div class="product-form product-variation-form product-size-swatch">
-                                            <label class="mb-1">Size:</label>
-                                            <div class="flex-wrap d-flex align-items-center product-variations">
-                                                <a href="#" class="size">Small</a>
-                                                <a href="#" class="size">Medium</a>
-                                                <a href="#" class="size">Large</a>
-                                                <a href="#" class="size">Extra Large</a>
-                                            </div>
-                                            <a href="#" class="product-variation-clean">Clean All</a>
-                                        </div>
+                                        @if ($product['attributes'])
+                                            @php
+                                                $hasColor = false;
+                                                $hasSize = false;
 
-                                        <div class="product-variation-price">
-                                            <span></span>
-                                        </div>
+                                                foreach ($product['attributes'] as $attribute) {
+                                                    if (isset($attribute['color']) && !empty($attribute['color'])) {
+                                                        $hasColor = true;
+                                                    }
+
+                                                    if (isset($attribute['size']) && !empty($attribute['size'])) {
+                                                        $hasSize = true;
+                                                    }
+                                                }
+                                            @endphp
+                                            @if ($hasColor)
+                                            <div class="product-form product-variation-form product-color-swatch">
+                                                <label>Color:</label>
+                                                <div class="d-flex align-items-center product-variations">
+                                                    @foreach ($product['attributes'] as $attribute)
+                                                        @if (isset($attribute['color']) && !empty($attribute['color']))
+                                                            <a href="#" class="color"
+                                                                style="background-color: {{ $attribute['color']['hex_value'] }};display: inline-block;width: 30px;heig;height: 29px;"
+                                                                title="{{ $attribute['color']['name'] }}">
+                                                            </a>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                    
+                                            @if ($hasSize)
+                                                <div class="product-form product-variation-form product-size-swatch">
+                                                    <label class="mb-1">Size:</label>
+                                                    <div
+                                                        class="flex-wrap d-flex align-items-center product-variations">
+                                                        @foreach ($product['attributes'] as $attribute)
+                                                            @if (isset($attribute['size']) && !empty($attribute['size']))
+                                                                <a href="#"
+                                                                    class="size">{{ $attribute['size']['size'] }}</a>
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                    <a href="#" class="product-variation-clean">Clean All</a>
+                                                </div>
+                                            @endif
+                                        @endif
+
 
                                         <div class="fix-bottom product-sticky-content sticky-content">
                                             <div class="product-form container">
                                                 <div class="product-qty-form">
                                                     <div class="input-group">
-                                                        <input class="quantity form-control" type="number" min="1"
-                                                            max="10000000">
+                                                        <input class="quantity form-control" type="number"
+                                                            min="1" max="10000000">
                                                         <button class="quantity-plus w-icon-plus"></button>
                                                         <button class="quantity-minus w-icon-minus"></button>
                                                     </div>
@@ -230,14 +215,17 @@
                                             </div>
                                         </div>
 
-                                        <div class="social-links-wrapper">
+                                        {{-- <div class="social-links-wrapper">
                                             <div class="social-links">
                                                 <div class="social-icons social-no-color border-thin">
-                                                    <a href="#" class="social-icon social-facebook w-icon-facebook"></a>
-                                                    <a href="#" class="social-icon social-twitter w-icon-twitter"></a>
+                                                    <a href="#"
+                                                        class="social-icon social-facebook w-icon-facebook"></a>
+                                                    <a href="#"
+                                                        class="social-icon social-twitter w-icon-twitter"></a>
                                                     <a href="#"
                                                         class="social-icon social-pinterest fab fa-pinterest-p"></a>
-                                                    <a href="#" class="social-icon social-whatsapp fab fa-whatsapp"></a>
+                                                    <a href="#"
+                                                        class="social-icon social-whatsapp fab fa-whatsapp"></a>
                                                     <a href="#"
                                                         class="social-icon social-youtube fab fa-linkedin-in"></a>
                                                 </div>
@@ -249,12 +237,12 @@
                                                 <a href="#"
                                                     class="btn-product-icon btn-compare btn-icon-left w-icon-compare"><span></span></a>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
                             <div class="frequently-bought-together mt-5">
-                                <h2 class="title title-underline">Frequently Bought Together</h2>
+                                <h2 class="title title-underline">Frequently Bought </h2>
                                 <div class="bought-together-products row mt-8 pb-4">
                                     <div class="product product-wrap text-center">
                                         <figure class="product-media">
@@ -334,7 +322,8 @@
                                         <div class="row mb-4">
                                             <div class="col-md-6 mb-5">
                                                 <h4 class="title tab-pane-title font-weight-bold mb-2">Detail</h4>
-                                                <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                                <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                    elit,
                                                     sed do eiusmod tempor incididunt arcu cursus vitae congue mauris.
                                                     Sagittis id consectetur purus ut. Tellus rutrum tellus pelle Vel
                                                     pretium lectus quam id leo in vitae turpis massa.</p>
@@ -363,7 +352,8 @@
                                         </div>
                                         <div class="row cols-md-3">
                                             <div class="mb-3">
-                                                <h5 class="sub-title font-weight-bold"><span class="mr-3">1.</span>Free
+                                                <h5 class="sub-title font-weight-bold"><span
+                                                        class="mr-3">1.</span>Free
                                                     Shipping &amp; Return</h5>
                                                 <p class="detail pl-5">We offer free shipping for products on orders
                                                     above 50$ and offer free delivery for all orders in US.</p>
@@ -450,7 +440,8 @@
                                                     Store<i class="w-icon-long-arrow-right"></i></a>
                                             </div>
                                         </div>
-                                        <p class="mb-5"><strong class="text-dark">L</strong>orem ipsum dolor sit amet,
+                                        <p class="mb-5"><strong class="text-dark">L</strong>orem ipsum dolor sit
+                                            amet,
                                             consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                                             dolore magna aliqua.
                                             Venenatis tellus in metus vulputate eu scelerisque felis. Vel pretium
@@ -459,7 +450,8 @@
                                             mi eget mauris. Volutpat ac tincidunt vitae semper quis lectus. Vestibulum
                                             mattis ullamcorper velit sed. A arcu cursus vitae congue mauris.
                                         </p>
-                                        <p class="mb-2"><strong class="text-dark">A</strong> arcu cursus vitae congue
+                                        <p class="mb-2"><strong class="text-dark">A</strong> arcu cursus vitae
+                                            congue
                                             mauris. Sagittis id consectetur purus
                                             ut. Tellus rutrum tellus pellentesque eu tincidunt tortor aliquam nulla.
                                             Diam in
@@ -482,7 +474,8 @@
                                                                     <span class="ratings" style="width: 60%;"></span>
                                                                     <span class="tooltiptext tooltip-top"></span>
                                                                 </div>
-                                                                <a href="#" class="rating-reviews">(3 Reviews)</a>
+                                                                <a href="#" class="rating-reviews">(3
+                                                                    Reviews)</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -560,7 +553,8 @@
                                                 <div class="review-form-wrapper">
                                                     <h3 class="title tab-pane-title font-weight-bold mb-1">Submit Your
                                                         Review</h3>
-                                                    <p class="mb-3">Your email address will not be published. Required
+                                                    <p class="mb-3">Your email address will not be published.
+                                                        Required
                                                         fields are marked *</p>
                                                     <form action="#" method="POST" class="review-form">
                                                         <div class="rating-form">
@@ -582,8 +576,7 @@
                                                                 <option value="1">Very poor</option>
                                                             </select>
                                                         </div>
-                                                        <textarea cols="30" rows="6"
-                                                            placeholder="Write Your Review Here..." class="form-control"
+                                                        <textarea cols="30" rows="6" placeholder="Write Your Review Here..." class="form-control"
                                                             id="review"></textarea>
                                                         <div class="row gutter-md">
                                                             <div class="col-md-6">
@@ -635,7 +628,8 @@
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
                                                                     <img src="assets/images/agents/1-100x100.png"
-                                                                        alt="Commenter Avatar" width="90" height="90">
+                                                                        alt="Commenter Avatar" width="90"
+                                                                        height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
                                                                     <h4 class="comment-author">
@@ -685,7 +679,8 @@
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
                                                                     <img src="assets/images/agents/2-100x100.png"
-                                                                        alt="Commenter Avatar" width="90" height="90">
+                                                                        alt="Commenter Avatar" width="90"
+                                                                        height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
                                                                     <h4 class="comment-author">
@@ -743,7 +738,8 @@
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
                                                                     <img src="assets/images/agents/3-100x100.png"
-                                                                        alt="Commenter Avatar" width="90" height="90">
+                                                                        alt="Commenter Avatar" width="90"
+                                                                        height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
                                                                     <h4 class="comment-author">
@@ -787,7 +783,8 @@
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
                                                                     <img src="assets/images/agents/1-100x100.png"
-                                                                        alt="Commenter Avatar" width="90" height="90">
+                                                                        alt="Commenter Avatar" width="90"
+                                                                        height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
                                                                     <h4 class="comment-author">
@@ -837,7 +834,8 @@
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
                                                                     <img src="assets/images/agents/2-100x100.png"
-                                                                        alt="Commenter Avatar" width="90" height="90">
+                                                                        alt="Commenter Avatar" width="90"
+                                                                        height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
                                                                     <h4 class="comment-author">
@@ -899,7 +897,8 @@
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
                                                                     <img src="assets/images/agents/3-100x100.png"
-                                                                        alt="Commenter Avatar" width="90" height="90">
+                                                                        alt="Commenter Avatar" width="90"
+                                                                        height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
                                                                     <h4 class="comment-author">
@@ -943,7 +942,8 @@
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
                                                                     <img src="assets/images/agents/2-100x100.png"
-                                                                        alt="Commenter Avatar" width="90" height="90">
+                                                                        alt="Commenter Avatar" width="90"
+                                                                        height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
                                                                     <h4 class="comment-author">
@@ -1005,7 +1005,8 @@
                                                             <div class="comment-body">
                                                                 <figure class="comment-avatar">
                                                                     <img src="assets/images/agents/1-100x100.png"
-                                                                        alt="Commenter Avatar" width="90" height="90">
+                                                                        alt="Commenter Avatar" width="90"
+                                                                        height="90">
                                                                 </figure>
                                                                 <div class="comment-content">
                                                                     <h4 class="comment-author">
@@ -1061,10 +1062,12 @@
                             <section class="vendor-product-section">
                                 <div class="title-link-wrapper mb-4">
                                     <h4 class="title text-left">More Products From This Vendor</h4>
-                                    <a href="#" class="btn btn-dark btn-link btn-slide-right btn-icon-right">More
+                                    <a href="#"
+                                        class="btn btn-dark btn-link btn-slide-right btn-icon-right">More
                                         Products<i class="w-icon-long-arrow-right"></i></a>
                                 </div>
-                                <div class="swiper-container swiper-theme" data-swiper-options="{
+                                <div class="swiper-container swiper-theme"
+                                    data-swiper-options="{
                                     'spaceBetween': 20,
                                     'slidesPerView': 2,
                                     'breakpoints': {
@@ -1091,27 +1094,33 @@
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                                         title="Add to cart"></a>
-                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-wishlist w-icon-heart"
                                                         title="Add to wishlist"></a>
-                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-compare w-icon-compare"
                                                         title="Add to Compare"></a>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
+                                                    <a href="#" class="btn-product btn-quickview"
+                                                        title="Quick View">Quick
                                                         View</a>
                                                 </div>
                                             </figure>
                                             <div class="product-details">
-                                                <div class="product-cat"><a href="shop-banner-sidebar.html">Accessories</a>
+                                                <div class="product-cat"><a
+                                                        href="shop-banner-sidebar.html">Accessories</a>
                                                 </div>
-                                                <h4 class="product-name"><a href="product-default.html">Sticky Pencil</a>
+                                                <h4 class="product-name"><a href="product-default.html">Sticky
+                                                        Pencil</a>
                                                 </h4>
                                                 <div class="ratings-container">
                                                     <div class="ratings-full">
                                                         <span class="ratings" style="width: 100%;"></span>
                                                         <span class="tooltiptext tooltip-top"></span>
                                                     </div>
-                                                    <a href="product-default.html" class="rating-reviews">(3 reviews)</a>
+                                                    <a href="product-default.html" class="rating-reviews">(3
+                                                        reviews)</a>
                                                 </div>
                                                 <div class="product-pa-wrapper">
                                                     <div class="product-price">$20.00</div>
@@ -1127,18 +1136,22 @@
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                                         title="Add to cart"></a>
-                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-wishlist w-icon-heart"
                                                         title="Add to wishlist"></a>
-                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-compare w-icon-compare"
                                                         title="Add to Compare"></a>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
+                                                    <a href="#" class="btn-product btn-quickview"
+                                                        title="Quick View">Quick
                                                         View</a>
                                                 </div>
                                             </figure>
                                             <div class="product-details">
-                                                <div class="product-cat"><a href="shop-banner-sidebar.html">Electronics</a>
+                                                <div class="product-cat"><a
+                                                        href="shop-banner-sidebar.html">Electronics</a>
                                                 </div>
                                                 <h4 class="product-name"><a href="product-default.html">Mini
                                                         Multi-Functional Cooker</a></h4>
@@ -1147,7 +1160,8 @@
                                                         <span class="ratings" style="width: 80%;"></span>
                                                         <span class="tooltiptext tooltip-top"></span>
                                                     </div>
-                                                    <a href="product-default.html" class="rating-reviews">(5 reviews)</a>
+                                                    <a href="product-default.html" class="rating-reviews">(5
+                                                        reviews)</a>
                                                 </div>
                                                 <div class="product-pa-wrapper">
                                                     <div class="product-price">
@@ -1166,25 +1180,31 @@
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                                         title="Add to cart"></a>
-                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-wishlist w-icon-heart"
                                                         title="Add to wishlist"></a>
-                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-compare w-icon-compare"
                                                         title="Add to Compare"></a>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
+                                                    <a href="#" class="btn-product btn-quickview"
+                                                        title="Quick View">Quick
                                                         View</a>
                                                 </div>
                                             </figure>
                                             <div class="product-details">
-                                                <div class="product-cat"><a href="shop-banner-sidebar.html">Sports</a></div>
-                                                <h4 class="product-name"><a href="product-default.html">Skate Pan</a></h4>
+                                                <div class="product-cat"><a href="shop-banner-sidebar.html">Sports</a>
+                                                </div>
+                                                <h4 class="product-name"><a href="product-default.html">Skate Pan</a>
+                                                </h4>
                                                 <div class="ratings-container">
                                                     <div class="ratings-full">
                                                         <span class="ratings" style="width: 100%;"></span>
                                                         <span class="tooltiptext tooltip-top"></span>
                                                     </div>
-                                                    <a href="product-default.html" class="rating-reviews">(3 reviews)</a>
+                                                    <a href="product-default.html" class="rating-reviews">(3
+                                                        reviews)</a>
                                                 </div>
                                                 <div class="product-pa-wrapper">
                                                     <div class="product-price">
@@ -1205,27 +1225,33 @@
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                                         title="Add to cart"></a>
-                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-wishlist w-icon-heart"
                                                         title="Add to wishlist"></a>
-                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-compare w-icon-compare"
                                                         title="Add to Compare"></a>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
+                                                    <a href="#" class="btn-product btn-quickview"
+                                                        title="Quick View">Quick
                                                         View</a>
                                                 </div>
                                             </figure>
                                             <div class="product-details">
-                                                <div class="product-cat"><a href="shop-banner-sidebar.html">Accessories</a>
+                                                <div class="product-cat"><a
+                                                        href="shop-banner-sidebar.html">Accessories</a>
                                                 </div>
-                                                <h4 class="product-name"><a href="product-default.html">Clip Attachment</a>
+                                                <h4 class="product-name"><a href="product-default.html">Clip
+                                                        Attachment</a>
                                                 </h4>
                                                 <div class="ratings-container">
                                                     <div class="ratings-full">
                                                         <span class="ratings" style="width: 100%;"></span>
                                                         <span class="tooltiptext tooltip-top"></span>
                                                     </div>
-                                                    <a href="product-default.html" class="rating-reviews">(5 reviews)</a>
+                                                    <a href="product-default.html" class="rating-reviews">(5
+                                                        reviews)</a>
                                                 </div>
                                                 <div class="product-pa-wrapper">
                                                     <div class="product-price">$40.00</div>
@@ -1238,10 +1264,12 @@
                             <section class="related-product-section">
                                 <div class="title-link-wrapper mb-4">
                                     <h4 class="title">Related Products</h4>
-                                    <a href="#" class="btn btn-dark btn-link btn-slide-right btn-icon-right">More
+                                    <a href="#"
+                                        class="btn btn-dark btn-link btn-slide-right btn-icon-right">More
                                         Products<i class="w-icon-long-arrow-right"></i></a>
                                 </div>
-                                <div class="swiper-container swiper-theme" data-swiper-options="{
+                                <div class="swiper-container swiper-theme"
+                                    data-swiper-options="{
                                     'spaceBetween': 20,
                                     'slidesPerView': 2,
                                     'breakpoints': {
@@ -1266,13 +1294,16 @@
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                                         title="Add to cart"></a>
-                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-wishlist w-icon-heart"
                                                         title="Add to wishlist"></a>
-                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-compare w-icon-compare"
                                                         title="Add to Compare"></a>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
+                                                    <a href="#" class="btn-product btn-quickview"
+                                                        title="Quick View">Quick
                                                         View</a>
                                                 </div>
                                             </figure>
@@ -1283,7 +1314,8 @@
                                                         <span class="ratings" style="width: 100%;"></span>
                                                         <span class="tooltiptext tooltip-top"></span>
                                                     </div>
-                                                    <a href="product-default.html" class="rating-reviews">(3 reviews)</a>
+                                                    <a href="product-default.html" class="rating-reviews">(3
+                                                        reviews)</a>
                                                 </div>
                                                 <div class="product-pa-wrapper">
                                                     <div class="product-price">$632.00</div>
@@ -1299,25 +1331,30 @@
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                                         title="Add to cart"></a>
-                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-wishlist w-icon-heart"
                                                         title="Add to wishlist"></a>
-                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-compare w-icon-compare"
                                                         title="Add to Compare"></a>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
+                                                    <a href="#" class="btn-product btn-quickview"
+                                                        title="Quick View">Quick
                                                         View</a>
                                                 </div>
                                             </figure>
                                             <div class="product-details">
-                                                <h4 class="product-name"><a href="product-default.html">Official Camera</a>
+                                                <h4 class="product-name"><a href="product-default.html">Official
+                                                        Camera</a>
                                                 </h4>
                                                 <div class="ratings-container">
                                                     <div class="ratings-full">
                                                         <span class="ratings" style="width: 100%;"></span>
                                                         <span class="tooltiptext tooltip-top"></span>
                                                     </div>
-                                                    <a href="product-default.html" class="rating-reviews">(3 reviews)</a>
+                                                    <a href="product-default.html" class="rating-reviews">(3
+                                                        reviews)</a>
                                                 </div>
                                                 <div class="product-pa-wrapper">
                                                     <div class="product-price">
@@ -1338,25 +1375,30 @@
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                                         title="Add to cart"></a>
-                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-wishlist w-icon-heart"
                                                         title="Add to wishlist"></a>
-                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-compare w-icon-compare"
                                                         title="Add to Compare"></a>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
+                                                    <a href="#" class="btn-product btn-quickview"
+                                                        title="Quick View">Quick
                                                         View</a>
                                                 </div>
                                             </figure>
                                             <div class="product-details">
-                                                <h4 class="product-name"><a href="product-default.html">Phone Charge Pad</a>
+                                                <h4 class="product-name"><a href="product-default.html">Phone Charge
+                                                        Pad</a>
                                                 </h4>
                                                 <div class="ratings-container">
                                                     <div class="ratings-full">
                                                         <span class="ratings" style="width: 80%;"></span>
                                                         <span class="tooltiptext tooltip-top"></span>
                                                     </div>
-                                                    <a href="product-default.html" class="rating-reviews">(8 reviews)</a>
+                                                    <a href="product-default.html" class="rating-reviews">(8
+                                                        reviews)</a>
                                                 </div>
                                                 <div class="product-pa-wrapper">
                                                     <div class="product-price">$23.00</div>
@@ -1372,13 +1414,16 @@
                                                 <div class="product-action-vertical">
                                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                                         title="Add to cart"></a>
-                                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-wishlist w-icon-heart"
                                                         title="Add to wishlist"></a>
-                                                    <a href="#" class="btn-product-icon btn-compare w-icon-compare"
+                                                    <a href="#"
+                                                        class="btn-product-icon btn-compare w-icon-compare"
                                                         title="Add to Compare"></a>
                                                 </div>
                                                 <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
+                                                    <a href="#" class="btn-product btn-quickview"
+                                                        title="Quick View">Quick
                                                         View</a>
                                                 </div>
                                             </figure>
@@ -1390,7 +1435,8 @@
                                                         <span class="ratings" style="width: 100%;"></span>
                                                         <span class="tooltiptext tooltip-top"></span>
                                                     </div>
-                                                    <a href="product-default.html" class="rating-reviews">(9 reviews)</a>
+                                                    <a href="product-default.html" class="rating-reviews">(9
+                                                        reviews)</a>
                                                 </div>
                                                 <div class="product-pa-wrapper">
                                                     <div class="product-price">$50.00</div>
@@ -1405,7 +1451,8 @@
                         <aside class="sidebar product-sidebar sidebar-fixed right-sidebar sticky-sidebar-wrapper">
                             <div class="sidebar-overlay"></div>
                             <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
-                            <a href="#" class="sidebar-toggle d-flex d-lg-none"><i class="fas fa-chevron-left"></i></a>
+                            <a href="#" class="sidebar-toggle d-flex d-lg-none"><i
+                                    class="fas fa-chevron-left"></i></a>
                             <div class="sidebar-content scrollable">
                                 <div class="sticky-sidebar">
                                     <div class="widget widget-icon-box mb-6">
@@ -1442,11 +1489,13 @@
                                     <div class="widget widget-banner mb-9">
                                         <div class="banner banner-fixed br-sm">
                                             <figure>
-                                                <img src="assets/images/shop/banner3.jpg" alt="Banner" width="266"
-                                                    height="220" style="background-color: #1D2D44;" />
+                                                <img src="assets/images/shop/banner3.jpg" alt="Banner"
+                                                    width="266" height="220"
+                                                    style="background-color: #1D2D44;" />
                                             </figure>
                                             <div class="banner-content">
-                                                <div class="banner-price-info font-weight-bolder text-white lh-1 ls-25">
+                                                <div
+                                                    class="banner-price-info font-weight-bolder text-white lh-1 ls-25">
                                                     40<sup class="font-weight-bold">%</sup><sub
                                                         class="font-weight-bold text-uppercase ls-25">Off</sub>
                                                 </div>
@@ -1464,7 +1513,8 @@
                                         </div>
 
                                         <div class="swiper nav-top">
-                                            <div class="swiper-container swiper-theme nav-top" data-swiper-options = "{
+                                            <div class="swiper-container swiper-theme nav-top"
+                                                data-swiper-options = "{
                                                 'slidesPerView': 1,
                                                 'spaceBetween': 20,
                                                 'navigation': {
@@ -1477,8 +1527,9 @@
                                                         <div class="product product-widget">
                                                             <figure class="product-media">
                                                                 <a href="#">
-                                                                    <img src="assets/images/shop/13.jpg" alt="Product"
-                                                                        width="100" height="113" />
+                                                                    <img src="assets/images/shop/13.jpg"
+                                                                        alt="Product" width="100"
+                                                                        height="113" />
                                                                 </a>
                                                             </figure>
                                                             <div class="product-details">
@@ -1487,7 +1538,8 @@
                                                                 </h4>
                                                                 <div class="ratings-container">
                                                                     <div class="ratings-full">
-                                                                        <span class="ratings" style="width: 100%;"></span>
+                                                                        <span class="ratings"
+                                                                            style="width: 100%;"></span>
                                                                         <span class="tooltiptext tooltip-top"></span>
                                                                     </div>
                                                                 </div>
@@ -1497,8 +1549,9 @@
                                                         <div class="product product-widget">
                                                             <figure class="product-media">
                                                                 <a href="#">
-                                                                    <img src="assets/images/shop/14.jpg" alt="Product"
-                                                                        width="100" height="113" />
+                                                                    <img src="assets/images/shop/14.jpg"
+                                                                        alt="Product" width="100"
+                                                                        height="113" />
                                                                 </a>
                                                             </figure>
                                                             <div class="product-details">
@@ -1507,7 +1560,8 @@
                                                                 </h4>
                                                                 <div class="ratings-container">
                                                                     <div class="ratings-full">
-                                                                        <span class="ratings" style="width: 80%;"></span>
+                                                                        <span class="ratings"
+                                                                            style="width: 80%;"></span>
                                                                         <span class="tooltiptext tooltip-top"></span>
                                                                     </div>
                                                                 </div>
@@ -1517,8 +1571,9 @@
                                                         <div class="product product-widget">
                                                             <figure class="product-media">
                                                                 <a href="#">
-                                                                    <img src="assets/images/shop/15.jpg" alt="Product"
-                                                                        width="100" height="113" />
+                                                                    <img src="assets/images/shop/15.jpg"
+                                                                        alt="Product" width="100"
+                                                                        height="113" />
                                                                 </a>
                                                             </figure>
                                                             <div class="product-details">
@@ -1527,7 +1582,8 @@
                                                                 </h4>
                                                                 <div class="ratings-container">
                                                                     <div class="ratings-full">
-                                                                        <span class="ratings" style="width: 60%;"></span>
+                                                                        <span class="ratings"
+                                                                            style="width: 60%;"></span>
                                                                         <span class="tooltiptext tooltip-top"></span>
                                                                     </div>
                                                                 </div>
@@ -1539,8 +1595,9 @@
                                                         <div class="product product-widget">
                                                             <figure class="product-media">
                                                                 <a href="#">
-                                                                    <img src="assets/images/shop/16.jpg" alt="Product"
-                                                                        width="100" height="113" />
+                                                                    <img src="assets/images/shop/16.jpg"
+                                                                        alt="Product" width="100"
+                                                                        height="113" />
                                                                 </a>
                                                             </figure>
                                                             <div class="product-details">
@@ -1549,7 +1606,8 @@
                                                                 </h4>
                                                                 <div class="ratings-container">
                                                                     <div class="ratings-full">
-                                                                        <span class="ratings" style="width: 100%;"></span>
+                                                                        <span class="ratings"
+                                                                            style="width: 100%;"></span>
                                                                         <span class="tooltiptext tooltip-top"></span>
                                                                     </div>
                                                                 </div>
@@ -1559,8 +1617,9 @@
                                                         <div class="product product-widget">
                                                             <figure class="product-media">
                                                                 <a href="#">
-                                                                    <img src="assets/images/shop/17.jpg" alt="Product"
-                                                                        width="100" height="113" />
+                                                                    <img src="assets/images/shop/17.jpg"
+                                                                        alt="Product" width="100"
+                                                                        height="113" />
                                                                 </a>
                                                             </figure>
                                                             <div class="product-details">
@@ -1569,7 +1628,8 @@
                                                                 </h4>
                                                                 <div class="ratings-container">
                                                                     <div class="ratings-full">
-                                                                        <span class="ratings" style="width: 80%;"></span>
+                                                                        <span class="ratings"
+                                                                            style="width: 80%;"></span>
                                                                         <span class="tooltiptext tooltip-top"></span>
                                                                     </div>
                                                                 </div>
@@ -1579,8 +1639,9 @@
                                                         <div class="product product-widget">
                                                             <figure class="product-media">
                                                                 <a href="#">
-                                                                    <img src="assets/images/shop/18.jpg" alt="Product"
-                                                                        width="100" height="113" />
+                                                                    <img src="assets/images/shop/18.jpg"
+                                                                        alt="Product" width="100"
+                                                                        height="113" />
                                                                 </a>
                                                             </figure>
                                                             <div class="product-details">
@@ -1589,7 +1650,8 @@
                                                                 </h4>
                                                                 <div class="ratings-container">
                                                                     <div class="ratings-full">
-                                                                        <span class="ratings" style="width: 100%;"></span>
+                                                                        <span class="ratings"
+                                                                            style="width: 100%;"></span>
                                                                         <span class="tooltiptext tooltip-top"></span>
                                                                     </div>
                                                                 </div>
@@ -1613,27 +1675,26 @@
             <!-- End of Page Content -->
         </main>
         <!-- End of Main -->
-    
+
         @include('website.partials.footer')
 
-    <!-- Plugin JS File -->
-    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/sticky/sticky.js"></script>
-    <script src="assets/vendor/jquery.plugin/jquery.plugin.min.js"></script>
-    <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/zoom/jquery.zoom.js"></script>
-    <script src="assets/vendor/photoswipe/photoswipe.js"></script>
-    <script src="assets/vendor/photoswipe/photoswipe-ui-default.js"></script>
+        <!-- Plugin JS File -->
+        <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/sticky/sticky.js') }}"></script>
+        <script src="{{ asset('assets/vendor/jquery.plugin/jquery.plugin.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+        <script src="{{ asset('assets/vendor/zoom/jquery.zoom.js') }}"></script>
+        <script src="{{ asset('assets/vendor/photoswipe/photoswipe.js') }}"></script>
+        <script src="{{ asset('assets/vendor/photoswipe/photoswipe-ui-default.js') }}"></script>
 
-    <!-- Swiper JS -->
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+        <!-- Main JS File -->
+        <script src="{{ asset('assets/js/main.min.js') }}"></script>
 
-    <!-- Main JS File -->
-    <script src="assets/js/main.min.js"></script>
 </body>
 
 
 <!-- Mirrored from portotheme.com/html/wolmart/product-default.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:53:47 GMT -->
+
 </html>
