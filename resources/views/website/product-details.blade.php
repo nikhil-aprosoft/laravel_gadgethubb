@@ -23,7 +23,7 @@
                     <li><a href="{{ url('index') }}">Home</a></li>
                     <li>Products</li>
                 </ul>
-                <ul class="product-nav list-style-none">
+                {{-- <ul class="product-nav list-style-none">
                     <li class="product-nav-prev">
                         <a href="#">
                             <i class="w-icon-angle-left"></i>
@@ -44,7 +44,7 @@
                             <span class="product-name">Fabulous Sound Speaker</span>
                         </span>
                     </li>
-                </ul>
+                </ul> --}}
             </nav>
             <!-- End of Breadcrumb -->
 
@@ -246,8 +246,8 @@
                                 <h2 class="title title-underline">Frequently Bought Together</h2>
                                 <div class="bought-together-products row mt-8 pb-4">
                                     @foreach ($frequentlyBoughtProduct as $fbp)
-                                    @php  
-                                    @endphp
+                                        @php
+                                        @endphp
                                         <div class="product product-wrap text-center col-4">
                                             <figure class="product-media">
                                                 <img src="{{ $fbp['product']['thumbnail'] }}" alt="Product"
@@ -345,19 +345,21 @@
                                                     @endforeach
                                                 </ul>
                                             </div>
-                                            <div class="col-md-6 mb-5">
-                                                <div class="banner banner-video product-video br-xs">
-                                                    <figure class="banner-media">
-                                                        <a href="#">
-                                                            <img src="{{ asset('assets/images/products/video-banner-610x300.jpg') }}"
-                                                                alt="banner" width="610" height="300"
-                                                                style="background-color: #bebebe;">
-                                                        </a>
-                                                        <a class="btn-play-video btn-iframe"
-                                                            href="assets/video/memory-of-a-woman.mp4"></a>
-                                                    </figure>
+                                            @if ($product->video)
+                                                <div class="col-md-6 mb-5">
+                                                    <div class="banner banner-video product-video br-xs">
+                                                        <figure class="banner-media">
+                                                            <a href="#">
+                                                                <img src="{{ $product->thumbnail }}" alt="banner"
+                                                                    width="610" height="300"
+                                                                    style="background-color: #bebebe;">
+                                                            </a>
+                                                            <a class="btn-play-video btn-iframe"
+                                                                href="{{ $product->video }}"></a>
+                                                        </figure>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                         </div>
                                         <div class="row cols-md-3">
                                             <div class="mb-3">

@@ -47,6 +47,7 @@ class ProductController extends Controller
     }
     protected function setProductAttributes(Product $product, Request $request)
     {
+        // Set basic attributes
         $product->product_name = $request->input('product_name');
         $product->search_product_name = strtolower(str_replace(' ', '', $request->input('product_name')));
         $product->category_id = $request->input('category_id');
@@ -57,14 +58,23 @@ class ProductController extends Controller
         $product->short_desc = $request->input('short_desc');
         $product->model = $request->input('model');
         $product->sku = $request->input('sku');
-        $product->is_active = $request->input('is_active', true);
+        $product->is_active = $request->input('is_active', true); 
         $product->slug = Str::slug($request->input('product_name'));
         $product->product_id = (string) Str::uuid();
+    
         if ($request->has('specifications')) {
             $specifications = $request->input('specifications');
             $product->specification = json_encode($specifications);
         }
+    
+        if ($request->hasFile('video')) {
+            $video = $request->file('video');
+            $path = 'product/videos';
+            $videoPath = $video->store($path, 'public');
+            $product->video = $videoPath; 
+        }
     }
+    
 
     protected function handleImages(Request $request, Product $product)
     {

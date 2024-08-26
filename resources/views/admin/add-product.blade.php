@@ -121,7 +121,7 @@
                                                     name="images[]" multiple accept="image/*"
                                                     onchange="previewImages(event)">
                                             </div>
-                                        </div>
+                                        </div>                                        
 
                                         <div class="card mb-6">
                                             <div id="image-preview" style="display: flex; flex-wrap: wrap; gap: 10px;">
@@ -140,6 +140,15 @@
                                                     <img id="thumbnail-image" src="" alt="Thumbnail Preview"
                                                         style="max-width: 150px; max-height: 150px; object-fit: cover; display: none;">
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-6">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0 card-title">Product Video </h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <input type="file" class="form-control" 
+                                                    name="video">
                                             </div>
                                         </div>
                                         <!-- /Media -->

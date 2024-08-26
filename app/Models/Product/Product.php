@@ -34,6 +34,7 @@ class Product extends Model
         'is_active',
         'small_thumbs',
         'pop_images',
+        'video'
     ];
 
     protected $table = 'products';
@@ -109,6 +110,10 @@ class Product extends Model
     public function getSpecificationAttribute($value)
     {
         return json_decode($value, true) ?? [];
+    }
+    public function getVideoAttribute($value)
+    {
+        return Storage::disk('public')->url($value);
     }
     public function setSearchProductNameAttribute($value)
     {
