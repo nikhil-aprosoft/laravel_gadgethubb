@@ -3,11 +3,12 @@
 namespace App\Models\Product;
 
 use App\Models\DailyDeal;
-use App\Models\Product\ProductAttribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Product\ProductAttribute;
+use App\Models\Product\FrequentlyBoughtProduct;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -50,6 +51,10 @@ class Product extends Model
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class, 'product_id', 'product_id');
+    }    
+    public function frequentlyBoughtProducts(): HasMany
+    {
+        return $this->hasMany(FrequentlyBoughtProduct::class, 'product_id', 'product_id');
     }
     public function getPriceAttribute($value)
     {
@@ -100,6 +105,10 @@ class Product extends Model
     {
         // Add pipe symbol after each full stop
         return preg_replace('/\.(?!\s*$)/', '. |', $value);
+    }
+    public function getSpecificationAttribute($value)
+    {
+        return json_decode($value, true) ?? [];
     }
     public function setSearchProductNameAttribute($value)
     {

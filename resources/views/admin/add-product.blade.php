@@ -110,7 +110,7 @@
                                                     <label for="description">Description</label>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>                        
                                         <!-- /Product Information -->
                                         <div class="card mb-6">
                                             <div class="card-header d-flex justify-content-between align-items-center">
@@ -240,14 +240,10 @@
                                                     document.getElementById("thumbnail-image").style.display = "none";
                                                     selectedImages = []; // Clear the selected images list
                                                     document.getElementById("image-upload").files = new DataTransfer()
-                                                    .files; // Clear the file input
+                                                        .files; // Clear the file input
                                                 });
                                             });
                                         </script>
-
-
-
-
                                         <!-- Variants -->
                                         <div class="card mb-6">
                                             <div class="card-header">
@@ -390,9 +386,8 @@
                                                 <!-- Discounted Price -->
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <input type="number" class="form-control"
-                                                        id="ecommerce-product-discount-price"
-                                                        placeholder="Cost" name="cost"
-                                                        aria-label="Product discounted price">
+                                                        id="ecommerce-product-discount-price" placeholder="Cost"
+                                                        name="cost" aria-label="Product discounted price">
                                                     <label for="ecommerce-product-discount-price">Cost</label>
                                                 </div>
 
@@ -418,7 +413,60 @@
                                             </div>
                                         </div>
                                         <!-- /Pricing Card -->
-                                    </div>
+                                        <div class="card mb-6">
+                                            <div class="card-header">
+                                                <div class="form-floating form-floating-outline mb-5">
+                                                    {{-- <label for="specifications">Product Specifications</label> --}}
+                                                    <div id="specifications-container">
+                                                        <!-- Dynamic Specification Inputs Will Be Added Here -->
+                                                    </div>
+                                                    <button type="button" class="btn btn-secondary mt-3"
+                                                        id="add-specification">Add Specification</button>
+                                                </div>
+                                            </div>                                          
+                                        </div>                                        
+                                    </div>                
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            const specificationsContainer = document.getElementById('specifications-container');
+                                            const addSpecificationButton = document.getElementById('add-specification');
+
+                                            function addSpecificationField(key = '', value = '') {
+                                                const index = specificationsContainer.children.length;
+                                                const specificationDiv = document.createElement('div');
+                                                specificationDiv.classList.add('mb-3');
+                                                specificationDiv.innerHTML = `
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="form-floating form-floating-outline w-45 me-2">
+                                                            <input type="text" class="form-control" name="specifications[${index}][key]" placeholder="Specification Key" value="${key}">
+                                                            <label>Key</label>
+                                                        </div>
+                                                        <div class="form-floating form-floating-outline w-45">
+                                                            <input type="text" class="form-control" name="specifications[${index}][value]" placeholder="Specification Value" value="${value}">
+                                                            <label>Value</label>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeSpecification(this)">Remove</button>
+                                                `;
+                                                specificationsContainer.appendChild(specificationDiv);
+                                            }
+
+                                            window.removeSpecification = function(button) {
+                                                button.parentElement.remove();
+                                            };
+
+                                            addSpecificationButton.addEventListener('click', function() {
+                                                addSpecificationField();
+                                            });
+
+                                            // Example: Prepopulate specifications if editing an existing product
+                                            @if (isset($product))
+                                                @foreach ($product->specifications as $spec)
+                                                    addSpecificationField('{{ $spec->key }}', '{{ $spec->value }}');
+                                                @endforeach
+                                            @endif
+                                        });
+                                    </script>
                                     <!-- /Second column -->
                                 </div>
                             </form>

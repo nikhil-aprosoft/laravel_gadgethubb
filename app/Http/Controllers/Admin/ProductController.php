@@ -60,6 +60,10 @@ class ProductController extends Controller
         $product->is_active = $request->input('is_active', true);
         $product->slug = Str::slug($request->input('product_name'));
         $product->product_id = (string) Str::uuid();
+        if ($request->has('specifications')) {
+            $specifications = $request->input('specifications');
+            $product->specification = json_encode($specifications);
+        }
     }
 
     protected function handleImages(Request $request, Product $product)
