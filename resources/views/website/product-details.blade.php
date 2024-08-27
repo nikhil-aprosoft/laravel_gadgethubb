@@ -245,9 +245,7 @@
                             <div class="frequently-bought-together mt-5">
                                 <h2 class="title title-underline">Frequently Bought Together</h2>
                                 <div class="bought-together-products row mt-8 pb-4">
-                                    @foreach ($frequentlyBoughtProduct as $fbp)
-                                        @php
-                                        @endphp
+                                    @foreach ($frequentlyBoughtProduct as $fbp)                                      
                                         <div class="product product-wrap text-center col-4">
                                             <figure class="product-media">
                                                 <img src="{{ $fbp['product']['thumbnail'] }}" alt="Product"
@@ -1053,9 +1051,9 @@
                             <section class="related-product-section">
                                 <div class="title-link-wrapper mb-4">
                                     <h4 class="title">Related Products</h4>
-                                    <a href="#"
+                                    {{-- <a href="#"
                                         class="btn btn-dark btn-link btn-slide-right btn-icon-right">More
-                                        Products<i class="w-icon-long-arrow-right"></i></a>
+                                        Products<i class="w-icon-long-arrow-right"></i></a> --}}
                                 </div>
                                 <div class="swiper-container swiper-theme"
                                     data-swiper-options="{
@@ -1074,165 +1072,41 @@
                                     }
                                 }">
                                     <div class="swiper-wrapper row cols-lg-3 cols-md-4 cols-sm-3 cols-2">
-                                        <div class="swiper-slide product">
-                                            <figure class="product-media">
-                                                <a href="product-default.html">
-                                                    <img src="assets/images/products/default/5.jpg" alt="Product"
-                                                        width="300" height="338" />
-                                                </a>
-                                                <div class="product-action-vertical">
-                                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                        title="Add to cart"></a>
-                                                    <a href="#"
-                                                        class="btn-product-icon btn-wishlist w-icon-heart"
-                                                        title="Add to wishlist"></a>
-                                                    <a href="#"
-                                                        class="btn-product-icon btn-compare w-icon-compare"
-                                                        title="Add to Compare"></a>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview"
-                                                        title="Quick View">Quick
-                                                        View</a>
-                                                </div>
-                                            </figure>
-                                            <div class="product-details">
-                                                <h4 class="product-name"><a href="product-default.html">Drone</a></h4>
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 100%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <a href="product-default.html" class="rating-reviews">(3
-                                                        reviews)</a>
-                                                </div>
-                                                <div class="product-pa-wrapper">
-                                                    <div class="product-price">$632.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide product">
-                                            <figure class="product-media">
-                                                <a href="product-default.html">
-                                                    <img src="assets/images/products/default/6.jpg" alt="Product"
-                                                        width="300" height="338" />
-                                                </a>
-                                                <div class="product-action-vertical">
-                                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                        title="Add to cart"></a>
-                                                    <a href="#"
-                                                        class="btn-product-icon btn-wishlist w-icon-heart"
-                                                        title="Add to wishlist"></a>
-                                                    <a href="#"
-                                                        class="btn-product-icon btn-compare w-icon-compare"
-                                                        title="Add to Compare"></a>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview"
-                                                        title="Quick View">Quick
-                                                        View</a>
-                                                </div>
-                                            </figure>
-                                            <div class="product-details">
-                                                <h4 class="product-name"><a href="product-default.html">Official
-                                                        Camera</a>
-                                                </h4>
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 100%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <a href="product-default.html" class="rating-reviews">(3
-                                                        reviews)</a>
-                                                </div>
-                                                <div class="product-pa-wrapper">
-                                                    <div class="product-price">
-                                                        <ins class="new-price">$263.00</ins><del
-                                                            class="old-price">$300.00</del>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide product">
-                                            <figure class="product-media">
-                                                <a href="product-default.html">
-                                                    <img src="assets/images/products/default/7-1.jpg" alt="Product"
-                                                        width="300" height="338" />
-                                                    <img src="assets/images/products/default/7-2.jpg" alt="Product"
-                                                        width="300" height="338" />
-                                                </a>
-                                                <div class="product-action-vertical">
-                                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                        title="Add to cart"></a>
-                                                    <a href="#"
-                                                        class="btn-product-icon btn-wishlist w-icon-heart"
-                                                        title="Add to wishlist"></a>
-                                                    <a href="#"
-                                                        class="btn-product-icon btn-compare w-icon-compare"
-                                                        title="Add to Compare"></a>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview"
-                                                        title="Quick View">Quick
-                                                        View</a>
-                                                </div>
-                                            </figure>
-                                            <div class="product-details">
-                                                <h4 class="product-name"><a href="product-default.html">Phone
-                                                        Charge
-                                                        Pad</a>
-                                                </h4>
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 80%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <a href="product-default.html" class="rating-reviews">(8
-                                                        reviews)</a>
-                                                </div>
-                                                <div class="product-pa-wrapper">
-                                                    <div class="product-price">$23.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide product">
-                                            <figure class="product-media">
-                                                <a href="product-default.html">
-                                                    <img src="assets/images/products/default/8.jpg" alt="Product"
-                                                        width="300" height="338" />
-                                                </a>
-                                                <div class="product-action-vertical">
-                                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                        title="Add to cart"></a>
-                                                    <a href="#"
-                                                        class="btn-product-icon btn-wishlist w-icon-heart"
-                                                        title="Add to wishlist"></a>
-                                                    <a href="#"
-                                                        class="btn-product-icon btn-compare w-icon-compare"
-                                                        title="Add to Compare"></a>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="#" class="btn-product btn-quickview"
-                                                        title="Quick View">Quick
-                                                        View</a>
-                                                </div>
-                                            </figure>
-                                            <div class="product-details">
-                                                <h4 class="product-name"><a href="product-default.html">Fashionalble
-                                                        Pencil</a></h4>
-                                                <div class="ratings-container">
-                                                    <div class="ratings-full">
-                                                        <span class="ratings" style="width: 100%;"></span>
-                                                        <span class="tooltiptext tooltip-top"></span>
-                                                    </div>
-                                                    <a href="product-default.html" class="rating-reviews">(9
-                                                        reviews)</a>
-                                                </div>
-                                                <div class="product-pa-wrapper">
-                                                    <div class="product-price">$50.00</div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                     @foreach ($relatedProducts as $item)                                         
+                                     <div class="swiper-slide product">
+                                         <figure class="product-media">
+                                             <a href="{{ url('product-details/'.$item->slug) }}">
+                                                 <img src="{{ $item->thumbnail }}"
+                                                     alt="Product" width="300" height="338" />
+                                             </a>
+                                             <div class="product-action-vertical">
+                                                 <a href="#" class="btn-product-icon btn-cart w-icon-cart"
+                                                     title="Add to cart"></a>
+                                                 <a href="#"
+                                                     class="btn-product-icon btn-wishlist w-icon-heart"
+                                                     title="Add to wishlist"></a>
+                                             </div>
+                                             <div class="product-action">
+                                                 <a href="{{url('product-details/'.$item->slug) }}" class="btn-product btn-quickview"
+                                                     title="Quick View">Product-Details</a>
+                                             </div>
+                                         </figure>
+                                         <div class="product-details">
+                                             <h4 class="product-name"><a href="{{ url('product-details/'.$item->slug) }}">Drone</a></h4>
+                                             <div class="ratings-container">
+                                                 <div class="ratings-full">
+                                                     <span class="ratings" style="width: 100%;"></span>
+                                                     <span class="tooltiptext tooltip-top"></span>
+                                                 </div>
+                                                 <a href="{{ url('product-details/'.$item->slug) }}" class="rating-reviews">(3
+                                                     reviews)</a>
+                                             </div>
+                                             <div class="product-pa-wrapper">
+                                                 <div class="product-price">{{$item->price}}</div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     @endforeach
                                     </div>
                                 </div>
                             </section>
@@ -1384,6 +1258,6 @@
 </body>
 
 
-<!-- Mirrored from portotheme.com/html/wolmart/product-default.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:53:47 GMT -->
+<!-- Mirrored from portotheme.com/html/wolmart/{{ url('product-details/'.$item->slug) }} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:53:47 GMT -->
 
 </html>

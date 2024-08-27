@@ -12,8 +12,12 @@ class ProductController extends Controller
         $product = Product::with('attributes.color', 'attributes.size')->where('slug', $slug)->firstOrFail();
         $frequentlyBoughtProduct = FrequentlyBoughtProduct::with('product')->latest()->limit(3)->get();
         $latestProduct = Product::latest()->limit(9)->get();
+
         if ($product) {
-            return view('website.product-details', compact('product', 'frequentlyBoughtProduct', 'latestProduct'));
+               $relatedProducts = Product::where('category_id', $product->category_id) 
+                ->where('product_id', '!=', $product->product_id)                 
+                ->get();
+            return view('website.product-details', compact('product', 'frequentlyBoughtProduct', 'latestProduct','relatedProducts'));
         }
     }
 }

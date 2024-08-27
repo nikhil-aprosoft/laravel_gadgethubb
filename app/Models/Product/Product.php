@@ -113,7 +113,9 @@ class Product extends Model
     }
     public function getVideoAttribute($value)
     {
+        if($value){
         return Storage::disk('public')->url($value);
+        }
     }
     public function setSearchProductNameAttribute($value)
     {

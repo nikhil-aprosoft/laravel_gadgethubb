@@ -69,7 +69,7 @@ class ProductController extends Controller
     
         if ($request->hasFile('video')) {
             $video = $request->file('video');
-            $path = 'product/videos';
+            $path = 'products/videos';
             $videoPath = $video->store($path, 'public');
             $product->video = $videoPath; 
         }
