@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Models\ParentCategory;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\ParentCategory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class CategoryController extends Controller
@@ -14,7 +16,7 @@ class CategoryController extends Controller
     public function create()
     {
         $parentCategory = ParentCategory::all();
-        return view('admin.add-category', compact('parentCategory'));
+        return view('admin.categories.add-category', compact('parentCategory'));
     }
 
     public function store(Request $request)
@@ -49,9 +51,10 @@ class CategoryController extends Controller
         return redirect()->back()->with('success', 'Category added successfully.');
     }
 
-    public function show(Category $category)
+    public function viewCategory(Category $category)
     {
-        return view('categories.show', compact('category'));
+        $category = Category::paginate(10);
+        return view('admin.categories.view-category', compact('category'));
     }
 
     public function edit(Category $category)
@@ -60,15 +63,49 @@ class CategoryController extends Controller
         return view('categories.edit', compact('category', 'categories'));
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        $category->update([
-            'parent_category_id' => $request->parent_category_id,
-            'category_name' => $request->category_name,
-            'slug' => $request->category_name,
-            'category_image' => $request->category_image,
+        // return $request->all();
+        // Validate the incoming request data
+        $request->validate([
+            'parent_category_id' => 'nullable|exists:parent_categories,id',
+            'category_name' => 'required|string|max:255',
+            'category_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Validation for image
         ]);
 
+        // Get the existing category data
+        $category = DB::table('categories')->where('category_id', $id)->first();
+        if (!$category) {
+            return redirect()->back()->with('error', 'Category not found.');
+        }
+
+        // Handle image upload
+        $imagePath = $category->category_image; // Preserve old image path
+
+        if ($request->hasFile('category_image')) {
+            // Delete the old image if exists
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+
+            // Store the new image
+            $image = $request->file('category_image');
+            $imagePath = $image->store('categories', 'public'); // Store the image
+
+            // Optionally, resize the image
+            $img = Image::make(public_path("storage/{$imagePath}"))->resize(190, 184);
+            $img->save(); // Save the resized image
+        }
+
+        // Update the category in the database
+        DB::table('categories')->where('category_id', $id)->update([
+            'parent_category_id' => $request->input('parent_category_id'),
+            'category_name' => $request->input('category_name'),
+            'slug' => Str::slug($request->input('category_name')), // Update slug
+            'category_image' => $imagePath, // Update image path
+        ]);
+
+        // Redirect back with a success message
         return redirect()->back()->with('success', 'Category updated successfully.');
     }
 

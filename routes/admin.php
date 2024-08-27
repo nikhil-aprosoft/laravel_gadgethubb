@@ -13,4 +13,6 @@ Route::prefix('products')->name('products.')->group(function () {
 Route::prefix('categories')->name('categories.')->group(function () {
     Route::get('create', [CategoryController::class, 'create'])->name('create');
     Route::post('/', [CategoryController::class, 'store'])->name('store');
+    Route::get('view-category',[CategoryController::class,'viewCategory']);
+    Route::put('update-category/{category_id}', [CategoryController::class, 'update'])->name('update');
 });

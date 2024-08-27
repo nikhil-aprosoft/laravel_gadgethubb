@@ -55,6 +55,11 @@
                         <div data-i18n="Checkout">Add-Category</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ url('admin/categories/show') }}" class="menu-link">
+                        <div data-i18n="Checkout">View-Category</div>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-item">
