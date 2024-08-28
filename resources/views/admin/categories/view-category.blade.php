@@ -34,34 +34,43 @@
                                 <div class="card-datatable table-responsive">
                                     <div id="DataTables_Table_0_wrapper"
                                         class="dataTables_wrapper dt-bootstrap5 no-footer">
-                                        <div class="card-header d-flex rounded-0 flex-wrap py-0 pb-5 pb-md-0 m-5">
-                                            <div class="me-5 ms-n2">
-                                                <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                                    <label><input type="search" class="form-control form-control-sm"
-                                                            placeholder="Search"
-                                                            aria-controls="DataTables_Table_0"></label>
+                                        <div class="card-header d-flex rounded-0 flex-wrap py-0 pb-5 pb-md-0 m-5 justify-content-between">
+                                            <!-- Search Input on the Left Side -->
+                                            <div class="d-flex align-items-center me-5 ms-n2">
+                                                <div class="dt-buttons btn-group flex-wrap">
+                                                    <button class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEcommerceCategoryList">
+                                                        <span>
+                                                            <i class="ri-add-line me-0 me-sm-1"></i>
+                                                            <span class="d-none d-sm-inline-block">Add Category</span>
+                                                        </span>
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="d-flex justify-content-start justify-content-md-end align-items-baseline">
-                                                <div
-                                                    class="dt-action-buttons d-flex align-items-start align-items-md-center justify-content-sm-center mb-0 gap-4 pt-0">
+                                            @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+            
+                                            <!-- Action Buttons on the Right Side -->
+                                            {{-- <div class="d-flex align-items-baseline">
+                                                <div class="dt-action-buttons d-flex align-items-end justify-content-end gap-4 pt-0">
                                                     <div class="dt-buttons btn-group flex-wrap">
-                                                        <button
-                                                            class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light"
-                                                            tabindex="0" aria-controls="DataTables_Table_0"
-                                                            type="button" data-bs-toggle="offcanvas"
-                                                            data-bs-target="#offcanvasEcommerceCategoryList">
+                                                        <button class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEcommerceCategoryList">
                                                             <span>
                                                                 <i class="ri-add-line me-0 me-sm-1"></i>
-                                                                <span class="d-none d-sm-inline-block">Add
-                                                                    Category</span>
+                                                                <span class="d-none d-sm-inline-block">Add Category</span>
                                                             </span>
                                                         </button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
+                                                                                                        
                                         <table class="datatables-category-list table dataTable no-footer dtr-column"
                                             id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info"
                                             style="width: 1394px;">
@@ -71,11 +80,7 @@
                                                         colspan="1" style="width: 0px; display: none;"
                                                         aria-label="">
                                                     </th>
-                                                    <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all"
-                                                        rowspan="1" colspan="1" style="width: 18px;"
-                                                        data-col="1" aria-label=""><input type="checkbox"
-                                                            class="form-check-input">
-                                                    </th>
+                                                  
                                                     <th class="sorting sorting_desc" tabindex="0"
                                                         aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                                         style="width: 699px;"
@@ -94,17 +99,16 @@
                                                         Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody> <?php
-                                                $commonData = app('commonData');
-                                                
-                                                $parentCategoriesMega = $commonData['parentCategoriesMega'];
-                                                ?>
+                                            <tbody> 
+                                            <?php
+                                            $commonData = app('commonData');
+                                            
+                                            $parentCategoriesMega = $commonData['parentCategoriesMega'];
+                                            ?>
                                                 @foreach ($category as $item)
                                                     <tr class="odd">
                                                         <td class="  control" style="display: none;" tabindex="0">
-                                                        </td>
-                                                        <td class="  dt-checkboxes-cell"><input type="checkbox"
-                                                                class="dt-checkboxes form-check-input"></td>
+                                                        </td>                                               
                                                         <td class="sorting_1">
                                                             <div class="d-flex align-items-center">
                                                                 <div
@@ -136,16 +140,16 @@
                                                                 class="d-flex align-items-sm-center justify-content-sm-center">
                                                                 <button type="button" class="btn btn-primary"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModal{{ $item->id }}">
+                                                                    data-bs-target="#exampleModal{{ $item->category_id }}">
                                                                     Edit
                                                                 </button>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="exampleModal{{ $item->id }}"
+                                                    <div class="modal fade" id="exampleModal{{ $item->category_id }}"
                                                         tabindex="-1"
-                                                        aria-labelledby="exampleModalLabel{{ $item->id }}"
+                                                        aria-labelledby="exampleModalLabel{{ $item->category_id }}"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
@@ -237,7 +241,7 @@
                                                             preview.src = ''; // Fallback or previous image source if no file is selected
                                                         }
                                                     }
-                                                </script>
+                                                </script>                                                                                                 
                                                 <style>
                                                     .avatar-wrapper {
                                                         width: 150px;
@@ -298,27 +302,27 @@
                                 </div>
                                 <!-- Offcanvas Body -->
                                 <div class="offcanvas-body border-top">
-                                      <!-- Category Information -->
-                                      <div class="card mb-6">
-                                           
-                                        <div class="card-body">
-                                            <div class="form-floating form-floating-outline mb-5">
-                                                <select id="category-org" name="parent_category_id"
-                                                    class="form-select form-select-sm"
-                                                    data-placeholder="Select Category">
-                                                    <option value="">Select Parent Category</option>
-                                                    @foreach ($parentCategoriesMega as $pC)                                                            
-                                                    <option value="{{$pC->id}}">
-                                                      {{$pC->name}}</option>
-                                                    @endforeach
-                                                </select>
+                                    <!-- Category Information -->
+                                    <div class="card mb-6">
+                                        <form id="product-form" action="{{ route('categories.store') }}"
+                                            method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="card-body">
+                                                <div class="form-floating form-floating-outline mb-5">
+                                                    <select id="category-org" name="parent_category_id"
+                                                        class="form-select form-select-sm"
+                                                        data-placeholder="Select Category">
+                                                        <option value="">Select Parent Category</option>
+                                                        @foreach ($parentCategoriesMega as $pC)
+                                                            <option value="{{ $pC->id }}">
+                                                                {{ $pC->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
                                     </div>
                                     <div class="card mb-6">
-                                        <form id="product-form" action="{{ route('categories.store') }}" method="POST"
-                                        enctype="multipart/form-data">
-                                        @csrf
+
                                         <div class="card-body">
                                             <div class="form-floating form-floating-outline mb-5">
                                                 <input type="text" class="form-control" id="category_name"
@@ -336,17 +340,17 @@
                                         </div>
                                         <div class="card-body">
                                             <input type="file" class="form-control" id="image-upload"
-                                                name="category_image"  required accept="image/*" 
+                                                name="category_image" required accept="image/*"
                                                 onchange="previewImages(event)">
                                         </div>
                                     </div>
 
                                     <div class="card mb-6">
-                                        <div id="image-preview"
-                                            style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
-                                            <button type="submit" class="btn btn-primary">Publish Category</button>
+                                        <div id="image-preview" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Publish Category</button>
                                     </div>
-                                </form>  
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -435,7 +439,7 @@
                     document.getElementById("image-preview").innerHTML = "";
                     selectedImages = []; // Clear the selected images list
                     document.getElementById("image-upload").files = new DataTransfer()
-                    .files; // Clear the file input
+                        .files; // Clear the file input
                 });
             });
         </script>

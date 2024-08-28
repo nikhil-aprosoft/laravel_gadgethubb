@@ -73,6 +73,11 @@
                         <div data-i18n="Checkout">Add-Product</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ url('admin/products/show') }}" class="menu-link">
+                        <div data-i18n="Checkout">View-Product</div>
+                    </a>
+                </li>
             </ul>
         </li>
     </ul>

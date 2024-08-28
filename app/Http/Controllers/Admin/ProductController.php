@@ -9,6 +9,7 @@ use App\Models\Product\Product;
 use App\Models\Product\ProductAttribute;
 use App\Models\Product\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
@@ -20,12 +21,11 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $colors = Color::all();
-        $sizes = Size::all();
+        $colors = colors();
+        $sizes = size();
 
-        return view('admin.add-product', compact('categories', 'colors', 'sizes'));
+        return view('admin.products.add-product', compact('categories', 'colors', 'sizes'));
     }
-
     // Store a newly created product in storage
     public function store(Request $request)
     {
@@ -58,23 +58,22 @@ class ProductController extends Controller
         $product->short_desc = $request->input('short_desc');
         $product->model = $request->input('model');
         $product->sku = $request->input('sku');
-        $product->is_active = $request->input('is_active', true); 
+        $product->is_active = $request->input('is_active', true);
         $product->slug = Str::slug($request->input('product_name'));
         $product->product_id = (string) Str::uuid();
-    
+
         if ($request->has('specifications')) {
             $specifications = $request->input('specifications');
             $product->specification = json_encode($specifications);
         }
-    
+
         if ($request->hasFile('video')) {
             $video = $request->file('video');
             $path = 'products/videos';
             $videoPath = $video->store($path, 'public');
-            $product->video = $videoPath; 
+            $product->video = $videoPath;
         }
     }
-    
 
     protected function handleImages(Request $request, Product $product)
     {
@@ -184,5 +183,55 @@ class ProductController extends Controller
             $ProductAttribute->save();
         }
     }
+    public function viewProduts()
+    {
+        $products = Product::paginate(10);
+        return view('admin.products.view-products', compact('products'));
+    }
+    public function updateStockStatus(Request $request, $id)
+    {
+        // Validate the request
+        $request->validate([
+            'in_stock' => 'required|boolean',
+            'quantity' => 'required_if:in_stock,false|integer|min:1', // Validate quantity if stock is being turned off
+        ]);
 
+        // Update the stock status
+        $stock = $request->input('in_stock') ? 1 : 0;
+
+        // If out of stock, use the provided quantity
+        DB::table('products')
+            ->where('product_id', $id)
+            ->update([
+                'stock' => $stock,
+                'quantity' => $request->input('quantity', 0), // Update quantity if provided
+            ]);
+
+        return response()->json(['success' => true]);
+    }
+    public function deactivate(Request $request, $id)
+    {
+        // Validate the request
+        $request->validate([
+            'product_id' => 'required|exists:products,product_id',
+        ]);
+
+        // Update the stock status
+        $stock = $request->input('product_id') ? 1 : 0;
+
+        // If out of stock, use the provided quantity
+        DB::table('products')
+            ->where('product_id', $id)
+            ->update([
+                'is_active' => 0,
+            ]);
+
+        return response()->json(['success' => true]);
+    }
+    public function show(Request $request, $slug)
+    {
+        $product = Product::where('slug', $slug)->first();
+
+        return view('admin.products.update-product', compact('product'));
+    }
 }

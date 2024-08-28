@@ -520,31 +520,20 @@
     <!-- / Layout wrapper -->
     <!-- Other head elements -->
 
-    <!-- Core JS -->
-    <script src="{{ asset('admin_asset/vendor/libs/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/node-waves/node-waves.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/hammer/hammer.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/i18n/i18n.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/typeahead-js/typeahead.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/js/menu.js') }}"></script>
+ <!-- Core JS -->
+ <script src="{{ asset('admin_asset/vendor/libs/jquery/jquery.js') }}"></script>
+ <script src="{{ asset('admin_asset/vendor/libs/popper/popper.js') }}"></script>
+ <script src="{{ asset('admin_asset/vendor/js/bootstrap.js') }}"></script>
+ <script src="{{ asset('admin_asset/vendor/libs/node-waves/node-waves.js') }}"></script>
+ <script src="{{ asset('admin_asset/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+ <script src="{{ asset('admin_asset/vendor/js/menu.js') }}"></script>
 
-    <!-- Vendors JS -->
-    <script src="{{ asset('admin_asset/vendor/libs/quill/katex.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/quill/quill.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/dropzone/dropzone.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/jquery-repeater/jquery-repeater.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/tagify/tagify.js') }}"></script>
 
-    <!-- Main JS -->
-    <script src="{{ asset('admin_asset/js/main.js') }}"></script>
+ <!-- Main JS -->
+ <script src="{{ asset('admin_asset/js/main.js') }}"></script>
 
-    <!-- Page JS -->
-    <script src="{{ asset('admin_asset/js/app-ecommerce-product-add.js') }}"></script>
+ <!-- Page JS -->
+ <script src="{{ asset('admin_asset/js/app-ecommerce-product-add.js') }}"></script>
 
 
 </body>
