@@ -399,10 +399,10 @@
                     <i class="w-icon-heart"></i>
                     <span class="wishlist-label d-lg-show">Wishlist</span>
                 </a>
-                <a class="compare label-down link d-xs-show" href="compare.html">
+                {{-- <a class="compare label-down link d-xs-show" href="compare.html">
                     <i class="w-icon-compare"></i>
                     <span class="compare-label d-lg-show">Compare</span>
-                </a>
+                </a> --}}
                 <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                     <div class="cart-overlay"></div>
                     <a href="#" class="cart-toggle label-down link">
@@ -707,10 +707,7 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="header-right">
-                    <a href="#" class="d-xl-show"><i class="w-icon-map-marker mr-1"></i>Track Order</a>
-                    <a href="#"><i class="w-icon-sale"></i>Daily Deals</a>
-                </div>
+             
             </div>
         </div>
     </div>

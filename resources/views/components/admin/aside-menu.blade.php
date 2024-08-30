@@ -55,6 +55,11 @@
                         <div data-i18n="Checkout">Add-Category</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ url('admin/categories/show') }}" class="menu-link">
+                        <div data-i18n="Checkout">View-Category</div>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-item">
@@ -66,6 +71,11 @@
                 <li class="menu-item">
                     <a href="{{ url('admin/products/create') }}" class="menu-link">
                         <div data-i18n="Checkout">Add-Product</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ url('admin/products/show') }}" class="menu-link">
+                        <div data-i18n="Checkout">View-Product</div>
                     </a>
                 </li>
             </ul>

@@ -18,7 +18,7 @@
         <div class="layout-container">
 
             <!-- Menu -->
-            <x-admin.aside-menu/>
+            <x-admin.aside-menu />
             <!-- / Menu -->
             <!-- Layout container -->
             <div class="layout-page">
@@ -38,6 +38,16 @@
                                     {{ session('success') }}
                                 </div>
                             @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
 
                             <form id="product-form" action="{{ route('categories.store') }}" method="POST"
                                 enctype="multipart/form-data">
@@ -59,23 +69,23 @@
                                     <div class="col-12 col-lg-8">
                                         <!-- Category Information -->
                                         <div class="card mb-6">
-                                           
+
                                             <div class="card-body">
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <select id="category-org" name="parent_category_id"
                                                         class="form-select form-select-sm"
                                                         data-placeholder="Select Category">
                                                         <option value="">Select Parent Category</option>
-                                                        @foreach ($parentCategory as $pC)                                                            
-                                                        <option value="{{$pC->id}}">
-                                                          {{$pC->name}}</option>
+                                                        @foreach ($parentCategory as $pC)
+                                                            <option value="{{ $pC->id }}">
+                                                                {{ $pC->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card mb-6">
-                                            
+
                                             <div class="card-body">
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <input type="text" class="form-control" id="category_name"
@@ -93,14 +103,14 @@
                                             </div>
                                             <div class="card-body">
                                                 <input type="file" class="form-control" id="image-upload"
-                                                    name="category_image"  required accept="image/*" 
+                                                    name="category_image" required accept="image/*"
                                                     onchange="previewImages(event)">
                                             </div>
                                         </div>
 
                                         <div class="card mb-6">
-                                            <div id="image-preview"
-                                                style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+                                            <div id="image-preview" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -181,7 +191,7 @@
                                         document.getElementById("image-preview").innerHTML = "";
                                         selectedImages = []; // Clear the selected images list
                                         document.getElementById("image-upload").files = new DataTransfer()
-                                        .files; // Clear the file input
+                                            .files; // Clear the file input
                                     });
                                 });
                             </script>
