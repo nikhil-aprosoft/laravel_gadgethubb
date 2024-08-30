@@ -165,12 +165,13 @@ class Product extends Model
             $product->specification = null;
 
         }
-        if ($request->hasFile('video')) {
-            // Handle new video
+        if ($request->video) {
             $video = $request->file('video');
             $path = 'products/videos';
             $videoPath = $video->store($path, 'public');
             $product->video = $videoPath;
+        }else{
+            $product->video = null;
         }
     }
     public function handleImages(Request $request, Product $product)

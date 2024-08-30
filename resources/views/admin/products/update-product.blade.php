@@ -168,21 +168,71 @@
                                             </div>
                                         </div>
 
-
                                         <div class="card mb-6">
                                             <div class="card-header d-flex justify-content-between align-items-center">
-                                                <h5 class="mb-0 card-title">Product Video </h5>
+                                                <h5 class="mb-0 card-title">Upload New Video</h5>
                                             </div>
                                             <div class="card-body">
-                                                <input type="file" class="form-control" name="video">
+                                                <input type="file" class="form-control" name="video"
+                                                    id="video-upload" accept="video/*">
+                                                <video id="video-preview" controls
+                                                    style="display:none; margin-top: 10px; width: 100%; max-height: 300px;">
+                                                    Your browser does not support the video tag.
+                                                </video>
                                             </div>
-                                            @if ($product->video)
-                                                <div style="margin-top: 10px;">
-                                                    <iframe src="{{ $product->video }}" alt="Thumbnail Preview"
-                                                        style="max-width: 300px; max-height: 600px; object-fit: cover; margin: 7px;padding: 10px;"></iframe>
-                                                </div>
-                                            @endif
                                         </div>
+                                        <script>
+                                            document.getElementById('video-upload').addEventListener('change', function(event) {
+                                                const file = event.target.files[0];
+                                                const videoPreview = document.getElementById('video-preview');
+
+                                                if (file) {
+                                                    const objectURL = URL.createObjectURL(file);
+                                                    videoPreview.src = objectURL;
+                                                    videoPreview.style.display = 'block'; // Show the video player
+                                                } else {
+                                                    videoPreview.src = '';
+                                                    videoPreview.style.display = 'none'; // Hide the video player if no file is selected
+                                                }
+                                            });
+                                        </script>
+                                        @if ($product->video)
+                                        <div class="card mb-6">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0 card-title">Existing Video</h5>
+                                            </div>
+                                            <div id="existing-video-container" class="card-body" style="margin-top: 10px;">
+                                                <div class="video-container">
+                                                    <video controls style="max-width: 100%; max-height: 600px; object-fit: cover; margin: 7px; padding: 10px;">
+                                                        <source src="{{ $product->video }}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                </div>
+                                                <button type="button" class="btn btn-danger btn-sm mt-2" id="remove-existing-video" style="margin-left: 29px;">Remove Existing Video</button>
+                                            </div>
+                                        </div>
+                                        
+                                        @endif
+
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const videoInput = document.getElementById('video-upload');
+                                                const existingVideoContainer = document.getElementById('existing-video-container');
+                                                const removeExistingVideoButton = document.getElementById('remove-existing-video');
+
+                                                // Handle the removal of the existing video
+                                                if (removeExistingVideoButton) {
+                                                    removeExistingVideoButton.addEventListener('click', function() {
+                                                        if (confirm('Are you sure you want to remove the existing video?')) {
+                                                            existingVideoContainer.remove(); // Remove the video container from the DOM
+                                                            videoInput.value = '';
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        </script>
+
+
                                         <!-- /Media -->
 
                                         <script>
@@ -482,21 +532,22 @@
                                                     <div id="specifications-container">
                                                         <!-- Dynamic Specification Inputs Will Be Added Here -->
                                                     </div>
-                                                    <button type="button" class="btn btn-secondary mt-3" id="add-specification">Add Specification</button>
+                                                    <button type="button" class="btn btn-secondary mt-3"
+                                                        id="add-specification">Add Specification</button>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <script>
                                             document.addEventListener('DOMContentLoaded', function() {
                                                 const specificationsContainer = document.getElementById('specifications-container');
                                                 const addSpecificationButton = document.getElementById('add-specification');
-                                        
+
                                                 function addSpecificationField(key = '', value = '', index = null) {
                                                     if (index === null) {
                                                         index = specificationsContainer.children.length;
                                                     }
-                                        
+
                                                     const specificationDiv = document.createElement('div');
                                                     specificationDiv.classList.add('mb-3');
                                                     specificationDiv.innerHTML = `
@@ -514,16 +565,16 @@
                                                     `;
                                                     specificationsContainer.appendChild(specificationDiv);
                                                 }
-                                        
+
                                                 window.removeSpecification = function(button) {
                                                     button.parentElement.remove();
                                                     updateSpecificationIndexes();
                                                 };
-                                        
+
                                                 addSpecificationButton.addEventListener('click', function() {
                                                     addSpecificationField();
                                                 });
-                                        
+
                                                 function updateSpecificationIndexes() {
                                                     const specs = specificationsContainer.children;
                                                     for (let i = 0; i < specs.length; i++) {
@@ -533,16 +584,15 @@
                                                         if (valueInput) valueInput.name = `specifications[${i}][value]`;
                                                     }
                                                 }
-                                        
+
                                                 // Example: Prepopulate specifications if editing an existing product
                                                 const existingSpecifications = @json($product->specification ?? []);
-                                        console.log(existingSpecifications);
                                                 existingSpecifications.forEach((spec, index) => {
                                                     addSpecificationField(spec.key, spec.value, index);
                                                 });
                                             });
                                         </script>
-                                        
+
 
                                         <!-- /Second column -->
                                     </div>
@@ -601,8 +651,6 @@
     <script src="{{ asset('admin_asset/js/main.js') }}"></script>
 
     <!-- Page JS -->
-    <script src="{{ asset('admin_asset/js/app-ecommerce-product-add.js') }}"></script>
-
 
 </body>
 

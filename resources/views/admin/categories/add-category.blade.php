@@ -244,14 +244,7 @@
     <script src="{{ asset('admin_asset/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     <script src="{{ asset('admin_asset/vendor/js/menu.js') }}"></script>
 
-    <!-- Vendors JS -->
-    <script src="{{ asset('admin_asset/vendor/libs/quill/katex.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/quill/quill.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/dropzone/dropzone.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/jquery-repeater/jquery-repeater.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/tagify/tagify.js') }}"></script>
+
 
     <!-- Main JS -->
     <script src="{{ asset('admin_asset/js/main.js') }}"></script>

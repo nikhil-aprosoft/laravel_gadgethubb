@@ -533,7 +533,6 @@
  <script src="{{ asset('admin_asset/js/main.js') }}"></script>
 
  <!-- Page JS -->
- <script src="{{ asset('admin_asset/js/app-ecommerce-product-add.js') }}"></script>
 
 
 </body>
