@@ -3,12 +3,16 @@
 namespace App\Models\Product;
 
 use App\Models\DailyDeal;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Product\ProductAttribute;
 use App\Models\Product\FrequentlyBoughtProduct;
+use App\Models\Product\Product;
+use App\Models\Product\ProductAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class Product extends Model
 {
@@ -34,10 +38,10 @@ class Product extends Model
         'is_active',
         'small_thumbs',
         'pop_images',
-        'video'
+        'video',
     ];
     protected $primaryKey = 'product_id';
-    
+
     protected $keyType = 'string';
 
     protected $table = 'products';
@@ -55,7 +59,7 @@ class Product extends Model
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class, 'product_id', 'product_id');
-    }    
+    }
     public function frequentlyBoughtProducts(): HasMany
     {
         return $this->hasMany(FrequentlyBoughtProduct::class, 'product_id', 'product_id');
@@ -120,8 +124,8 @@ class Product extends Model
     }
     public function getVideoAttribute($value)
     {
-        if($value){
-        return Storage::disk('public')->url($value);
+        if ($value) {
+            return Storage::disk('public')->url($value);
         }
     }
     public function setSearchProductNameAttribute($value)
@@ -133,9 +137,146 @@ class Product extends Model
     {
         // Remove currency symbols and commas
         $value = preg_replace('/[^\d.]/', '', $value);
-    
+
         // Convert to float
         return (float) $value;
     }
-    
+    public function setProductAttributes(Product $product, Request $request)
+    {
+        // Update attributes
+        $product->product_name = $request->input('product_name');
+        $product->search_product_name = strtolower(str_replace(' ', '', $request->input('product_name')));
+        $product->category_id = $request->input('category_id');
+        $product->price = $product->convertToDecimal($request->input('price'));
+        $product->cost = $product->convertToDecimal($request->input('cost'));
+        $product->quantity = $request->input('quantity');
+        $product->description = $request->input('description');
+        $product->short_desc = $request->input('short_desc');
+        $product->model = $request->input('model');
+        $product->sku = $request->input('sku');
+        $product->is_active = $request->input('is_active', true);
+        $product->slug = Str::slug($request->input('product_name'));
+        if ($request->input('specifications')) {
+
+            $specifications = $request->input('specifications');
+            $product->specification = json_encode($specifications);
+        } else {
+
+            $product->specification = null;
+
+        }
+        if ($request->hasFile('video')) {
+            // Handle new video
+            $video = $request->file('video');
+            $path = 'products/videos';
+            $videoPath = $video->store($path, 'public');
+            $product->video = $videoPath;
+        }
+    }
+    public function handleImages(Request $request, Product $product)
+    {
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
+            $popImagePaths = [];
+            $smallThumbPaths = [];
+            $mainImageResizedPaths = [];
+
+            foreach ($images as $image) {
+                $mainImagePath = $this->storeImage($image, 'temp');
+
+                // Resize main image to 600x600
+                $resizedPath = $this->resizeAndStoreImage($mainImagePath, 600, 600, 'products/resized_images');
+
+                // Create pop and small thumb images from the resized image
+                $popImagePath = $this->resizeAndStoreImage($resizedPath, 800, 900, 'products/pop');
+                $smallThumbPath = $this->resizeAndStoreImage($resizedPath, 100, 110, 'products/small_thumb');
+
+                // Collect the paths
+                $popImagePaths[] = $popImagePath;
+                $smallThumbPaths[] = $smallThumbPath;
+                $mainImageResizedPaths[] = $resizedPath;
+
+                \File::delete(public_path("storage/{$mainImagePath}"));
+            }
+
+            // Update paths in the product model
+            $product->pop_images = json_encode($popImagePaths);
+            $product->small_thumbs = json_encode($smallThumbPaths);
+            $product->images = json_encode($mainImageResizedPaths);
+        }
+    }
+
+    private function resizeAndStoreImage($path, $width, $height, $folder)
+    {
+        $this->ensureDirectoryExists($folder);
+        $img = Image::make(public_path("storage/{$path}"))->resize($width, $height);
+        $filename = basename($path);
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $filenameWithoutExt = pathinfo($filename, PATHINFO_FILENAME);
+
+        $newFilename = "{$filenameWithoutExt}_{$width}x{$height}.{$extension}";
+        $newPath = "{$folder}/{$newFilename}";
+        $img->save(public_path("storage/{$newPath}"));
+
+        return $newPath;
+    }
+    private function storeImage($image, $folder)
+    {
+        return $image->store($folder, 'public');
+    }
+    private function ensureDirectoryExists($path)
+    {
+        $fullPath = public_path("storage/{$path}");
+        if (!file_exists($fullPath)) {
+            mkdir($fullPath, 0755, true);
+        }
+    }
+    public function handleThumbnail(Request $request, Product $product)
+    {
+        if ($request->hasFile('thumbnail')) {
+            // Store the thumbnail
+            $path = $request->file('thumbnail')->store('products/thumbnails', 'public');
+
+            // Resize the thumbnail image
+            $img = Image::make(public_path("storage/{$path}"))->resize(400, 400)->save(public_path("storage/{$path}"));
+
+            // Update the product's thumbnail path
+            $product->thumbnail = $path;
+        }
+    }
+    public function handleAttributes(Request $request, Product $product)
+    {
+        // Clear existing attributes for the product
+        ProductAttribute::where('product_id', $product->product_id)->delete();
+
+        $attributes = $request->input('attributes', []);
+
+        foreach ($attributes as $attribute) {
+            $ProductAttribute = new ProductAttribute;
+            $ProductAttribute->product_id = $product->product_id;
+            $ProductAttribute->id = (string) Str::uuid();
+
+            if (isset($attribute['color_id'])) {
+                $colorId = $attribute['color_id'];
+                if (Color::where('color_id', $colorId)->exists()) {
+                    $ProductAttribute->color_id = $colorId;
+                } else {
+                    \Log::error('Invalid Color ID:', $colorId);
+                    continue; // Skip this attribute
+                }
+            }
+
+            if (isset($attribute['size_id'])) {
+                $sizeId = $attribute['size_id'];
+                if (Size::where('size_id', $sizeId)->exists()) {
+                    $ProductAttribute->size_id = $sizeId;
+                } else {
+                    \Log::error('Invalid Size ID:', $sizeId);
+                    continue; // Skip this attribute
+                }
+            }
+
+            $ProductAttribute->save();
+        }
+    }
 }
