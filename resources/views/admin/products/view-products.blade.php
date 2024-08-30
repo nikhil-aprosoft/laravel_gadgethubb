@@ -182,8 +182,8 @@
                                                 rowspan="1" colspan="1" style="width: 140px;"
                                                 aria-label="category: activate to sort column ascending">category
                                             </th>
-                                            <th class="sorting_disabled" rowspan="1" colspan="1"
-                                                style="width: 55px;" aria-label="stock">stock</th>
+                                            {{-- <th class="sorting_disabled" rowspan="1" colspan="1"
+                                                style="width: 55px;" aria-label="stock">stock</th> --}}
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                 rowspan="1" colspan="1" style="width: 46px;"
                                                 aria-label="sku: activate to sort column ascending">sku</th>
@@ -237,14 +237,14 @@
                                                                 class="ri-computer-line"></i></span>{{ $item->category->category_name }}
                                                     </h6>
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     <div class="form-check form-switch">
                                                         <input class="form-check-input" type="checkbox"
                                                             role="switch"
                                                             id="flexSwitchCheckChecked{{ $item->product_id }}"
                                                             @if ($item->quantity > 0) checked @endif>
                                                     </div>
-                                                </td>
+                                                </td> --}}
                                                 <td><span>{{ $item->sku }}</span></td>
                                                 <td><span>{{ $item->price }}</span></td>
                                                 <td><span>{{ $item->quantity }}</span></td>

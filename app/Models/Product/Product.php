@@ -36,6 +36,9 @@ class Product extends Model
         'pop_images',
         'video'
     ];
+    protected $primaryKey = 'product_id';
+    
+    protected $keyType = 'string';
 
     protected $table = 'products';
 
@@ -58,6 +61,10 @@ class Product extends Model
         return $this->hasMany(FrequentlyBoughtProduct::class, 'product_id', 'product_id');
     }
     public function getPriceAttribute($value)
+    {
+        return '₹' . number_format($value);
+    }
+    public function getCostAttribute($value)
     {
         return '₹' . number_format($value);
     }
@@ -122,5 +129,13 @@ class Product extends Model
         // Remove all spaces, convert to lowercase
         $this->attributes['search_product_name'] = strtolower(str_replace(' ', '', $value));
     }
-
+    public function convertToDecimal($value)
+    {
+        // Remove currency symbols and commas
+        $value = preg_replace('/[^\d.]/', '', $value);
+    
+        // Convert to float
+        return (float) $value;
+    }
+    
 }

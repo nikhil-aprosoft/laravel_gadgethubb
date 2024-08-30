@@ -47,12 +47,12 @@ class ProductController extends Controller
     }
     protected function setProductAttributes(Product $product, Request $request)
     {
-        // Set basic attributes
+        // Update attributes
         $product->product_name = $request->input('product_name');
         $product->search_product_name = strtolower(str_replace(' ', '', $request->input('product_name')));
         $product->category_id = $request->input('category_id');
-        $product->price = $request->input('price');
-        $product->cost = $request->input('cost');
+        $product->price = $product->convertToDecimal($request->input('price'));
+        $product->cost = $product->convertToDecimal($request->input('cost'));
         $product->quantity = $request->input('quantity');
         $product->description = $request->input('description');
         $product->short_desc = $request->input('short_desc');
@@ -60,14 +60,17 @@ class ProductController extends Controller
         $product->sku = $request->input('sku');
         $product->is_active = $request->input('is_active', true);
         $product->slug = Str::slug($request->input('product_name'));
-        $product->product_id = (string) Str::uuid();
-
-        if ($request->has('specifications')) {
+        if ($request->input('specifications')) {
+            \Log::alert("if");
             $specifications = $request->input('specifications');
             $product->specification = json_encode($specifications);
-        }
+        } else {
+            \Log::alert("else");
+            $product->specification = null;
 
+        }
         if ($request->hasFile('video')) {
+            // Handle new video
             $video = $request->file('video');
             $path = 'products/videos';
             $videoPath = $video->store($path, 'public');
@@ -101,10 +104,10 @@ class ProductController extends Controller
                 \File::delete(public_path("storage/{$mainImagePath}"));
             }
 
-            // Save paths to the product model
-            $product->pop_images = json_encode($popImagePaths); // Store as JSON array
-            $product->small_thumbs = json_encode($smallThumbPaths); // Store as JSON array
-            $product->images = json_encode($mainImageResizedPaths); // Store as JSON array
+            // Update paths in the product model
+            $product->pop_images = json_encode($popImagePaths);
+            $product->small_thumbs = json_encode($smallThumbPaths);
+            $product->images = json_encode($mainImageResizedPaths);
         }
     }
 
@@ -138,7 +141,7 @@ class ProductController extends Controller
     protected function handleThumbnail(Request $request, Product $product)
     {
         if ($request->hasFile('thumbnail')) {
-            // Store the thumbnail in the 'products/thumbnails' directory
+            // Store the thumbnail
             $path = $request->file('thumbnail')->store('products/thumbnails', 'public');
 
             // Resize the thumbnail image
@@ -151,10 +154,12 @@ class ProductController extends Controller
 
     protected function handleAttributes(Request $request, Product $product)
     {
+        // Clear existing attributes for the product
+        ProductAttribute::where('product_id', $product->product_id)->delete();
+
         $attributes = $request->input('attributes', []);
 
         foreach ($attributes as $attribute) {
-
             $ProductAttribute = new ProductAttribute;
             $ProductAttribute->product_id = $product->product_id;
             $ProductAttribute->id = (string) Str::uuid();
@@ -169,7 +174,6 @@ class ProductController extends Controller
                 }
             }
 
-            // Check and validate 'size_id'
             if (isset($attribute['size_id'])) {
                 $sizeId = $attribute['size_id'];
                 if (Size::where('size_id', $sizeId)->exists()) {
@@ -183,6 +187,7 @@ class ProductController extends Controller
             $ProductAttribute->save();
         }
     }
+
     public function viewProduts()
     {
         $products = Product::paginate(10);
@@ -230,8 +235,31 @@ class ProductController extends Controller
     }
     public function show(Request $request, $slug)
     {
-        $product = Product::where('slug', $slug)->first();
-
+        $product = Product::with('attributes')->where('slug', $slug)->first();
+        // $existingAttributes = $product->attributes;
         return view('admin.products.update-product', compact('product'));
+    }
+    public function update(Request $request, $id)
+    {
+
+        // Retrieve the product by ID
+        $product = Product::where('product_id', '=', $id)->first();
+
+        // Set or update product attributes
+        $this->setProductAttributes($product, $request);
+
+        // Handle images
+        $this->handleImages($request, $product);
+
+        // Handle thumbnail
+        $this->handleThumbnail($request, $product);
+
+        // Save product details
+        $product->save();
+
+        // Handle product attributes
+        $this->handleAttributes($request, $product);
+
+        return redirect()->back()->with('success', 'Product updated successfully.');
     }
 }
