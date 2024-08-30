@@ -1256,8 +1256,4 @@
         <script src="{{ asset('assets/js/main.min.js') }}"></script>
 
 </body>
-
-
-<!-- Mirrored from portotheme.com/html/wolmart/{{ url('product-details/'.$item->slug) }} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:53:47 GMT -->
-
 </html>

@@ -27,6 +27,18 @@ function colors(){
     return $colors;
 }
 function size(){
-    $sizes = Size::all();
+    $sizes = Size::all();     
     return $sizes;
+}
+ function cleanText($text)
+{
+    $text = str_replace('|', '', $text);
+
+    // Replace multiple spaces with a single space
+    $cleanedText = preg_replace('/\s+/', ' ', $text);
+    
+    // Trim any leading or trailing spaces
+    $cleanedText = trim($cleanedText);
+    
+    return $cleanedText;
 }

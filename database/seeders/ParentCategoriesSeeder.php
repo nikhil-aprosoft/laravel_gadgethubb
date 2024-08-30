@@ -29,19 +29,19 @@ class ParentCategoriesSeeder extends Seeder
             'name' => "Electronics",
             'rank' => '1',
             'desc' => null,
-            'image' => 'w-icon-electronics',
+            'icon' => 'w-icon-electronics',
         ]);
         ParentCategory::create([
             'name' => "Furniture",
             'rank' => '1',
             'desc' => null,
-            'image' => 'w-icon-electronics',
+            'icon' => 'w-icon-electronics',
         ]);
         ParentCategory::create([
             'name' => "Furniture",
             'rank' => '1',
             'desc' => null,
-            'image' => 'w-icon-electronics',
+            'icon' => 'w-icon-electronics',
         ]);
         // }
     }
