@@ -55,11 +55,11 @@ class Product extends Model
     public function dailyDeals()
     {
         return $this->hasMany(DailyDeal::class, 'product_id', 'product_id');
-    }
+    }    
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class, 'product_id', 'product_id');
-    }
+    }    
     public function frequentlyBoughtProducts(): HasMany
     {
         return $this->hasMany(FrequentlyBoughtProduct::class, 'product_id', 'product_id');
@@ -279,5 +279,9 @@ class Product extends Model
 
             $ProductAttribute->save();
         }
+    }
+    public function colorAndSize($obj){
+       $attribute = Product::with('attributes.color', 'attributes.size')->where('slug','=',$obj->slug)->firstOrFail() ;
+       return       $attribute     ;  
     }
 }

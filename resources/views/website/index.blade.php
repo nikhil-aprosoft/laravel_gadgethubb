@@ -220,7 +220,7 @@
                         </div>
                     @endforeach
                 </div> --}}
-                <style>
+                {{-- <style>
                     .banner-content {
                         text-align: left; /* Align text to the left */
                         padding-left: 20px; /* Add some padding on the left side */
@@ -255,7 +255,7 @@
                         height: auto; /* Maintain aspect ratio */
                     }
                 </style>
-                
+                 --}}
                 <div class="row category-banner-wrapper appear-animate pt-6 pb-8">
                     <div class="col-md-6 mb-4">
                         <div class="banner banner-fixed br-xs">
@@ -267,11 +267,11 @@
                                 <h5 class="banner-subtitle font-weight-normal text-dark">Get up to <span
                                         class="text-secondary font-weight-bolder text-uppercase ls-25">20% Off</span>
                                 </h5>
-                                <h3 class="banner-title text-uppercase" style="font-size: 2.5rem;">Sports Outfits<br><span
-                                        class="font-weight-normal text-capitalize">Collection</span>
+                                <h3 class="banner-title text-uppercase" style="font-size: 2.5rem;">Sports
+                                    Outfits<br><span class="font-weight-normal text-capitalize">Collection</span>
                                 </h3>
-                                <div class="banner-price-info font-weight-normal" style="font-size: initial;">Starting at <span
-                                        class="text-secondary font-weight-bolder">$170.00</span>
+                                <div class="banner-price-info font-weight-normal" style="font-size: initial;">Starting
+                                    at <span class="text-secondary font-weight-bolder">$170.00</span>
                                 </div>
                             </div>
                         </div>
@@ -284,17 +284,20 @@
                             </figure>
                             <div class="banner-content y-50 mt-0">
                                 <h5 class="banner-subtitle font-weight-normal text-capitalize">New Arrivals</h5>
-                                <h3 class="banner-title text-white text-uppercase" style="font-size: 2.5rem;">Accessories<br><span
-                                        class="font-weight-normal text-capitalize">Collection</span></h3>
-                                <div class="banner-price-info text-white font-weight-normal text-capitalize" style="font-size: 2.5rem;">Only From
-                                    <span class="text-secondary font-weight-bolder">$90.00</span></div>
+                                <h3 class="banner-title text-white text-uppercase" style="font-size: 2.5rem;">
+                                    Accessories<br><span class="font-weight-normal text-capitalize">Collection</span>
+                                </h3>
+                                <div class="banner-price-info text-white font-weight-normal text-capitalize"
+                                    style="font-size: 2.5rem;">Only From
+                                    <span class="text-secondary font-weight-bolder">$90.00</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- End of Category Banner Wrapper -->
-            
+
                 <!-- End of Category Banner Wrapper -->
 
                 <div class="row deals-wrapper appear-animate mb-8">
@@ -306,11 +309,15 @@
                             <div class="swiper">
                                 <div class="swiper-container swiper-theme nav-top swiper-nav-lg"
                                     data-swiper-options="{
-                                        'spaceBetween': 20,
-                                        'slidesPerView': 1
-                                    }">
+                                    'spaceBetween': 20,
+                                    'slidesPerView': 1
+                                }">
                                     <div class="swiper-wrapper row cols-1 gutter-no">
-                                        @foreach ($dailyDeals as $dd)
+                                        @foreach ($dailyDeals as $dailyDeal)
+                                            @php
+                                                $product = $dailyDeal['product'];
+                                                $attributes = $product->colorAndSize($product);
+                                            @endphp
                                             <div class="swiper-slide">
                                                 <div class="product product-single row">
                                                     <div class="col-md-6">
@@ -319,24 +326,47 @@
                                                             <div
                                                                 class="swiper-container product-single-swiper swiper-theme nav-inner">
                                                                 <div class="swiper-wrapper row cols-1 gutter-no">
-                                                                    <div class="swiper-slide">
-                                                                        <figure class="product-image">
-                                                                            {{-- <img src="{{ $dd['product']->images }}"
-                                                                                data-zoom-image="{{ $dd->zoom_image }}"
-                                                                                alt="Product Image" width="800"
-                                                                                height="900"> --}}
-                                                                        </figure>
-                                                                    </div>
-                                                                    <!-- Repeat for other images if you have multiple -->
+                                                                    @foreach ($product->images as $item)
+                                                                        <div class="swiper-slide">
+                                                                            <figure class="product-image">
+                                                                                <img src="{{ $item }}"
+                                                                                    data-zoom-image="{{ $item }}"
+                                                                                    alt="Product Image" width="800"
+                                                                                    height="900">
+                                                                            </figure>
+                                                                        </div>
+                                                                    @endforeach
+
                                                                 </div>
                                                                 <button class="swiper-button-next"></button>
                                                                 <button class="swiper-button-prev"></button>
                                                                 <div class="product-label-group">
-                                                                    @if ($dd->discount)
-                                                                        <label
-                                                                            class="product-label label-discount">{{ $dd->discount }}%
-                                                                            Off</label>
-                                                                    @endif
+                                                                    <label class="product-label label-discount">{{$dailyDeal->discount_amount}}% off</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-thumbs-wrap swiper-container"
+                                                                data-swiper-options="{
+                                                            'direction': 'vertical',
+                                                            'breakpoints': {
+                                                                '0': {
+                                                                    'direction': 'horizontal',
+                                                                    'slidesPerView': 4
+                                                                },
+                                                                '992': {
+                                                                    'direction': 'vertical',
+                                                                    'slidesPerView': 'auto'
+                                                                }
+                                                            }
+                                                        }">
+                                                                <div
+                                                                    class="product-thumbs swiper-wrapper row cols-lg-1 cols-4 gutter-sm">
+                                                                    @foreach ($product->small_thumbs as $item)
+                                                                        <div class="product-thumb swiper-slide">
+                                                                            <img src="{{ $item }}"
+                                                                                alt="Product thumb" width="60"
+                                                                                height="68" />
+                                                                        </div>
+                                                                    @endforeach
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -344,43 +374,96 @@
                                                     <div class="col-md-6">
                                                         <div class="product-details scrollable">
                                                             <h2 class="product-title mb-1"><a
-                                                                    href="">{{ $dd->text }}</a></h2>
+                                                                    href="{{ url('product-details/' . $product->slug) }}">{{ $product->product_name }}</a>
+                                                            </h2>
+
                                                             <hr class="product-divider">
-                                                            <div class="product-price">
-                                                                <ins
-                                                                    class="new-price ls-50">{{ $dd['product']->price }}</ins>
+
+                                                            <div class="product-price"><ins
+                                                                    class="new-price ls-50">{{ $product->price }}</ins>
                                                             </div>
-                                                            <!-- Countdown timer can be implemented if needed -->
+
                                                             <div class="product-countdown-container flex-wrap">
-                                                                <label class="mr-2 text-default">Offer Ends In:
-                                                                    <span
-                                                                        class="countdown-row countdown-amount">{{ getDealExpireTime($dd) }}</span>
-                                                                </label>
-                                                                <!-- Implement countdown logic -->
-                                                            </div>
-                                                            <!-- <div class="ratings-container">
-                                                                  <div class="ratings-full">
-                                                                      <span class="ratings" style="width: 80%;"></span>
-                                                                      <span class="tooltiptext tooltip-top"></span>
-                                                                  </div>
-                                                                  <a href="#" class="rating-reviews">(3 Reviews)</a>
-                                                              </div> -->
-                                                            @if ($dd['product']->size)
-                                                                <div
-                                                                    class="product-form product-variation-form product-size-swatch mb-3">
-                                                                    <label class="mb-1">Size:</label>
-                                                                    <div
-                                                                        class="flex-wrap d-flex align-items-center product-variations">
-                                                                        <!-- Sizes should be dynamic if they are stored in the database -->
-                                                                        @foreach ($dd['product']->size as $productSize)
-                                                                            <a href="#"
-                                                                                class="size">{{ $productSize }}</a>
-                                                                        @endforeach
-                                                                    </div>
-                                                                    <a href="#"
-                                                                        class="product-variation-clean">Clean All</a>
+                                                                <label class="mr-2 text-default">Offer Ends In:</label>
+                                                                <div class="product-countdown countdown-compact"
+                                                                    data-until="2022, 12, 31" data-compact="true">
+                                                                    @php
+                                                                        $countdown = getDealExpireTime($dailyDeal);
+                                                                        echo $countdown;
+                                                                    @endphp
                                                                 </div>
-                                                            @endif
+                                                            </div>
+
+                                                            <div class="ratings-container">
+                                                                <div class="ratings-full">
+                                                                    <span class="ratings" style="width: 80%;"></span>
+                                                                    <span class="tooltiptext tooltip-top"></span>
+                                                                </div>
+                                                                <a href="#" class="rating-reviews">(3
+                                                                    Reviews)</a>
+                                                            </div>
+
+                                                            @if ($attributes['attributes'])
+                                                                @php
+                                                                    $hasColor = false;
+                                                                    $hasSize = false;
+
+                                                                    foreach ($attributes['attributes'] as $attribute) {
+                                                                        if (
+                                                                            isset($attribute['color']) &&
+                                                                            !empty($attribute['color'])
+                                                                        ) {
+                                                                            \Log::alert("message");
+                                                                            $hasColor = true;
+                                                                        }
+
+                                                                        if (
+                                                                            isset($attribute['size']) &&
+                                                                            !empty($attribute['size'])
+                                                                        ) {
+                                                                            $hasSize = true;
+                                                                        }
+                                                                    }
+                                                                @endphp
+
+                                                                @if ($hasColor)
+                                                                    <div
+                                                                        class="product-form product-variation-form product-color-swatch">
+                                                                        <label>Color:</label>
+                                                                        <div
+                                                                            class="d-flex align-items-center product-variations">
+                                                                            @foreach ($attributes['attributes'] as $attribute)
+                                                                                @if (isset($attribute['color']) && !empty($attribute['color']))
+                                                                                    <a href="#" class="color"
+                                                                                        style="background-color: {{ $attribute['color']['hex_value'] }};display: inline-block;width: 30px;heig;height: 29px;"
+                                                                                        title="{{ $attribute['color']['name'] }}">
+                                                                                    </a>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+
+                                                                @if ($hasSize)
+                                                                    <div
+                                                                        class="product-form product-variation-form product-size-swatch">
+                                                                        <label class="mb-1">Size:</label>
+                                                                        <div
+                                                                            class="flex-wrap d-flex align-items-center product-variations">
+                                                                            @foreach ($attributes['attributes'] as $attribute)
+                                                                                @if (isset($attribute['size']) && !empty($attribute['size']))
+                                                                                    <a href="#"
+                                                                                        class="size">{{ $attribute['size']['size'] }}</a>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </div>
+                                                                        <a href="#"
+                                                                            class="product-variation-clean">Clean
+                                                                            All</a>
+                                                                    </div>
+                                                                @endif
+                                                            @endif                                                            
+
                                                             <div class="product-form pt-4">
                                                                 <div class="product-qty-form mb-2 mr-2">
                                                                     <div class="input-group">
@@ -398,6 +481,7 @@
                                                                     <span>Add to Cart</span>
                                                                 </button>
                                                             </div>
+
                                                             <div class="social-links-wrapper mt-1">
                                                                 <div class="social-links">
                                                                     <div

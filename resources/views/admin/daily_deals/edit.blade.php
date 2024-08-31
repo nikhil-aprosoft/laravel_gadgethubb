@@ -83,15 +83,6 @@
                                         <div class="card mb-6">
                                             <div class="card-body">
                                                 <div class="form-floating form-floating-outline mb-5">
-                                                    <input type="text" class="form-control" id="text" placeholder="Deal Description" name="text" aria-label="Deal Description" value="{{ old('text', $dailyDeal->text) }}">
-                                                    <label for="text">Description</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                            
-                                        <div class="card mb-6">
-                                            <div class="card-body">
-                                                <div class="form-floating form-floating-outline mb-5">
                                                     <input type="number" class="form-control" id="discount_amount" placeholder="Discount Amount" name="discount_amount" aria-label="Discount Amount" step="0.01" value="{{ old('discount_amount', $dailyDeal->discount_amount) }}" required>
                                                     <label for="discount_amount">Discount Amount</label>
                                                 </div>
