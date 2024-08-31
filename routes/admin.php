@@ -3,8 +3,9 @@
 // routes/admin.php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DailyDealController;
 
 Route::prefix('products')->name('products.')->group(function () {
     Route::get('create', [ProductController::class, 'create'])->name('create');
@@ -22,3 +23,6 @@ Route::prefix('categories')->name('categories.')->group(function () {
     Route::get('show',[CategoryController::class,'viewCategory']);
     Route::put('update-category/{category_id}', [CategoryController::class, 'update'])->name('update');
 });
+
+
+Route::resource('daily-deals', DailyDealController::class);

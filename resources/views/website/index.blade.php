@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-    <title>Wolmart - Marketplace HTML5 Template</title>
+    <title>Sandeep-Tech-Porduct</title>
 
     <meta name="keywords" content="Marketplace ecommerce responsive HTML5 Template" />
     <meta name="description" content="Wolmart is powerful marketplace &amp; ecommerce responsive Html5 Template.">
@@ -18,44 +18,42 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/icons/favicon.png">
-
     <!-- WebFont.js -->
     <script>
         WebFontConfig = {
             google: {
-                families: ['Poppins:400,500,600,700,800']
+                families: ['Poppins:400,500,600,700']
             }
         };
         (function(d) {
             var wf = d.createElement('script'),
                 s = d.scripts[0];
-            wf.src = 'assets/js/webfont.js';
+            wf.src = '{{ asset('assets/js/webfont.js') }}';
             wf.async = true;
             s.parentNode.insertBefore(wf, s);
         })(document);
     </script>
 
-    <link rel="preload" href="assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2" as="font"
+    <link rel="preload" href="{{ asset('assets/vendor/fontawesome-free/webfonts/fa-regular-400.woff2') }}"
+        as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="{{ asset('assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2') }}" as="font"
         type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="assets/vendor/fontawesome-free/webfonts/fa-solid-900.woff2" as="font"
-        type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2" as="font"
-        type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="assets/fonts/wolmart87d5.woff?png09e" as="font" type="font/woff"
+    <link rel="preload" href="{{ asset('assets/vendor/fontawesome-free/webfonts/fa-brands-400.woff2') }}"
+        as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="{{ asset('assets/fonts/wolmart87d5.woff?png09e') }}" as="font" type="font/woff"
         crossorigin="anonymous">
 
     <!-- Vendor CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/animate/animate.min.css') }}">
 
     <!-- Plugins CSS -->
-    <!-- <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css"> -->
-    <link rel="stylesheet" type="text/css" href="assets/vendor/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/vendor/magnific-popup/magnific-popup.min.css">
-    <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="assets/vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/nouislider/nouislider.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/magnific-popup/magnific-popup.min.css') }}">
 
     <!-- Default CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/demo1.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.min.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
@@ -199,7 +197,7 @@
                 </div>
                 <!-- End of Iocn Box Wrapper -->
 
-                <div class="row category-banner-wrapper appear-animate pt-6 pb-8">
+                {{-- <div class="row category-banner-wrapper appear-animate pt-6 pb-8">
                     @foreach ($banners as $b)
                         <div class="col-md-6 mb-4">
                             <div class="banner banner-fixed br-xs">
@@ -208,20 +206,95 @@
                                         width="610" height="160" style="background-color: #ecedec;" />
                                 </figure>
                                 <div class="banner-content y-50 mt-0">
-                                    {{-- <h5 class="banner-subtitle font-weight-normal text-dark">Get up to <span
+                                    <h5 class="banner-subtitle font-weight-normal text-dark">Get up to <span
                                             class="text-secondary font-weight-bolder text-uppercase ls-25">20%
-                                            Off</span> --}}
+                                            Off</span>
                                     </h5>
                                     <h3 class="banner-title text-uppercase">{{ $b->banner_text }}
                                     </h3>
-                                    {{-- <div class="banner-price-info font-weight-normal">Starting at <span
+                                    <div class="banner-price-info font-weight-normal">Starting at <span
                                             class="text-secondary                       font-weight-bolder">$170.00</span>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
+                </div> --}}
+                <style>
+                    .banner-content {
+                        text-align: left; /* Align text to the left */
+                        padding-left: 20px; /* Add some padding on the left side */
+                        margin-top: auto; /* Center vertically if needed */
+                    }
+                
+                    .banner-content h5,
+                    .banner-content h3,
+                    .banner-content .banner-price-info {
+                        margin-bottom: 10px; /* Adjust space between text elements */
+                    }
+                
+                    .banner-title {
+                        font-size: 1.5rem; /* Adjust font size as needed */
+                    }
+                
+                    .banner-price-info {
+                        font-size: 1.2rem; /* Adjust font size for price info */
+                    }
+                
+                    .banner {
+                        position: relative; /* Make sure content is positioned correctly */
+                        overflow: hidden; /* Ensure content doesn't overflow */
+                    }
+                
+                    figure {
+                        margin: 0; /* Remove default margin */
+                    }
+                
+                    img {
+                        width: 100%; /* Make images responsive */
+                        height: auto; /* Maintain aspect ratio */
+                    }
+                </style>
+                
+                <div class="row category-banner-wrapper appear-animate pt-6 pb-8">
+                    <div class="col-md-6 mb-4">
+                        <div class="banner banner-fixed br-xs">
+                            <figure>
+                                <img src="assets/images/demos/demo1/categories/1-1.jpg" alt="Category Banner"
+                                    width="610" height="160" style="background-color: #ecedec;" />
+                            </figure>
+                            <div class="banner-content y-50 mt-0">
+                                <h5 class="banner-subtitle font-weight-normal text-dark">Get up to <span
+                                        class="text-secondary font-weight-bolder text-uppercase ls-25">20% Off</span>
+                                </h5>
+                                <h3 class="banner-title text-uppercase" style="font-size: 2.5rem;">Sports Outfits<br><span
+                                        class="font-weight-normal text-capitalize">Collection</span>
+                                </h3>
+                                <div class="banner-price-info font-weight-normal" style="font-size: initial;">Starting at <span
+                                        class="text-secondary font-weight-bolder">$170.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="banner banner-fixed br-xs">
+                            <figure>
+                                <img src="assets/images/demos/demo1/categories/1-2.jpg" alt="Category Banner"
+                                    width="610" height="160" style="background-color: #636363;" />
+                            </figure>
+                            <div class="banner-content y-50 mt-0">
+                                <h5 class="banner-subtitle font-weight-normal text-capitalize">New Arrivals</h5>
+                                <h3 class="banner-title text-white text-uppercase" style="font-size: 2.5rem;">Accessories<br><span
+                                        class="font-weight-normal text-capitalize">Collection</span></h3>
+                                <div class="banner-price-info text-white font-weight-normal text-capitalize" style="font-size: 2.5rem;">Only From
+                                    <span class="text-secondary font-weight-bolder">$90.00</span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
+                <!-- End of Category Banner Wrapper -->
+            
                 <!-- End of Category Banner Wrapper -->
 
                 <div class="row deals-wrapper appear-animate mb-8">
@@ -468,8 +541,8 @@
                             <div class="swiper-slide category category-classic category-absolute overlay-zoom br-xs">
                                 <a href="{{ url('category/' . $cat->slug) }}" class="category-media">
 
-                                    <img src="{{$cat->category_image}}" alt="Category"
-                                        width="130" height="130">
+                                    <img src="{{ $cat->category_image }}" alt="Category" width="130"
+                                        height="130">
                                 </a>
                                 <div class="category-content">
                                     <h4 class="category-name">{{ $cat->category_name }}</h4>
