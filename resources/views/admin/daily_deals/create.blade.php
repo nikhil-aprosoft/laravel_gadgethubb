@@ -85,17 +85,6 @@
                                         <div class="card mb-6">
                                             <div class="card-body">
                                                 <div class="form-floating form-floating-outline mb-5">
-                                                    <input type="text" class="form-control" id="text"
-                                                        placeholder="Deal Description" name="text"
-                                                        aria-label="Deal Description">
-                                                    <label for="text">Description</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card mb-6">
-                                            <div class="card-body">
-                                                <div class="form-floating form-floating-outline mb-5">
                                                     <input type="number" class="form-control" id="discount_amount"
                                                         placeholder="Discount Amount" name="discount_amount"
                                                         aria-label="Discount Amount" step="0.01" required>
