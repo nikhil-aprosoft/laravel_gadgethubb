@@ -64,6 +64,10 @@ class Product extends Model
     {
         return $this->hasMany(FrequentlyBoughtProduct::class, 'product_id', 'product_id');
     }
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'product_id', 'product_id');
+    }
     public function getPriceAttribute($value)
     {
         return '₹' . number_format($value);
