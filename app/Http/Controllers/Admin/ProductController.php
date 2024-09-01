@@ -25,7 +25,7 @@ class ProductController extends Controller
 
         $product = new Product();
 
-        $product->setProductAttributes($product, $request);
+        $product->setProductAttributes($request);
 
         $product->handleImages($request, $product);
 
