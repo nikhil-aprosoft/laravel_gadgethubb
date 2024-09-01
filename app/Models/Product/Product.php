@@ -55,11 +55,11 @@ class Product extends Model
     public function dailyDeals()
     {
         return $this->hasMany(DailyDeal::class, 'product_id', 'product_id');
-    }    
+    }
     public function attributes()
     {
         return $this->hasMany(ProductAttribute::class, 'product_id', 'product_id');
-    }    
+    }
     public function frequentlyBoughtProducts(): HasMany
     {
         return $this->hasMany(FrequentlyBoughtProduct::class, 'product_id', 'product_id');
@@ -145,39 +145,34 @@ class Product extends Model
         // Convert to float
         return (float) $value;
     }
-    public function setProductAttributes(Product $product, Request $request)
+    public function setProductAttributes(Request $request)
     {
-        // Update attributes
-        $product->product_name = $request->input('product_name');
-        $product->search_product_name = strtolower(str_replace(' ', '', $request->input('product_name')));
-        $product->category_id = $request->input('category_id');
-        $product->price = $product->convertToDecimal($request->input('price'));
-        $product->cost = $product->convertToDecimal($request->input('cost'));
-        $product->quantity = $request->input('quantity');
-        $product->description = $request->input('description');
-        $product->short_desc = $request->input('short_desc');
-        $product->model = $request->input('model');
-        $product->sku = $request->input('sku');
-        $product->is_active = $request->input('is_active', true);
-        $product->slug = Str::slug($request->input('product_name'));
-        if ($request->input('specifications')) {
+        $this->product_id = Str::uuid();
+        $this->product_name = $request->input('product_name');
+        $this->search_product_name = strtolower(str_replace(' ', '', $this->product_name));
+        $this->category_id = $request->input('category_id');
+        $this->price = $this->convertToDecimal($request->input('price'));
+        $this->cost = $this->convertToDecimal($request->input('cost'));
+        $this->quantity = $request->input('quantity');
+        $this->description = $request->input('description');
+        $this->short_desc = $request->input('short_desc');
+        $this->model = $request->input('model');
+        $this->sku = $request->input('sku');
+        $this->is_active = $request->input('is_active', true);
+        $this->slug = Str::slug($this->product_name);
 
-            $specifications = $request->input('specifications');
-            $product->specification = json_encode($specifications);
-        } else {
+        $specifications = $request->input('specifications');
+        $this->specification = $specifications ? json_encode($specifications) : null;
 
-            $product->specification = null;
-
-        }
-        if ($request->video) {
+        if ($request->hasFile('video')) {
             $video = $request->file('video');
             $path = 'products/videos';
-            $videoPath = $video->store($path, 'public');
-            $product->video = $videoPath;
-        }else{
-            $product->video = null;
+            $this->video = $video->store($path, 'public');
+        } else {
+            $this->video = null;
         }
     }
+
     public function handleImages(Request $request, Product $product)
     {
         if ($request->hasFile('images')) {
@@ -284,8 +279,9 @@ class Product extends Model
             $ProductAttribute->save();
         }
     }
-    public function colorAndSize($obj){
-       $attribute = Product::with('attributes.color', 'attributes.size')->where('slug','=',$obj->slug)->firstOrFail() ;
-       return       $attribute     ;  
+    public function colorAndSize($obj)
+    {
+        $attribute = Product::with('attributes.color', 'attributes.size')->where('slug', '=', $obj->slug)->firstOrFail();
+        return $attribute;
     }
 }
