@@ -38,15 +38,15 @@ class CategoryController extends Controller
     }
     public function bestSeller()
     {
-        $buyProductLists = Order::select('orderproduct_id', DB::raw('count(*) as total'))
-            ->groupBy('orderproduct_id')
-            ->get();
-        if ($buyProductLists) {
+        // $buyProductLists = Order::select('orderproduct_id', DB::raw('count(*) as total'))
+        //     ->groupBy('orderproduct_id')
+        //     ->get();
+        // if ($buyProductLists) {
 
-            return Product::whereIn('product_id', $buyProductLists->pluck('orderproduct_id'))
-                ->limit(10)
+            return Product::
+                limit(10)
                 ->get();
-        }
+        // }
     }
     public function search(Request $request)
     {
