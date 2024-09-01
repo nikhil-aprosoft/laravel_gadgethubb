@@ -23,15 +23,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
-    {
-        $this->load(__DIR__.'/Commands');
-
-        // Register custom commands
-        $this->commands([
-            \App\Console\Commands\TruncateTable::class,
-        ]);
-
-        require base_path('routes/console.php');
-    }
+    protected $commands = [
+        Commands\TruncateTable::class,
+     ];
 }
