@@ -40,6 +40,7 @@ class Product extends Model
         'pop_images',
         'video',
     ];
+    
     protected $primaryKey = 'product_id';
 
     protected $keyType = 'string';

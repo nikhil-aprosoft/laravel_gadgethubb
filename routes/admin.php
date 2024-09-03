@@ -12,7 +12,7 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::post('/', [ProductController::class, 'store'])->name('store');
     Route::get('show',[ProductController::class,'viewProduts']);
     Route::post('update-stock-status/{id}', [ProductController::class, 'updateStockStatus'])->name('updateStockStatus');
-    Route::post('deactivate-product',[ProductController::class,'deactivate'])->name('deactivate-product');
+    Route::get('activate-deactivate/{slug}',[ProductController::class,'deactivate'])->name('deactivate-product');
     Route::get('update/{slug}',[ProductController::class,'show']);
     Route::put('update/{product_id}', [ProductController::class, 'update'])->name('update');
 

@@ -263,8 +263,13 @@
                                                         <div class="dropdown-menu dropdown-menu-end m-0">
                                                             <a href="{{url('admin/products/update/'.$item->slug)}}" class="dropdown-item"
                                                                 >View</a>
-                                                            <a href="javascript:0;"
+                                                                @if($item->is_active == 1)
+                                                            <a href="{{url('admin/products/activate-deactivate/'.$item->slug)}}"
                                                                 class="dropdown-item">Deactivate</a>
+                                                                @else
+                                                                <a href="{{url('admin/products/activate-deactivate/'.$item->slug)}}"
+                                                                    class="dropdown-item">Activate</a>
+                                                                    @endif
                                                         </div>
                                                     </div>
                                                 </td>
@@ -272,8 +277,8 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                             
                                 <div class="row mx-1">
-
                                     <!-- Pagination Container -->
                                     <div class="pagination-container d-flex justify-content-end mt-3">
                                         <div class="dataTables_paginate paging_simple_numbers"

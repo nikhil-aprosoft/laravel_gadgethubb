@@ -68,9 +68,9 @@ class ProductController extends Controller
         if ($request->hasFile('video')) {
             $video = $request->file('video');
             $path = 'products/videos';
-            $this->video = $video->store($path, 'public');
+            $product->video = $video->store($path, 'public');
         } else {
-            $this->video = null;
+            $product->video = null;
         }
     }
 
@@ -147,10 +147,6 @@ class ProductController extends Controller
     }
     public function handleAttributes($request, $productId)
     {
-        // Clear existing attributes for the product
-
-        // ProductAttribute::where('product_id', $product->product_id)->delete();
-
         $attributes = $request->input('attributes', []);
         foreach ($attributes as $attribute) {
             $ProductAttribute = new ProductAttribute;
@@ -204,21 +200,19 @@ class ProductController extends Controller
 
         return response()->json(['success' => true]);
     }
-    public function deactivate(Request $request, $id)
+    public function deactivate($slug)
     {
-        $request->validate([
-            'product_id' => 'required|exists:products,product_id',
-        ]);
+        $product = Product::where('slug', '=', $slug)
+            ->first();
+        if ($product->is_active == 1) {
+            $product->is_active = 0;
+            $product->save();
+        } else {
+            $product->is_active = 1;
+            $product->save();
+        }
 
-        $stock = $request->input('product_id') ? 1 : 0;
-
-        DB::table('products')
-            ->where('product_id', $id)
-            ->update([
-                'is_active' => 0,
-            ]);
-
-        return response()->json(['success' => true]);
+        return redirect()->back()->with('success', 'Product deactivated successfully.');
     }
     public function show(Request $request, $slug)
     {
