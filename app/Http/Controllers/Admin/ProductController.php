@@ -147,6 +147,7 @@ class ProductController extends Controller
     }
     public function handleAttributes($request, $productId)
     {
+        ProductAttribute::where('product_id', $product->product_id)->delete();
         $attributes = $request->input('attributes', []);
         foreach ($attributes as $attribute) {
             $ProductAttribute = new ProductAttribute;
