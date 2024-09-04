@@ -84,7 +84,7 @@ class CategoryController extends Controller
 
                  $products = Product::with('attributes.color', 'attributes.size')
                 ->where('category_id', $category->category_id)
-                ->limit(1)
+                ->limit(20)
                 ->get();
 
             return view('website.category-products', compact('products'));

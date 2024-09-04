@@ -6,13 +6,11 @@ use App\Models\DailyDeal;
 use App\Models\Product\FrequentlyBoughtProduct;
 use App\Models\Product\Product;
 use App\Models\Product\ProductAttribute;
+use App\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
 
 class Product extends Model
 {
@@ -40,7 +38,7 @@ class Product extends Model
         'pop_images',
         'video',
     ];
-    
+
     protected $primaryKey = 'product_id';
 
     protected $keyType = 'string';
@@ -68,6 +66,15 @@ class Product extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class, 'product_id', 'product_id');
+    }
+    protected static function booted()
+    {
+        static::addGlobalScope(new ActiveScope);
+    }
+    public static function withInactive()
+    {
+        return static::withoutGlobalScope(ActiveScope::class)
+            ->where('is_active', 0);
     }
     public function getPriceAttribute($value)
     {
@@ -146,7 +153,7 @@ class Product extends Model
         // Convert to float
         return (float) $value;
     }
-   
+
     public function colorAndSize($obj)
     {
         $attribute = Product::with('attributes.color', 'attributes.size')->where('slug', '=', $obj->slug)->firstOrFail();
