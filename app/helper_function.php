@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Product\Size;
+use App\Models\Product\Color;
 use Illuminate\Support\Carbon;
 
 function getDealExpireTime($obj)
@@ -19,4 +21,24 @@ function getDealExpireTime($obj)
 
     return "{$hours}: {$minutes}: {$seconds}";
 
+}
+function colors(){
+    $colors = Color::all();
+    return $colors;
+}
+function size(){
+    $sizes = Size::all();     
+    return $sizes;
+}
+ function cleanText($text)
+{
+    $text = str_replace('|', '', $text);
+
+    // Replace multiple spaces with a single space
+    $cleanedText = preg_replace('/\s+/', ' ', $text);
+    
+    // Trim any leading or trailing spaces
+    $cleanedText = trim($cleanedText);
+    
+    return $cleanedText;
 }

@@ -399,10 +399,10 @@
                     <i class="w-icon-heart"></i>
                     <span class="wishlist-label d-lg-show">Wishlist</span>
                 </a>
-                <a class="compare label-down link d-xs-show" href="compare.html">
+                {{-- <a class="compare label-down link d-xs-show" href="compare.html">
                     <i class="w-icon-compare"></i>
                     <span class="compare-label d-lg-show">Compare</span>
-                </a>
+                </a> --}}
                 <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
                     <div class="cart-overlay"></div>
                     <a href="#" class="cart-toggle label-down link">
@@ -493,9 +493,10 @@
                         $commonData = app('commonData');
                         $categories = $commonData['categories'];
                         ?>
-                        <div class="dropdown-box">
-                            <ul class="menu vertical-menu category-menu">
-                                @foreach ($commonData['parentCategoriesMega'] as $item)
+                     <div class="dropdown-box">
+                        <ul class="menu vertical-menu category-menu">
+                            @foreach ($commonData['parentCategoriesMega'] as $item)
+                                @if(count($item['categories']) > 0) <!-- Check if there are categories to display -->
                                     <li>
                                         <a href="shop-fullwidth-banner.html">
                                             <i class="w-icon-tshirt2"></i>{{ $item->name }}
@@ -504,35 +505,23 @@
                                             <li>
                                                 <ul>
                                                     @foreach ($item['categories'] as $cat)
-                                                        <li>
-                                                            <a
-                                                                href="{{ route('category.product', ['slug' => $cat->slug]) }}">{{ $cat->category_name }}</a>
-                                                        </li>
+                                                        @if($cat->category_name) <!-- Check if category name is present -->
+                                                            <li>
+                                                                <a href="{{ route('category.product', ['slug' => $cat->slug]) }}">
+                                                                    {{ $cat->category_name }}
+                                                                </a>
+                                                            </li>
+                                                        @endif
                                                     @endforeach
-
                                                 </ul>
                                             </li>
                                         </ul>
                                     </li>
-                                @endforeach
-                                <li>
-                                    <a href="shop-fullwidth-banner.html">
-                                        <i class="w-icon-camera"></i>Cameras & Photo
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="shop-fullwidth-banner.html">
-                                        <i class="w-icon-ruby"></i>Accessories
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="shop-banner-sidebar.html"
-                                        class="font-weight-bold text-primary text-uppercase ls-25">
-                                        View All Categories<i class="w-icon-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                                @endif
+                            @endforeach                                                          
+                        </ul>
+                    </div>
+                    
                     </div>
                     <nav class="main-nav">
                         <ul class="menu active-underline">
@@ -707,10 +696,7 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="header-right">
-                    <a href="#" class="d-xl-show"><i class="w-icon-map-marker mr-1"></i>Track Order</a>
-                    <a href="#"><i class="w-icon-sale"></i>Daily Deals</a>
-                </div>
+             
             </div>
         </div>
     </div>

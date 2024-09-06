@@ -55,6 +55,11 @@
                         <div data-i18n="Checkout">Add-Category</div>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a href="{{ url('admin/categories/show') }}" class="menu-link">
+                        <div data-i18n="Checkout">View-Category</div>
+                    </a>
+                </li>
             </ul>
         </li>
         <li class="menu-item">
@@ -66,6 +71,29 @@
                 <li class="menu-item">
                     <a href="{{ url('admin/products/create') }}" class="menu-link">
                         <div data-i18n="Checkout">Add-Product</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ url('admin/products/show') }}" class="menu-link">
+                        <div data-i18n="Checkout">View-Product</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-git-commit-line"></i>
+                <div data-i18n="Wizard Examples">Daily-Deals</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ url('admin/daily-deals/create') }}" class="menu-link">
+                        <div data-i18n="Checkout">Add-Deal</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ url('admin/daily-deals/') }}" class="menu-link">
+                        <div data-i18n="Checkout">View-Deal</div>
                     </a>
                 </li>
             </ul>

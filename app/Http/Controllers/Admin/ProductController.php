@@ -8,30 +8,33 @@ use App\Models\Product\Color;
 use App\Models\Product\Product;
 use App\Models\Product\ProductAttribute;
 use App\Models\Product\Size;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
-// Assuming you use the Intervention Image library for resizing
-
 class ProductController extends Controller
 {
-    // Show the form for creating a new product
     public function create()
     {
         $categories = Category::all();
-        $colors = Color::all();
-        $sizes = Size::all();
+        $colors = colors();
+        $sizes = size();
 
-        return view('admin.add-product', compact('categories', 'colors', 'sizes'));
+        return view('admin.products.add-product', compact('categories', 'colors', 'sizes'));
     }
-
-    // Store a newly created product in storage
     public function store(Request $request)
     {
         // return $request->all();
 
         $product = new Product();
+
+        $productId = Str::uuid();
+
+        $product->product_id = $productId;
+
+        $product->category_id = $request->category_id;
 
         $this->setProductAttributes($product, $request);
 
@@ -41,28 +44,37 @@ class ProductController extends Controller
 
         $product->save();
 
-        $this->handleAttributes($request, $product);
+        $this->handleAttributes($request, $productId);
 
         return redirect()->back()->with('success', 'Product added successfully.');
     }
-    protected function setProductAttributes(Product $product, Request $request)
+    public function setProductAttributes($product, $request)
     {
-        $product->product_name = $request->input('product_name');
-        $product->search_product_name = strtolower(str_replace(' ', '', $request->input('product_name')));
-        $product->category_id = $request->input('category_id');
-        $product->price = $request->input('price');
-        $product->cost = $request->input('cost');
-        $product->quantity = $request->input('quantity');
-        $product->description = $request->input('description');
-        $product->short_desc = $request->input('short_desc');
-        $product->model = $request->input('model');
-        $product->sku = $request->input('sku');
-        $product->is_active = $request->input('is_active', true);
-        $product->slug = Str::slug($request->input('product_name'));
-        $product->product_id = (string) Str::uuid();
+        $product->product_name = $request->product_name;
+        $product->search_product_name = strtolower(str_replace(' ', '', $product->product_name));
+        $product->price = $product->convertToDecimal($request->price);
+        $product->cost = $product->convertToDecimal($request->cost);
+        $product->quantity = $request->quantity;
+        $product->description = $request->description;
+        $product->short_desc = $request->short_desc;
+        $product->model = $request->model;
+        $product->sku = $request->sku;
+        // $product->is_active = $request->is_active;
+        $product->slug = Str::slug($product->product_name);
+
+        $specifications = $request->specifications;
+        $this->specification = $specifications ? json_encode($specifications) : null;
+
+        if ($request->hasFile('video')) {
+            $video = $request->file('video');
+            $path = 'products/videos';
+            $product->video = $video->store($path, 'public');
+        } else {
+            $product->video = null;
+        }
     }
 
-    protected function handleImages(Request $request, Product $product)
+    public function handleImages(Request $request, Product $product)
     {
         if ($request->hasFile('images')) {
             $images = $request->file('images');
@@ -88,16 +100,11 @@ class ProductController extends Controller
                 \File::delete(public_path("storage/{$mainImagePath}"));
             }
 
-            // Save paths to the product model
-            $product->pop_images = json_encode($popImagePaths); // Store as JSON array
-            $product->small_thumbs = json_encode($smallThumbPaths); // Store as JSON array
-            $product->images = json_encode($mainImageResizedPaths); // Store as JSON array
+            // Update paths in the product model
+            $product->pop_images = json_encode($popImagePaths);
+            $product->small_thumbs = json_encode($smallThumbPaths);
+            $product->images = json_encode($mainImageResizedPaths);
         }
-    }
-
-    private function storeImage($image, $folder)
-    {
-        return $image->store($folder, 'public');
     }
 
     private function resizeAndStoreImage($path, $width, $height, $folder)
@@ -114,7 +121,10 @@ class ProductController extends Controller
 
         return $newPath;
     }
-
+    private function storeImage($image, $folder)
+    {
+        return $image->store($folder, 'public');
+    }
     private function ensureDirectoryExists($path)
     {
         $fullPath = public_path("storage/{$path}");
@@ -122,10 +132,10 @@ class ProductController extends Controller
             mkdir($fullPath, 0755, true);
         }
     }
-    protected function handleThumbnail(Request $request, Product $product)
+    public function handleThumbnail(Request $request, Product $product)
     {
         if ($request->hasFile('thumbnail')) {
-            // Store the thumbnail in the 'products/thumbnails' directory
+            // Store the thumbnail
             $path = $request->file('thumbnail')->store('products/thumbnails', 'public');
 
             // Resize the thumbnail image
@@ -135,15 +145,13 @@ class ProductController extends Controller
             $product->thumbnail = $path;
         }
     }
-
-    protected function handleAttributes(Request $request, Product $product)
+    public function handleAttributes($request, $productId)
     {
+        ProductAttribute::where('product_id', $productId)->delete();
         $attributes = $request->input('attributes', []);
-
         foreach ($attributes as $attribute) {
-
             $ProductAttribute = new ProductAttribute;
-            $ProductAttribute->product_id = $product->product_id;
+            $ProductAttribute->product_id = $productId;
             $ProductAttribute->id = (string) Str::uuid();
 
             if (isset($attribute['color_id'])) {
@@ -156,7 +164,6 @@ class ProductController extends Controller
                 }
             }
 
-            // Check and validate 'size_id'
             if (isset($attribute['size_id'])) {
                 $sizeId = $attribute['size_id'];
                 if (Size::where('size_id', $sizeId)->exists()) {
@@ -170,5 +177,63 @@ class ProductController extends Controller
             $ProductAttribute->save();
         }
     }
+    public function viewProduts()
+    {
+        $products = Product::paginate(10);
+        return view('admin.products.view-products', compact('products'));
+    }
+    public function updateStockStatus(Request $request, $id)
+    {
+        // Validate the request
+        $request->validate([
+            'in_stock' => 'required|boolean',
+            'quantity' => 'required_if:in_stock,false|integer|min:1',
+        ]);
 
+        $stock = $request->input('in_stock') ? 1 : 0;
+
+        DB::table('products')
+            ->where('product_id', $id)
+            ->update([
+                'stock' => $stock,
+                'quantity' => $request->input('quantity', 0),
+            ]);
+
+        return response()->json(['success' => true]);
+    }
+    public function deactivate($slug)
+    {
+        $product = Product::where('slug', '=', $slug)
+            ->first();
+        if ($product->is_active == 1) {
+            $product->is_active = 0;
+            $product->save();
+        } else {
+            $product->is_active = 1;
+            $product->save();
+        }
+
+        return redirect()->back()->with('success', 'Product deactivated successfully.');
+    }
+    public function show(Request $request, $slug)
+    {
+        $product = Product::with('attributes')->where('slug', $slug)->first();
+        return view('admin.products.update-product', compact('product'));
+    }
+    public function update(Request $request, $id)
+    {
+        $product = Product::where('product_id', '=', $id)->first();
+
+        $this->setProductAttributes($product, $request);
+
+        $this->handleImages($request, $product);
+
+        $this->handleThumbnail($request, $product);
+
+        $product->save();
+
+        $this->handleAttributes($request, $id);
+
+        return redirect()->back()->with('success', 'Product updated successfully.');
+    }
 }

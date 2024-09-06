@@ -6,7 +6,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Add-Product</title>
+    <title>Update-Product</title>
 
     <x-admin.head />
 </head>
@@ -38,33 +38,24 @@
                                 </div>
                             @endif
 
-                            <form id="product-form" action="{{ route('products.store') }}" method="POST"
-                                enctype="multipart/form-data">
+                            <form id="product-form" action="{{ route('products.update', $product->product_id) }}"
+                                method="POST" enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT')
                                 <div
                                     class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 gap-4 gap-md-0">
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h4 class="mb-1">Add a new Product</h4>
+                                        <h4 class="mb-1">Update Product</h4>
                                     </div>
                                     <div class="d-flex align-content-center flex-wrap gap-4">
-                                        <button type="button" id="discard-button"
-                                            class="btn btn-outline-primary">Discard</button>
-                                        <button type="submit" class="btn btn-primary">Publish Product</button>
+                                        {{-- <button type="button" id="discard-button"
+                                            class="btn btn-outline-primary">Discard</button> --}}
+                                        <button type="submit" class="btn btn-primary">Update Product</button>
                                     </div>
                                 </div>
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        const discardButton = document.getElementById('discard-button');
-                                        const form = document.getElementById('product-form');
 
-                                        discardButton.addEventListener('click', function() {
-                                            form.reset();
-                                            document.getElementById("image-preview").innerHTML = "";
-                                            document.getElementById("thumbnail-image").style.display = "none";
-                                        });
-                                    });
-                                </script>
                                 <div class="row">
+
                                     <!-- First column-->
                                     <div class="col-12 col-lg-8">
                                         <!-- Product Information -->
@@ -75,40 +66,41 @@
                                             <div class="card-body">
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <input type="text" class="form-control" id="product_name"
-                                                        placeholder="Product title" name="product_name"
-                                                        aria-label="Product title" required>
+                                                        name="product_name" aria-label="Product title"
+                                                        value="{{ $product->product_name }}">
                                                     <label for="product_name">Name</label>
                                                 </div>
 
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <input type="text" class="form-control" id="model"
-                                                        placeholder="Model" name="model">
+                                                        name="model" value="{{ $product->model }}">
                                                     <label for="model">Model</label>
                                                 </div>
 
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <input type="text" class="form-control" id="sku"
-                                                        placeholder="SKU" name="sku">
+                                                        value="{{ $product->sku }}" name="sku">
                                                     <label for="sku">SKU</label>
                                                 </div>
 
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <input type="number" class="form-control" id="quantity"
-                                                        placeholder="Quantity" name="quantity" aria-label="Quantity"
-                                                        required>
+                                                        value="{{ $product->quantity }}" name="quantity"
+                                                        aria-label="Quantity">
                                                     <label for="quantity">Stock</label>
                                                 </div>
 
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <input type="text" class="form-control" id="short_desc"
-                                                        placeholder="Short Description" name="short_desc">
+                                                        value="{{ cleanText($product->short_desc) }}" name="short_desc">
                                                     <label for="short_desc">Short Description</label>
                                                 </div>
 
                                                 <div class="form-floating form-floating-outline mb-5">
-                                                    <textarea class="form-control" id="description" placeholder="Description" name="description" rows="3"></textarea>
+                                                    <textarea class="form-control" id="description" name="description" rows="3">{{ $product->description }}</textarea>
                                                     <label for="description">Description</label>
                                                 </div>
+
                                             </div>
                                         </div>
                                         <!-- /Product Information -->
@@ -122,9 +114,22 @@
                                                     onchange="previewImages(event)">
                                             </div>
                                         </div>
-
                                         <div class="card mb-6">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0 card-title">New Image</h5>
+                                            </div>
                                             <div id="image-preview" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                            </div>
+                                        </div>
+                                        <div class="card mb-6">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0 card-title">Existing Image</h5>
+                                            </div>
+                                            <div style="display: flex; flex-wrap: wrap; gap: 10px;margin-left: 10px">
+                                                @foreach ($product->images as $image)
+                                                    <img src="{{ $image }}"
+                                                        style="max-width: 100px;max-height: 100px;position: relative;display: inline-block;object-fit: cover;margin:10px;border: 1px solid rgb(221, 221, 221);">
+                                                @endforeach
                                             </div>
                                         </div>
 
@@ -136,12 +141,98 @@
                                                 <input type="file" id="thumbnail-upload" name="thumbnail"
                                                     class="form-control" accept="image/*"
                                                     onchange="previewThumbnail(event)">
-                                                <div id="thumbnail-preview" style="margin-top: 10px;">
-                                                    <img id="thumbnail-image" src="" alt="Thumbnail Preview"
-                                                        style="max-width: 150px; max-height: 150px; object-fit: cover; display: none;">
-                                                </div>
                                             </div>
                                         </div>
+
+
+                                        <div class="card mb-6">
+                                            <div id="thumbnail-preview" style="margin-top: 10px;">
+                                                <div
+                                                    class="card-header d-flex justify-content-between align-items-center">
+                                                    <h5 class="mb-0 card-title">New Thumbnail</h5>
+                                                </div>
+                                                <img id="thumbnail-image" src="" alt="Thumbnail Preview"
+                                                    style="max-width: 150px; max-height: 150px; object-fit: cover; display: none;margin:10px">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card mb-6">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0 card-title">Existing Image</h5>
+                                            </div>
+                                            <div style="display: flex; flex-wrap: wrap; gap: 10px;margin-left: 10px">
+                                                <img id="thumbnail-image" src="{{ $product->thumbnail }}"
+                                                    alt="Thumbnail old"
+                                                    style="max-width: 150px; max-height: 150px; object-fit: cover;border: 1px solid rgb(221, 221, 221);margin:10px ">
+                                            </div>
+                                        </div>
+
+                                        <div class="card mb-6">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0 card-title">Upload New Video</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <input type="file" class="form-control" name="video"
+                                                    id="video-upload" accept="video/*">
+                                                <video id="video-preview" controls
+                                                    style="display:none; margin-top: 10px; width: 100%; max-height: 300px;">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            document.getElementById('video-upload').addEventListener('change', function(event) {
+                                                const file = event.target.files[0];
+                                                const videoPreview = document.getElementById('video-preview');
+
+                                                if (file) {
+                                                    const objectURL = URL.createObjectURL(file);
+                                                    videoPreview.src = objectURL;
+                                                    videoPreview.style.display = 'block'; // Show the video player
+                                                } else {
+                                                    videoPreview.src = '';
+                                                    videoPreview.style.display = 'none'; // Hide the video player if no file is selected
+                                                }
+                                            });
+                                        </script>
+                                        @if ($product->video)
+                                        <div class="card mb-6">
+                                            <div class="card-header d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0 card-title">Existing Video</h5>
+                                            </div>
+                                            <div id="existing-video-container" class="card-body" style="margin-top: 10px;">
+                                                <div class="video-container">
+                                                    <video controls style="max-width: 100%; max-height: 600px; object-fit: cover; margin: 7px; padding: 10px;">
+                                                        <source src="{{ $product->video }}" type="video/mp4">
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                </div>
+                                                <button type="button" class="btn btn-danger btn-sm mt-2" id="remove-existing-video" style="margin-left: 29px;">Remove Existing Video</button>
+                                            </div>
+                                        </div>
+                                        
+                                        @endif
+
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const videoInput = document.getElementById('video-upload');
+                                                const existingVideoContainer = document.getElementById('existing-video-container');
+                                                const removeExistingVideoButton = document.getElementById('remove-existing-video');
+
+                                                // Handle the removal of the existing video
+                                                if (removeExistingVideoButton) {
+                                                    removeExistingVideoButton.addEventListener('click', function() {
+                                                        if (confirm('Are you sure you want to remove the existing video?')) {
+                                                            existingVideoContainer.remove(); // Remove the video container from the DOM
+                                                            videoInput.value = '';
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        </script>
+
+
                                         <!-- /Media -->
 
                                         <script>
@@ -167,6 +258,7 @@
                                                         img.style.objectFit = "cover"; // Ensure images are not distorted
                                                         img.style.border = "1px solid #ddd"; // Optional: Add a border for better visibility
                                                         img.style.borderRadius = "4px"; // Optional: Round the corners
+                                                        img.style.margin = "10px";
 
                                                         const removeBtn = document.createElement("button");
                                                         removeBtn.textContent = "Remove";
@@ -230,24 +322,20 @@
                                             }
 
                                             document.addEventListener('DOMContentLoaded', function() {
-                                                const discardButton = document.getElementById('discard-button');
-                                                const form = document.getElementById('product-form');
-                                                const notification = document.getElementById('notification');
+                                                // const discardButton = document.getElementById('discard-button');
+                                                // const form = document.getElementById('product-form');
+                                                // const notification = document.getElementById('notification');
 
-                                                discardButton.addEventListener('click', function() {
-                                                    form.reset();
-                                                    document.getElementById("image-preview").innerHTML = "";
-                                                    document.getElementById("thumbnail-image").style.display = "none";
-                                                    selectedImages = []; // Clear the selected images list
-                                                    document.getElementById("image-upload").files = new DataTransfer()
-                                                    .files; // Clear the file input
-                                                });
+                                                // discardButton.addEventListener('click', function() {
+                                                //     form.reset();
+                                                //     document.getElementById("image-preview").innerHTML = "";
+                                                //     document.getElementById("thumbnail-image").style.display = "none";
+                                                //     selectedImages = []; // Clear the selected images list
+                                                //     document.getElementById("image-upload").files = new DataTransfer()
+                                                //         .files; // Clear the file input
+                                                // });
                                             });
                                         </script>
-
-
-
-
                                         <!-- Variants -->
                                         <div class="card mb-6">
                                             <div class="card-header">
@@ -261,13 +349,28 @@
                                                         <div data-repeater-list="attributes">
                                                             <div data-repeater-item>
                                                                 <div class="d-flex flex-column">
+                                                                    @php
+                                                                        $colors = colors(); // Fetch all available colors
+                                                                        $sizes = size();
+                                                                        $existingColorIds = $product['attributes']
+                                                                            ->pluck('color_id')
+                                                                            ->filter()
+                                                                            ->toArray();
+                                                                        $existingSizeIds = $product['attributes']
+                                                                            ->pluck('size_id')
+                                                                            ->filter()
+                                                                            ->toArray(); // Existing color IDs
+                                                                        // Existing color IDs
+                                                                        $commonData = app('commonData');
+                                                                    @endphp
                                                                     @foreach ($colors as $color)
                                                                         <div class="form-check mb-2">
                                                                             <input type="checkbox"
                                                                                 name="attributes[][color_id]"
                                                                                 value="{{ $color->color_id }}"
                                                                                 id="color-{{ $color->color_id }}"
-                                                                                class="form-check-input">
+                                                                                class="form-check-input"
+                                                                                @if (in_array($color->color_id, $existingColorIds)) checked @endif>
                                                                             <label class="form-check-label"
                                                                                 for="color-{{ $color->color_id }}">{{ $color->name }}</label>
                                                                         </div>
@@ -276,6 +379,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
 
                                                     <!-- Sizes Section -->
                                                     <div class="col-md-6 mb-4">
@@ -289,7 +393,9 @@
                                                                                 name="attributes[][size_id]"
                                                                                 value="{{ $size->size_id }}"
                                                                                 id="size-{{ $size->size_id }}"
-                                                                                class="form-check-input">
+                                                                                class="form-check-input"
+                                                                                @if (in_array($size->size_id, $existingSizeIds)) checked @endif>
+
                                                                             <label class="form-check-label"
                                                                                 for="size-{{ $size->size_id }}">{{ $size->size }}</label>
                                                                         </div>
@@ -314,7 +420,7 @@
                                             <div class="card-body">
                                                 <!-- Vendor -->
                                                 {{-- <div class="mb-5 col ecommerce-select2-dropdown">
-                                                  <select id="vendor" class="form-select form-select-sm" data-placeholder="Select Vendor">
+                                                  <select id="vendor" class="form-select form-select-sm" data-value="Select Vendor">
                                                       <option value="">Select Vendor</option>
                                                       <option value="men-clothing">Men's Clothing</option>
                                                       <option value="women-clothing">Women's Clothing</option>
@@ -329,12 +435,14 @@
                                                         <select id="category-org" name="category_id"
                                                             class="form-select form-select-sm"
                                                             data-placeholder="Select Category">
-                                                            <option value="">Select Category</option>
-                                                            @foreach ($categories as $category)
-                                                                <option value="{{ $category->category_id }}">
-                                                                    {{ $category->category_name }}</option>
+                                                            @foreach ($commonData['categories'] as $category)
+                                                                <option value="{{ $category->category_id }}"
+                                                                    {{ $category->category_id == $product->category_id ? 'selected' : '' }}>
+                                                                    {{ $category->category_name }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
+
                                                     </div>
                                                     {{-- <div>
                                                       <button class="btn btn-outline-primary btn-icon">
@@ -381,17 +489,17 @@
                                             <div class="card-body">
                                                 <!-- Base Price -->
                                                 <div class="form-floating form-floating-outline mb-5">
-                                                    <input type="number" class="form-control"
-                                                        id="ecommerce-product-price" placeholder="Price"
+                                                    <input type="text" class="form-control"
+                                                        id="ecommerce-product-price" value="{{ $product->price }}"
                                                         name="price" aria-label="Product price">
                                                     <label for="ecommerce-product-price">Price</label>
                                                 </div>
 
                                                 <!-- Discounted Price -->
                                                 <div class="form-floating form-floating-outline mb-5">
-                                                    <input type="number" class="form-control"
+                                                    <input type="text" class="form-control"
                                                         id="ecommerce-product-discount-price"
-                                                        placeholder="Cost" name="cost"
+                                                        value="{{ $product->cost }}" name="cost"
                                                         aria-label="Product discounted price">
                                                     <label for="ecommerce-product-discount-price">Cost</label>
                                                 </div>
@@ -417,10 +525,77 @@
                                                 </div> --}}
                                             </div>
                                         </div>
-                                        <!-- /Pricing Card -->
+                                        <!-- Add Specification -->
+                                        <div class="card mb-6">
+                                            <div class="card-header">
+                                                <div class="form-floating form-floating-outline mb-5">
+                                                    <div id="specifications-container">
+                                                        <!-- Dynamic Specification Inputs Will Be Added Here -->
+                                                    </div>
+                                                    <button type="button" class="btn btn-secondary mt-3"
+                                                        id="add-specification">Add Specification</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const specificationsContainer = document.getElementById('specifications-container');
+                                                const addSpecificationButton = document.getElementById('add-specification');
+
+                                                function addSpecificationField(key = '', value = '', index = null) {
+                                                    if (index === null) {
+                                                        index = specificationsContainer.children.length;
+                                                    }
+
+                                                    const specificationDiv = document.createElement('div');
+                                                    specificationDiv.classList.add('mb-3');
+                                                    specificationDiv.innerHTML = `
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="form-floating form-floating-outline w-45 me-2">
+                                                                <input type="text" class="form-control" name="specifications[${index}][key]" placeholder="Specification Key" value="${key}">
+                                                                <label>Key</label>
+                                                            </div>
+                                                            <div class="form-floating form-floating-outline w-45">
+                                                                <input type="text" class="form-control" name="specifications[${index}][value]" placeholder="Specification Value" value="${value}">
+                                                                <label>Value</label>
+                                                            </div>
+                                                        </div>
+                                                        <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeSpecification(this)">Remove</button>
+                                                    `;
+                                                    specificationsContainer.appendChild(specificationDiv);
+                                                }
+
+                                                window.removeSpecification = function(button) {
+                                                    button.parentElement.remove();
+                                                    updateSpecificationIndexes();
+                                                };
+
+                                                addSpecificationButton.addEventListener('click', function() {
+                                                    addSpecificationField();
+                                                });
+
+                                                function updateSpecificationIndexes() {
+                                                    const specs = specificationsContainer.children;
+                                                    for (let i = 0; i < specs.length; i++) {
+                                                        const keyInput = specs[i].querySelector('input[name$="[key]"]');
+                                                        const valueInput = specs[i].querySelector('input[name$="[value]"]');
+                                                        if (keyInput) keyInput.name = `specifications[${i}][key]`;
+                                                        if (valueInput) valueInput.name = `specifications[${i}][value]`;
+                                                    }
+                                                }
+
+                                                // Example: Prepopulate specifications if editing an existing product
+                                                const existingSpecifications = @json($product->specification ?? []);
+                                                existingSpecifications.forEach((spec, index) => {
+                                                    addSpecificationField(spec.key, spec.value, index);
+                                                });
+                                            });
+                                        </script>
+
+
+                                        <!-- /Second column -->
                                     </div>
-                                    <!-- /Second column -->
-                                </div>
                             </form>
 
                             <!-- Restock Tab -->
@@ -469,26 +644,13 @@
     <script src="{{ asset('admin_asset/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('admin_asset/vendor/libs/node-waves/node-waves.js') }}"></script>
     <script src="{{ asset('admin_asset/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/hammer/hammer.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/i18n/i18n.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     <script src="{{ asset('admin_asset/vendor/js/menu.js') }}"></script>
 
-    <!-- Vendors JS -->
-    <script src="{{ asset('admin_asset/vendor/libs/quill/katex.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/quill/quill.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/select2/select2.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/dropzone/dropzone.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/jquery-repeater/jquery-repeater.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/flatpickr/flatpickr.js') }}"></script>
-    <script src="{{ asset('admin_asset/vendor/libs/tagify/tagify.js') }}"></script>
 
     <!-- Main JS -->
     <script src="{{ asset('admin_asset/js/main.js') }}"></script>
 
     <!-- Page JS -->
-    <script src="{{ asset('admin_asset/js/app-ecommerce-product-add.js') }}"></script>
-
 
 </body>
 

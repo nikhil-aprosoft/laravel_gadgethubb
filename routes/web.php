@@ -24,6 +24,7 @@ Route::get('/', function () {
 });
 Route::view('index', 'website.index');
 Route::view('login', 'website.login');
+Route::view('cart','website.cart');
 //------------------------------- Nikhil Chages Start Here -------------------------------
 Route::view('cat_product', 'website.cat_product');
 Route::view('product_detail', 'website.product_detail');

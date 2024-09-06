@@ -3,7 +3,10 @@
 namespace App\Models\Product;
 
 use App\Models\DailyDeal;
+use App\Models\Product\FrequentlyBoughtProduct;
+use App\Models\Product\Product;
 use App\Models\Product\ProductAttribute;
+use App\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +36,12 @@ class Product extends Model
         'is_active',
         'small_thumbs',
         'pop_images',
+        'video',
     ];
+
+    protected $primaryKey = 'product_id';
+
+    protected $keyType = 'string';
 
     protected $table = 'products';
 
@@ -51,7 +59,28 @@ class Product extends Model
     {
         return $this->hasMany(ProductAttribute::class, 'product_id', 'product_id');
     }
+    public function frequentlyBoughtProducts(): HasMany
+    {
+        return $this->hasMany(FrequentlyBoughtProduct::class, 'product_id', 'product_id');
+    }
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'product_id', 'product_id');
+    }
+    protected static function booted()
+    {
+        static::addGlobalScope(new ActiveScope);
+    }
+    public static function withInactive()
+    {
+        return static::withoutGlobalScope(ActiveScope::class)
+            ->where('is_active', 0);
+    }
     public function getPriceAttribute($value)
+    {
+        return '₹' . number_format($value);
+    }
+    public function getCostAttribute($value)
     {
         return '₹' . number_format($value);
     }
@@ -101,10 +130,33 @@ class Product extends Model
         // Add pipe symbol after each full stop
         return preg_replace('/\.(?!\s*$)/', '. |', $value);
     }
+    public function getSpecificationAttribute($value)
+    {
+        return json_decode($value, true) ?? [];
+    }
+    public function getVideoAttribute($value)
+    {
+        if ($value) {
+            return Storage::disk('public')->url($value);
+        }
+    }
     public function setSearchProductNameAttribute($value)
     {
         // Remove all spaces, convert to lowercase
         $this->attributes['search_product_name'] = strtolower(str_replace(' ', '', $value));
     }
+    public function convertToDecimal($value)
+    {
+        // Remove currency symbols and commas
+        $value = preg_replace('/[^\d.]/', '', $value);
 
+        // Convert to float
+        return (float) $value;
+    }
+
+    public function colorAndSize($obj)
+    {
+        $attribute = Product::with('attributes.color', 'attributes.size')->where('slug', '=', $obj->slug)->firstOrFail();
+        return $attribute;
+    }
 }

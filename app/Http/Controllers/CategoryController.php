@@ -22,7 +22,7 @@ class CategoryController extends Controller
         $parentCategoriesNormal = ParentCategory::with('categories')->whereNull('rank')->get();
         $banners = $this->banners();
         $featureBanners = $this->featureBanners();
-        $dailyDeals = DailyDeal::With('product')->latest()->get();
+        $dailyDeals = DailyDeal::With('product.attributes')->latest()->get();
         $bestSeller = $this->bestSeller();
         $newArrival = Product::latest()->limit(10)->get();
         $shoesSection = Product::where('category_id', '=', "1449b012-f7d7-4004-a08f-aa227390bed3")->limit(8)->get();
@@ -38,15 +38,15 @@ class CategoryController extends Controller
     }
     public function bestSeller()
     {
-        $buyProductLists = Order::select('orderproduct_id', DB::raw('count(*) as total'))
-            ->groupBy('orderproduct_id')
-            ->get();
-        if ($buyProductLists) {
+        // $buyProductLists = Order::select('orderproduct_id', DB::raw('count(*) as total'))
+        //     ->groupBy('orderproduct_id')
+        //     ->get();
+        // if ($buyProductLists) {
 
-            return Product::whereIn('product_id', $buyProductLists->pluck('orderproduct_id'))
-                ->limit(10)
+            return Product::
+                limit(10)
                 ->get();
-        }
+        // }
     }
     public function search(Request $request)
     {
@@ -84,7 +84,7 @@ class CategoryController extends Controller
 
                  $products = Product::with('attributes.color', 'attributes.size')
                 ->where('category_id', $category->category_id)
-                ->limit(1)
+                ->limit(20)
                 ->get();
 
             return view('website.category-products', compact('products'));
