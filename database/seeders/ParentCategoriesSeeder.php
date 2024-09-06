@@ -24,7 +24,7 @@ class ParentCategoriesSeeder extends Seeder
             'Shoes',
         ];
 
-        // foreach ($parentCategoryNames as $name) {
+        //  foreach ($parentCategoryNames as $name) {
         ParentCategory::create([
             'name' => "Electronics",
             'rank' => '1',
