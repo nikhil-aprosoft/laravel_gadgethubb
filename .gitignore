@@ -17,5 +17,6 @@ yarn-error.log
 /.idea
 /.vscode
 .env.example
-
+package.json
+composer.lock
 
