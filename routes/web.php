@@ -27,7 +27,6 @@ Route::view('login', 'website.login');
 Route::view('cart','website.cart');
 //------------------------------- Nikhil Chages Start Here -------------------------------
 Route::view('cat_product', 'website.cat_product');
-Route::view('product_detail', 'website.product_detail');
 Route::view('daily_deal', 'website.daily_deal');
 //------------------------------- Nikhil Chages End Here ---------------------------------
 
@@ -44,4 +43,5 @@ Route::controller(UserController::class)->group(function () {
 });
 Route::controller(ProductController::class)->group(function () {
     Route::get('product-details/{slug}', 'productDetails')->name('product-details');
+    Route::get('quick-view/{slug}','quickView')->name('quick-view');
 });
