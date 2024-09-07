@@ -84,7 +84,7 @@
                         }
                     }">
                     <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm" id="thumbImages">
-
+                        <!-- Thumbnail slides will be injected here -->
                     </div>
                     <button class="swiper-button-next"></button>
                     <button class="swiper-button-prev"></button>
@@ -161,122 +161,114 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('body').on('click', '#show-user', function() {
-            const userURL = $(this).data('url');
+            var userURL = $(this).data('url');
 
             $.ajax({
                 url: userURL,
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
-                    updateProductDetails(data);
+                    // Update basic product details
+                    $('#productName').text(data.product_name || 'N/A');
+                    $('#productCategory').text(data.category ? data.category.category_name :
+                        'N/A');
+                    $('#sku').text(data.sku || 'N/A');
+                    $('#productPrice').text(data.price || 'N/A');
+
+                    // Process images
+                    var images = data.images || [];
+                    var popImages = data.pop_images || [];
+
+                    var imagesHtml = '';
+                    var productThumbHtml = '';
+
+                    for (var i = 0; i < images.length; i++) {
+                        imagesHtml +=
+                            '<div class="swiper-slide">' +
+                            '<figure class="product-image">' +
+                            '<img src="' + images[i] + '" ' +
+                            'data-zoom-image="' + (popImages[i] || '') + '" ' +
+                            'alt="Product image" width="800" height="900">' +
+                            '</figure>' +
+                            '</div>';
+
+                        // Generate thumbnail HTML
+                        if (popImages[i]) {
+                            productThumbHtml +=
+                                '<div class="product-thumb swiper-slide swiper-slide-visible" style="width: 91.25px; margin-right: 10px;">' +
+                                '<img src="' + popImages[i] +
+                                '" alt="Product Thumb" width="103" height="116">' +
+                                '</div>';
+                        }
+                    }
+
+                    // Inject generated HTML into the swiper container
+                    $('#productImages').html(imagesHtml);
+                    $('#thumbImages').html(productThumbHtml);
+
+                    // Update short description
+                    var shortDescList = '';
+                    if (data.short_desc) {
+                        var descriptions = data.short_desc.split('|');
+                        descriptions.forEach(function(desc) {
+                            if (desc.trim()) {
+                                shortDescList += '<li>' + desc.trim() + '</li>';
+                            }
+                        });
+                    }
+                    $('#productShortDesc').html(
+                        '<ul class="list-type-check list-style-none">' + shortDescList +
+                        '</ul>'
+                    );
+
+                    // Update color swatches
+                    var colorSwatches = '';
+                    var hasColor = false;
+                    if (data.attributes) {
+                        data.attributes.forEach(function(attribute) {
+                            if (attribute.color && attribute.color.hex_value) {
+                                hasColor = true;
+                                colorSwatches +=
+                                    '<a href="#" class="color" style="background-color: ' +
+                                    attribute.color.hex_value +
+                                    '; display: inline-block; width: 30px; height: 29px;" title="' +
+                                    attribute.color.name + '"></a>';
+                            }
+                        });
+                    }
+                    if (hasColor) {
+                        $('#productColorSwatch').show();
+                        $('#colorVariations').html(colorSwatches);
+                    } else {
+                        $('#productColorSwatch').hide();
+                    }
+
+                    // Update size swatches
+                    var sizeSwatches = '';
+                    var hasSize = false;
+                    if (data.attributes) {
+                        data.attributes.forEach(function(attribute) {
+                            if (attribute.size && attribute.size.size) {
+                                hasSize = true;
+                                sizeSwatches += '<a href="#" class="size">' +
+                                    attribute.size.size + '</a>';
+                            }
+                        });
+                    }
+                    if (hasSize) {
+                        $('#productSizeSwatch').show();
+                        $('#sizeVariations').html(sizeSwatches);
+                    } else {
+                        $('#productSizeSwatch').hide();
+                    }
+                    
                 },
+                
                 error: function() {
                     alert('Failed to fetch product details');
                 }
             });
         });
-
-        function updateProductDetails(data) {
-            // Update basic product details
-            $('#productName').text(data.product_name);
-            $('#productCategory').text(data.category.category_name);
-            $('#sku').text(data.sku);
-            $('#productPrice').text(data.price);
-
-            // Update images
-            updateProductImages(data.images, data.small_thumbs);
-
-            // Update short description
-            updateShortDescription(data.short_desc);
-
-            // Update color swatches
-            updateColorSwatches(data.attributes);
-
-            // Update size swatches
-            updateSizeSwatches(data.attributes);
-        }
-
-        function updateProductImages(images, popImages) {
-            console.log('Updating product images...');
-            console.log('Images:', images);
-            console.log('Pop Images:', popImages);
-
-            const imagesHtml = images.map((image, i) => `
-        <div class="swiper-slide">
-            <figure class="product-image">
-                <img src="${image}" data-zoom-image="${popImages[i]}" alt="Product image" width="800" height="900">
-            </figure>
-        </div>
-    `).join('');
-
-            const productThumbHtml = popImages.map((popImage) => `
-        <div class="product-thumb swiper-slide">
-            <figure class="product-image">
-                <img src="${popImage}" data-zoom-image="${popImage}" alt="Product image" width="103" height="116">
-            </figure>
-        </div>
-    `).join('');
-
-            $('#productImages').html(imagesHtml);
-            $('#thumbImages').html(productThumbHtml);
-
-            console.log('Product images and thumbnails updated.');
-
-            // Reinitialize Swiper
-            if (typeof Swiper !== 'undefined') {
-                console.log('Reinitializing Swiper...');
-                new Swiper('.swiper-container', {
-                    // your Swiper configuration here
-                });
-            }
-        }
-
-
-        function updateShortDescription(shortDesc) {
-            if (shortDesc) {
-                const descriptions = shortDesc.split('|').map(desc => desc.trim()).filter(desc => desc).map(
-                    desc => `<li>${desc}</li>`).join('');
-                $('#productShortDesc').html(`<ul class="list-type-check list-style-none">${descriptions}</ul>`);
-            } else {
-                $('#productShortDesc').empty();
-            }
-        }
-
-        function updateColorSwatches(attributes) {
-            if (attributes) {
-                const colorSwatches = attributes
-                    .filter(attr => attr.color && attr.color.hex_value)
-                    .map(attr => `
-                        <a href="#" class="color" style="background-color: ${attr.color.hex_value}; display: inline-block; width: 30px; height: 29px;" title="${attr.color.name}"></a>
-                    `).join('');
-
-                if (colorSwatches) {
-                    $('#productColorSwatch').show();
-                    $('#colorVariations').html(colorSwatches);
-                } else {
-                    $('#productColorSwatch').hide();
-                }
-            } else {
-                $('#productColorSwatch').hide();
-            }
-        }
-
-        function updateSizeSwatches(attributes) {
-            if (attributes) {
-                const sizeSwatches = attributes
-                    .filter(attr => attr.size && attr.size.size)
-                    .map(attr => `<a href="#" class="size">${attr.size.size}</a>`)
-                    .join('');
-
-                if (sizeSwatches) {
-                    $('#productSizeSwatch').show();
-                    $('#sizeVariations').html(sizeSwatches);
-                } else {
-                    $('#productSizeSwatch').hide();
-                }
-            } else {
-                $('#productSizeSwatch').hide();
-            }
-        }
     });
 </script>
+<script></script>
