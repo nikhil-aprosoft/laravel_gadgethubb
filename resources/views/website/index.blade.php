@@ -55,11 +55,28 @@
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.min.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+<!-- Add this in the <head> section of your Blade template -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
 <body class="home">
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var status = @json(session('status'));
+            var statusType = @json(session('status_type'));
+
+            if (status) {
+                Swal.fire({
+                    title: statusType === 'success' ? 'Success!' : 'Error!',
+                    text: status,
+                    icon: statusType === 'success' ? 'success' : 'error'
+                });
+            }
+        });
+    </script>
     <div class="page-wrapper">
         <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
         <!-- Start of Header -->
@@ -226,30 +243,30 @@
                         padding-left: 20px; /* Add some padding on the left side */
                         margin-top: auto; /* Center vertically if needed */
                     }
-                
+
                     .banner-content h5,
                     .banner-content h3,
                     .banner-content .banner-price-info {
                         margin-bottom: 10px; /* Adjust space between text elements */
                     }
-                
+
                     .banner-title {
                         font-size: 1.5rem; /* Adjust font size as needed */
                     }
-                
+
                     .banner-price-info {
                         font-size: 1.2rem; /* Adjust font size for price info */
                     }
-                
+
                     .banner {
                         position: relative; /* Make sure content is positioned correctly */
                         overflow: hidden; /* Ensure content doesn't overflow */
                     }
-                
+
                     figure {
                         margin: 0; /* Remove default margin */
                     }
-                
+
                     img {
                         width: 100%; /* Make images responsive */
                         height: auto; /* Maintain aspect ratio */
@@ -462,7 +479,7 @@
                                                                             All</a>
                                                                     </div>
                                                                 @endif
-                                                            @endif                                                            
+                                                            @endif
 
                                                             <div class="product-form pt-4">
                                                                 <div class="product-qty-form mb-2 mr-2">

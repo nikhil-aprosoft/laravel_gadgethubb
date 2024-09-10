@@ -38,7 +38,7 @@ Route::controller(CategoryController::class)->group(function () {
     Route::get('/search', 'search')->name('search');
 });
 Route::controller(UserController::class)->group(function () {
-    Route::post('/login', 'login')->name('login');
+    Route::post('/user-login', 'login')->name('user-login');
     Route::post('/signup', 'signUp')->name('signup');
 });
 Route::controller(ProductController::class)->group(function () {
