@@ -185,7 +185,7 @@ $categories = $commonData['categories'];
                                 <a href="{{ url('index') }}">Home</a>
                             </li>
                             <li class="active">
-                                <a href="{{ url('products') }}">Products</a>
+                                <a href="{{route('products') }}">Products</a>
                             </li>
                             <!-- <li>
                                 <a href="shop-banner-sidebar.html">Shop</a>
@@ -529,7 +529,7 @@ $categories = $commonData['categories'];
                                 <a href="{{ url('index') }}">Home</a>
                             </li>
                             <li>
-                                <a href="{{ url('products') }}">Products</a>
+                                <a href="{{route('products') }}">Products</a>
                             </li>
                             <!-- <li class="active">
                                 <a href="shop-banner-sidebar.html">Shop</a>

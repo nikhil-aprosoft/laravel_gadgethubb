@@ -24,4 +24,8 @@ class ProductController extends Controller
         $product = Product::with('attributes.color', 'attributes.size')->where('slug','=',$slug)->first();
          return response()->json($product, 200);       
     }
+    public function mixProducts(){
+        $latestProduct = Product::latest()->limit(9)->get();
+        return view('website.products',compact('latestProduct'));   
+    }
 }

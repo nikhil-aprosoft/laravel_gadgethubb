@@ -44,4 +44,5 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(ProductController::class)->group(function () {
     Route::get('product-details/{slug}', 'productDetails')->name('product-details');
     Route::get('quick-view/{slug}','quickView')->name('quick-view');
+    Route::get('products','mixProducts')->name('products');
 });
