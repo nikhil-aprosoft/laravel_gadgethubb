@@ -25,7 +25,7 @@ class ProductController extends Controller
          return response()->json($product, 200);       
     }
     public function mixProducts(){
-        $latestProduct = Product::latest()->limit(9)->get();
-        return view('website.products',compact('latestProduct'));   
+        $products = Product::latest()->limit(9)->get();
+        return view('website.products',compact('products'));   
     }
 }

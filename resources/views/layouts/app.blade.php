@@ -14,17 +14,13 @@
 
 <body>
 
-    <header>
-        <x-header /> <!-- Include your header component -->
-    </header>
+  
 
     <main>
         @yield('content') 
     </main>
 
-    <footer>
-        <x-footer /> <!-- Include your footer component -->
-    </footer>
+
 
     <!-- Plugin JS Files -->
     <script data-cfasync="false" src="{{ asset('cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
