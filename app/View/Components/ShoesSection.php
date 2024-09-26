@@ -15,7 +15,7 @@ class ShoesSection extends Component
 
     public function render()
     {
-        return view('components.shoes-section');
+        return view('components.shoes-section', ['data' => $this->data]);
     }
 }
 
