@@ -184,10 +184,11 @@ $categories = $commonData['categories'];
                             <li class="active">
                                 <a href="{{ url('index') }}">Home</a>
                             </li>
-                            <li>
+                            <li class="active">
+                                <a href="{{ url('products') }}">Products</a>
+                            </li>
+                            <!-- <li>
                                 <a href="shop-banner-sidebar.html">Shop</a>
-
-                                <!-- Start of Megamenu -->
                                 <ul class="megamenu">
                                     <li>
                                         <h4 class="menu-title">Shop Pages</h4>
@@ -249,10 +250,9 @@ $categories = $commonData['categories'];
                                         </ul>
                                     </li>
                                 </ul>
-                                <!-- End of Megamenu -->
-                            </li>
+                            </li> -->
 
-                            <li>
+                            <!-- <li>
                                 <a href="about-us.html">Pages</a>
                                 <ul>
                                     <li><a href="about-us.html">About Us</a></li>
@@ -267,8 +267,8 @@ $categories = $commonData['categories'];
                                     <li><a href="my-account.html">My Account</a></li>
                                     <li><a href="compare.html">Compare</a></li>
                                 </ul>
-                            </li>
-                            <li>
+                            </li> -->
+                            <!-- <li>
                                 <a href="elements.html">Elements</a>
                                 <ul>
                                     <li><a href="element-accordions.html">Accordions</a></li>
@@ -288,7 +288,7 @@ $categories = $commonData['categories'];
 
                                     <li><a href="element-vendors.html">Vendors</a></li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </nav>
                 </div>
@@ -528,10 +528,12 @@ $categories = $commonData['categories'];
                             <li>
                                 <a href="{{ url('index') }}">Home</a>
                             </li>
-                            <li class="active">
+                            <li>
+                                <a href="{{ url('products') }}">Products</a>
+                            </li>
+                            <!-- <li class="active">
                                 <a href="shop-banner-sidebar.html">Shop</a>
 
-                                <!-- Start of Megamenu -->
                                 <ul class="megamenu">
                                     <li>
                                         <h4 class="menu-title">Shop Pages</h4>
@@ -592,9 +594,9 @@ $categories = $commonData['categories'];
                                         </ul>
                                     </li>
                                 </ul>
-                                <!-- End of Megamenu -->
-                            </li>
-                            <li>
+                               
+                            </li> -->
+                            <!-- <li>
                                 <a href="vendor-dokan-store.html">Vendor</a>
                                 <ul>
                                     <li>
@@ -619,8 +621,8 @@ $categories = $commonData['categories'];
                                         </ul>
                                     </li>
                                 </ul>
-                            </li>
-                            <li>
+                            </li> -->
+                            <!-- <li>
                                 <a href="blog.html">Blog</a>
                                 <ul>
                                     <li><a href="blog.html">Classic</a></li>
@@ -654,8 +656,8 @@ $categories = $commonData['categories'];
                                         <a href="post-single.html">Single Post</a>
                                     </li>
                                 </ul>
-                            </li>
-                            <li>
+                            </li> -->
+                            <!-- <li>
                                 <a href="about-us.html">Pages</a>
                                 <ul>
 
@@ -692,7 +694,7 @@ $categories = $commonData['categories'];
 
                                     <li><a href="element-vendors.html">Vendors</a></li>
                                 </ul>
-                            </li>
+                            </li> -->
                         </ul>
                     </nav>
                 </div>

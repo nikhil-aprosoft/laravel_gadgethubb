@@ -23,7 +23,7 @@ Route::get('/', function () {
     return view('website.index');
 });
 Route::view('index', 'website.index');
-Route::view('login', 'website.login');
+Route::view('myaccount', 'website.myaccount');
 Route::view('cart','website.cart');
 //------------------------------- Nikhil Chages Start Here -------------------------------
 Route::view('cat_product', 'website.cat_product');

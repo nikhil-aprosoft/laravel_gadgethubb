@@ -63,4 +63,7 @@ class UserController extends Controller
             return redirect()->back()->with('status', 'An error occurred during registration. Please try again.')->with('status_type', 'error');
         }
     }
+    public function myaccount(Request $request){
+        return view('website.myaccount');
+    }
 }
