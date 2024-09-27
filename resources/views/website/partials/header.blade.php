@@ -16,9 +16,9 @@
                         <select id="category" name="category">
                             <option value="">All Categories</option>
                             <?php
-$commonData = app('commonData');
-$categories = $commonData['categories'];
-?>
+                            $commonData = app('commonData');
+                            $categories = $commonData['categories'];
+                            ?>
                             @foreach ($categories as $cat)
                                 <option value="{{ $cat->category_id }}">{{ $cat->category_name }}</option>
                             @endforeach
@@ -311,44 +311,13 @@ $categories = $commonData['categories'];
                 <p class="welcome-msg">Welcome to Wolmart Store message or remove it!</p>
             </div>
             <div class="header-right">
-                <div class="dropdown">
-                    <a href="#currency">USD</a>
-                    <div class="dropdown-box">
-                        <a href="#USD">USD</a>
-                        <a href="#EUR">EUR</a>
-                    </div>
-                </div>
-                <!-- End of DropDown Menu -->
-
-                <div class="dropdown">
-                    <a href="#language">
-                        <img src="{{ asset('assets/images/flags/eng.png') }}" alt="ENG Flag" width="14"
-                            height="8" class="dropdown-image" />
-                        ENG
-                    </a>
-                    <div class="dropdown-box">
-                        <a href="#ENG">
-                            <img src="{{ asset('assets/images/flags/eng.png') }}" alt="ENG Flag" width="14"
-                                height="8" class="dropdown-image" />
-                            ENG
-                        </a>
-                        <a href="#FRA">
-                            <img src="{{ asset('assets/images/flags/fra.png') }}" alt="FRA Flag" width="14"
-                                height="8" class="dropdown-image" />
-                            FRA
-                        </a>
-                    </div>
-                </div>
-
-                <!-- End of Dropdown Menu -->
                 <span class="divider d-lg-show"></span>
-                <a href="blog.html" class="d-lg-show">Blog</a>
                 <a href="contact-us.html" class="d-lg-show">Contact Us</a>
-                <a href="my-account.html" class="d-lg-show">My Account</a>
-                <a href="{{url('login')}}" class="d-lg-show login sign-in"><i class="w-icon-account"></i>Sign
+                <a href="{{route('myaccount')}}" class="d-lg-show">My Account</a>
+                <a href="{{route('user-login')}}" class="d-lg-show login sign-in"><i class="w-icon-account"></i>Sign
                     In</a>
                 <span class="delimiter d-lg-show">/</span>
-                <a href="{{url('login')}}" class="ml-0 d-lg-show login register">Register</a>
+                <a href="{{route('user-login')}}" class="ml-0 d-lg-show login register">Register</a>
             </div>
         </div>
     </div>
@@ -362,27 +331,28 @@ $categories = $commonData['categories'];
                 <a href="{{ url('index') }}" class="logo ml-lg-0">
                     <img src="{{ asset('assets/images/logo.png') }}" alt="logo" width="144" height="45" />
                 </a>
-                <form method="get" action="#"
-                    class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
+                <form class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
                     <div class="select-box">
                         <select id="category" name="category">
                             <option value="">All Categories</option>
-                            <option value="4">Fashion</option>
-                            <option value="5">Furniture</option>
-                            <option value="6">Shoes</option>
-                            <option value="7">Sports</option>
-                            <option value="8">Games</option>
-                            <option value="9">Computers</option>
-                            <option value="10">Electronics</option>
-                            <option value="11">Kitchen</option>
-                            <option value="12">Clothing</option>
+                            <?php
+                            $commonData = app('commonData');
+                            $categories = $commonData['categories'];
+                            ?>
+                            @foreach ($categories as $cat)
+                                <option value="{{ $cat->category_id }}">{{ $cat->category_name }}</option>
+                            @endforeach
                         </select>
                     </div>
+                    <script>
+                        var searchRoute = "{{ route('search') }}"; // Replace 'search.route' with your route name
+                    </script>
                     <input type="text" class="form-control" name="search" id="search" placeholder="Search in..."
                         required />
                     <button class="btn btn-search" type="submit"><i class="w-icon-search"></i>
                     </button>
                 </form>
+                <div id="search-results"></div>
             </div>
             <div class="header-right ml-4">
                 <div class="header-call d-xs-show d-lg-flex align-items-center">
