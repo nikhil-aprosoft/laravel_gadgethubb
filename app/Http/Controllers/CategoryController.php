@@ -64,6 +64,7 @@ class CategoryController extends Controller
 
         $formattedProducts = $products->map(function ($product) {
             return [
+                'slug'=>$product->slug,
                 'product_id' => $product->product_id,
                 'product_name' => $product->product_name,
                 'price' => $product->price,

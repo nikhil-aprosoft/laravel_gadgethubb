@@ -46,3 +46,4 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('quick-view/{slug}','quickView')->name('quick-view');
     Route::get('products','mixProducts')->name('products');
 });
+Route::get('daily-deals',[DailyDealController::class,'dailyDeal'])->name('daily-deals');
