@@ -16,9 +16,9 @@
                         <select id="category" name="category">
                             <option value="">All Categories</option>
                             <?php
-                            $commonData = app('commonData');
-                            $categories = $commonData['categories'];
-                            ?>
+$commonData = app('commonData');
+$categories = $commonData['categories'];
+?>
                             @foreach ($categories as $cat)
                                 <option value="{{ $cat->category_id }}">{{ $cat->category_name }}</option>
                             @endforeach
@@ -184,74 +184,12 @@
                             <li class="active">
                                 <a href="{{ url('index') }}">Home</a>
                             </li>
-                            <li class="active">
+                            <li class="">
                                 <a href="{{route('products') }}">Products</a>
                             </li>
-                            <!-- <li>
-                                <a href="shop-banner-sidebar.html">Shop</a>
-                                <ul class="megamenu">
-                                    <li>
-                                        <h4 class="menu-title">Shop Pages</h4>
-                                        <ul>
-                                            <li><a href="shop-banner-sidebar.html">Banner With Sidebar</a></li>
-                                            <li><a href="shop-boxed-banner.html">Boxed Banner</a></li>
-                                            <li><a href="shop-fullwidth-banner.html">Full Width Banner</a></li>
-                                            <li><a href="shop-horizontal-filter.html">Horizontal Filter<span
-                                                        class="tip tip-hot">Hot</span></a></li>
-                                            <li><a href="shop-off-canvas.html">Off Canvas Sidebar<span
-                                                        class="tip tip-new">New</span></a></li>
-                                            <li><a href="shop-infinite-scroll.html">Infinite Ajax Scroll</a>
-                                            </li>
-                                            <li><a href="shop-right-sidebar.html">Right Sidebar</a></li>
-                                            <li><a href="shop-both-sidebar.html">Both Sidebar</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <h4 class="menu-title">Shop Layouts</h4>
-                                        <ul>
-                                            <li><a href="shop-grid-3cols.html">3 Columns Mode</a></li>
-                                            <li><a href="shop-grid-4cols.html">4 Columns Mode</a></li>
-                                            <li><a href="shop-grid-5cols.html">5 Columns Mode</a></li>
-                                            <li><a href="shop-grid-6cols.html">6 Columns Mode</a></li>
-                                            <li><a href="shop-grid-7cols.html">7 Columns Mode</a></li>
-                                            <li><a href="shop-grid-8cols.html">8 Columns Mode</a></li>
-                                            <li><a href="shop-list.html">List Mode</a></li>
-                                            <li><a href="shop-list-sidebar.html">List Mode With Sidebar</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <h4 class="menu-title">Product Pages</h4>
-                                        <ul>
-                                            <li><a href="product-variable.html">Variable Product</a></li>
-                                            <li><a href="product-featured.html">Featured &amp; Sale</a></li>
-                                            <li><a href="product-accordion.html">Data In Accordion</a></li>
-                                            <li><a href="product-section.html">Data In Sections</a></li>
-                                            <li><a href="product-swatch.html">Image Swatch</a></li>
-                                            <li><a href="product-extended.html">Extended Info</a>
-                                            </li>
-                                            <li><a href="product-without-sidebar.html">Without Sidebar</a></li>
-                                            <li><a href="product-video.html">360<sup>o</sup> &amp; Video<span
-                                                        class="tip tip-new">New</span></a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <h4 class="menu-title">Product Layouts</h4>
-                                        <ul>
-                                            <li><a href="product-default.html">Default<span
-                                                        class="tip tip-hot">Hot</span></a></li>
-                                            <li><a href="product-vertical.html">Vertical Thumbs</a></li>
-                                            <li><a href="product-grid.html">Grid Images</a></li>
-                                            <li><a href="product-masonry.html">Masonry</a></li>
-                                            <li><a href="product-gallery.html">Gallery</a></li>
-                                            <li><a href="product-sticky-info.html">Sticky Info</a></li>
-                                            <li><a href="product-sticky-thumb.html">Sticky Thumbs</a></li>
-                                            <li><a href="product-sticky-both.html">Sticky Both</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li> -->
-
+                            <li class="">
+                                <a href="{{route('daily-deals') }}">Daily-Deals</a>
+                            </li>
                             <!-- <li>
                                 <a href="about-us.html">Pages</a>
                                 <ul>
@@ -268,27 +206,7 @@
                                     <li><a href="compare.html">Compare</a></li>
                                 </ul>
                             </li> -->
-                            <!-- <li>
-                                <a href="elements.html">Elements</a>
-                                <ul>
-                                    <li><a href="element-accordions.html">Accordions</a></li>
-                                    <li><a href="element-alerts.html">Alert &amp; Notification</a></li>
-                                    <li><a href="element-blog-posts.html">Blog Posts</a></li>
-                                    <li><a href="element-buttons.html">Buttons</a></li>
-                                    <li><a href="element-cta.html">Call to Action</a></li>
-                                    <li><a href="element-icons.html">Icons</a></li>
-                                    <li><a href="element-icon-boxes.html">Icon Boxes</a></li>
-                                    <li><a href="element-instagrams.html">Instagrams</a></li>
-                                    <li><a href="element-categories.html">Product Category</a></li>
-                                    <li><a href="element-products.html">Products</a></li>
-                                    <li><a href="element-tabs.html">Tabs</a></li>
-                                    <li><a href="element-testimonials.html">Testimonials</a></li>
-                                    <li><a href="element-titles.html">Titles</a></li>
-                                    <li><a href="element-typography.html">Typography</a></li>
-
-                                    <li><a href="element-vendors.html">Vendors</a></li>
-                                </ul>
-                            </li> -->
+                           
                         </ul>
                     </nav>
                 </div>
@@ -336,9 +254,9 @@
                         <select id="category" name="category">
                             <option value="">All Categories</option>
                             <?php
-                            $commonData = app('commonData');
-                            $categories = $commonData['categories'];
-                            ?>
+$commonData = app('commonData');
+$categories = $commonData['categories'];
+?>
                             @foreach ($categories as $cat)
                                 <option value="{{ $cat->category_id }}">{{ $cat->category_name }}</option>
                             @endforeach
@@ -564,7 +482,7 @@ $categories = $commonData['categories'];
                                         </ul>
                                     </li>
                                 </ul>
-                               
+
                             </li> -->
                             <!-- <li>
                                 <a href="vendor-dokan-store.html">Vendor</a>
