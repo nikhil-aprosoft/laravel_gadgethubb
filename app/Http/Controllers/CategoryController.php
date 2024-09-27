@@ -67,7 +67,7 @@ class CategoryController extends Controller
                 'product_id' => $product->product_id,
                 'product_name' => $product->product_name,
                 'price' => $product->price,
-                'images' => json_decode($product->images),
+                'images' => $product->thumbnail,
                 'description' => $product->description,
             ];
         });
