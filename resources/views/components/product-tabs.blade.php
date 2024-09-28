@@ -11,13 +11,12 @@
 </div>
 <script>
     function wishList(product) {
-        const url = '/wishlist';
+        const url = `{{ route('wishlist') }}`;
 
         axios.post(url, {
                 product_id: product.product_id
             })
             .then(response => {
-
                 Swal.fire({
                     title: "Product added to wishlist",
                     icon: "success"
@@ -29,6 +28,7 @@
             });
     }
 </script>
+
 <!-- End of Tab -->
 <div class="tab-content product-wrapper appear-animate">
     @foreach ($tabs as $index => $tab)

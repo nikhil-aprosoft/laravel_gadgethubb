@@ -108,8 +108,9 @@
     </div>
     <script>
         function removeFromWishlist(itemId) {
-
-            axios.delete(`/wishlist/${itemId}`)
+            const url = `{{ route('wishlist.destroy', '') }}/${itemId}`;
+    
+            axios.delete(url)
                 .then(response => {
                     // Handle success response
                     Swal.fire({
@@ -123,4 +124,5 @@
                 });
         }
     </script>
+    
 @endsection
