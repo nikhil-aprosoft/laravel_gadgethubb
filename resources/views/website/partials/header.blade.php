@@ -7,7 +7,7 @@
             </div>
             <div class="header-right">
                 <span class="divider d-lg-show"></span>
-                <a href="contact-us.html" class="d-lg-show">Contact Us</a>
+                <a href="{{route('contact-us')}}" class="d-lg-show">Contact Us</a>
                 @if (session('user'))
                     <a href="{{ route('myaccount') }}" class="d-lg-show">My Account</a>
                     <a href="{{ route('logout') }}" class="d-lg-show">Logout</a>

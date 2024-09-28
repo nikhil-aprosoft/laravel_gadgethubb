@@ -19,9 +19,12 @@ class WishlistController extends Controller
         $userData = session('user');
         if ($userData) {
             $wishlistItems = Wishlist::with('product')->where('user_id', $userData->userid)->get();
-        
+
             return view('website.wishlist', compact('wishlistItems'));
+        } else {
+            return redirect('register_login');
         }
+
     }
 
     /**

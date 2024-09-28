@@ -20,7 +20,25 @@
 
     </nav>
     <div class="product-wrapper row cols-xl-6 cols-lg-5 cols-md-4 cols-sm-3 cols-2">
-
+        <script>
+            function wishList(product) {
+                const url = `{{ route('wishlist') }}`;
+        
+                axios.post(url, {
+                        product_id: product.product_id
+                    })
+                    .then(response => {
+                        Swal.fire({
+                            title: "Product added to wishlist",
+                            icon: "success"
+                        });
+                    })
+                    .catch(error => {
+                        console.error("There was an error adding the product to the wishlist:", error);
+                        alert("Failed to add to wishlist. Please try again.");
+                    });
+            }
+        </script>
         @foreach ($products as $item)
             <div class="product-wrap">
                 <div class="product text-center">
@@ -31,7 +49,7 @@
                         </a>                      
                         <div class="product-action-horizontal">
                             <a href="#" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
-                            <a href="#" class="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
+                            <a href="#" onClick="wishList({{ json_encode($item) }})" class="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
                             <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quick View"
                                 data-product="{{ json_encode($item) }}">
                             </a>

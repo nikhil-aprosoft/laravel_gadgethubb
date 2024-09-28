@@ -48,4 +48,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(RecentView::class);
     }
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

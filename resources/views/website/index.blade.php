@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- Mirrored from portotheme.com/html/wolmart/{{ url('index') }} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:50:42 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
-
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -502,7 +497,7 @@
                                                             </div>
 
                                                             <div class="social-links-wrapper mt-1">
-                                                                <div class="social-links">
+                                                                <div class="social-links mx-auto">
                                                                     <div
                                                                         class="social-icons social-no-color border-thin">
                                                                         <a href="#"
@@ -517,13 +512,13 @@
                                                                             class="social-icon social-youtube fab fa-linkedin-in"></a>
                                                                     </div>
                                                                 </div>
-                                                                <span class="divider d-xs-show"></span>
-                                                                <div class="product-link-wrapper d-flex">
+                                                                {{-- <span class="divider d-xs-show"></span> --}}
+                                                                {{-- <div class="product-link-wrapper d-flex">
                                                                     <a href="#"
-                                                                        class="btn-product-icon btn-wishlist w-icon-heart"></a>
+                                                                    onClick="wishList({{ json_encode($product) }})"   class="btn-product-icon btn-wishlist w-icon-heart"></a>
                                                                     <a href="#"
                                                                         class="btn-product-icon btn-compare btn-icon-left w-icon-compare"></a>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -708,8 +703,4 @@
     <script src="assets/js/main.min.js"></script>
     <script src="{{ asset('assets/js/search.js') }}"></script>
 </body>
-
-
-<!-- Mirrored from portotheme.com/html/wolmart/{{ url('index') }} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:52:46 GMT -->
-
 </html>

@@ -75,6 +75,10 @@ class Product extends Model
     {
         return $this->hasMany(RecentView::class);
     }
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
+    }
     protected static function booted()
     {
         static::addGlobalScope(new ActiveScope);

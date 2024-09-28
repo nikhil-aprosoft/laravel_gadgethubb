@@ -11,6 +11,9 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    public function index(){
+        return view('website.register_login');
+    }
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [

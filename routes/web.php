@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DailyDealController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -22,13 +24,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('website.index');
 });
-Route::get('/',[CategoryController::class,'index']);
+Route::get('/', [CategoryController::class, 'index']);
 Route::view('index', 'website.index');
 Route::view('cart', 'website.cart');
 Route::view('login', 'website.login');
 // Route::view('wishlist', 'website.wishlist');
-Route::view('cat_product', 'website.cat_product');
-Route::view('daily_deal', 'website.daily_deal');
+// Route::view('cat_product', 'website.cat_product');
+// Route::view('daily_deal', 'website.daily_deal');
 
 //  Website View End Here
 
@@ -38,10 +40,11 @@ Route::controller(CategoryController::class)->group(function () {
     Route::get('/search', 'search')->name('search');
 });
 Route::controller(UserController::class)->group(function () {
+    Route::get('register_login', 'index')->name('register_login');
     Route::post('/user-login', 'login')->name('user-login');
     Route::post('/signup', 'signUp')->name('signup');
     Route::get("/logout", 'logout')->name('logout');
-    Route::get('myaccount', 'myaccount')->name('myaccount');
+    Route::get('myaccount', 'myaccount')->name('myaccount')->middleware('session');
 });
 Route::controller(ProductController::class)->group(function () {
     Route::get('product-details/{slug}', 'productDetails')->name('product-details');
@@ -52,6 +55,13 @@ Route::get('daily-deals', [DailyDealController::class, 'dailyDeal'])->name('dail
 
 Route::controller(WishlistController::class)->group(function () {
     Route::post('/wishlist', 'store')->name('wishlist');
-    Route::get('view-wishlist', 'index')->name('view-wishlist');
+    Route::get('view-wishlist', 'index')->name('view-wishlist')->middleware('session');
     Route::delete('wishlist/{id}', 'destroy')->name('wishlist.destroy');
+});
+Route::controller(ContactController::class)->group(function () {
+    Route::get('contact-us', 'index')->name('contact-us');
+    Route::post('contact', 'store')->name('contact');
+});
+Route::controller(CartController::class)->group(function () {
+    Route::post('/cart', 'store')->name('cart')->middleware('session');
 });
