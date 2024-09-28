@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-lg-4 col-sm-6">
                     <div class="widget widget-about">
-                        <a href="{{url('index')}}" class="logo-footer">
+                        <a href="{{ url('index') }}" class="logo-footer">
                             <img src="assets/images/logo_footer.png" alt="logo-footer" width="144" height="45" />
                         </a>
                         <div class="widget-body">
@@ -75,7 +75,7 @@
                             <li><a href="cart.html">View Cart</a></li>
                             <li><a href="login.html">Sign In</a></li>
                             <li><a href="#">Help</a></li>
-                            <li><a href="{{  route('view-wishlist')  }}">My Wishlist</a></li>
+                            <li><a href="{{ route('view-wishlist') }}">My Wishlist</a></li>
                             <li><a href="#">Privacy Policy</a></li>
                         </ul>
                     </div>
@@ -190,7 +190,7 @@
 
 <!-- Start of Sticky Footer -->
 <div class="sticky-footer sticky-content fix-bottom">
-    <a href="{{url('index')}}" class="sticky-link active">
+    <a href="{{ url('index') }}" class="sticky-link active">
         <i class="w-icon-home"></i>
         <p>Home</p>
     </a>
@@ -299,71 +299,73 @@
     <a href="#" class="mobile-menu-close"><i class="close-icon"></i></a>
     <!-- End of .mobile-menu-close -->
 
- <div class="mobile-menu-container scrollable">
-    <form action="#" method="get" class="input-wrapper">
-        <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search" required />
-        <button class="btn btn-search" type="submit">
-            <i class="w-icon-search"></i>
-        </button>
-    </form>
-    <!-- End of Search Form -->
+    <div class="mobile-menu-container scrollable">
+        <form action="#" method="get" class="input-wrapper">
+            <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search"
+                required />
+            <button class="btn btn-search" type="submit">
+                <i class="w-icon-search"></i>
+            </button>
+        </form>
+        <!-- End of Search Form -->
 
-    <div class="tab">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-                <a href="#main-menu" class="nav-link active">Main Menu</a>
-            </li>
-            <li class="nav-item">
-                <a href="#categories" class="nav-link">Categories</a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="tab-content">
-        <div class="tab-pane active" id="main-menu">
-            <ul class="mobile-menu">
-                <li><a href="{{ url('index') }}">Home</a></li>
-                <li><a href="{{ route('products') }}">Products</a></li>
-                <li><a href="{{ route('daily-deals') }}">Daily Deals</a></li>
-            </ul>
-        </div>
-
-        <div class="tab-pane" id="categories">
-            <ul class="mobile-menu">
-                <?php $commonData = app('commonData'); ?>
-
-                @foreach ($commonData['parentCategoriesMega'] as $cat)
-                    <li>
-                        <a href="shop-fullwidth-banner.html">
-                            <i class="w-icon-tshirt2"></i>{{ $cat->name }}
-                        </a>
-                        <ul>
-                            @foreach ($cat['categories'] as $item)
-                                <li>
-                                    <a href="{{ url('category/' . $item->slug) }}">{{ $item->category_name }}</a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
-                @endforeach
-
-                @foreach ($commonData['parentCategoriesNormal'] as $cat)
-                    <li>
-                        <a href="shop-fullwidth-banner.html">
-                            <i class="w-icon-heartbeat"></i>{{ $cat->name }}
-                        </a>
-                    </li>
-                @endforeach
-
-                <li>
-                    <a href="shop-banner-sidebar.html" class="font-weight-bold text-primary text-uppercase ls-25">
-                        View All Categories<i class="w-icon-angle-right"></i>
-                    </a>
+        <div class="tab">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a href="#main-menu" class="nav-link active">Main Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#categories" class="nav-link">Categories</a>
                 </li>
             </ul>
         </div>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="main-menu">
+                <ul class="mobile-menu">
+                    <li><a href="{{ url('index') }}">Home</a></li>
+                    <li><a href="{{ route('products') }}">Products</a></li>
+                    <li><a href="{{ route('daily-deals') }}">Daily Deals</a></li>
+                </ul>
+            </div>
+
+            <div class="tab-pane" id="categories">
+                <ul class="mobile-menu">
+                    <?php $commonData = app('commonData'); ?>
+
+                    @foreach ($commonData['parentCategoriesMega'] as $cat)
+                        <li>
+                            <a href="#">
+                                <i class="w-icon-tshirt2"></i>{{ $cat->name }}
+                            </a>
+                            <ul>
+                                @foreach ($cat['categories'] as $item)
+                                    <li>
+                                        <a
+                                            href="{{ route('category.product', ['slug' => $item->slug]) }}">{{ $item->category_name }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
+
+                    @foreach ($commonData['parentCategoriesNormal'] as $cat)
+                        <li>
+                            <a href="shop-fullwidth-banner.html">
+                                <i class="w-icon-heartbeat"></i>{{ $cat->name }}
+                            </a>
+                        </li>
+                    @endforeach
+
+                    <li>
+                        <a href="shop-banner-sidebar.html" class="font-weight-bold text-primary text-uppercase ls-25">
+                            View All Categories<i class="w-icon-angle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-</div>
 
 </div>
 <!-- End of Mobile Menu -->
