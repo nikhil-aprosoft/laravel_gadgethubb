@@ -43,8 +43,8 @@
                 });
             })
             .catch(error => {
-                console.error("There was an error adding the product to the cart:", error);
-                alert("Failed to add to cart. Please try again.");
+                // console.error("There was an error adding the product to the cart:", error);
+                // alert("Failed to add to cart. Please try again.");
 
                 if (error.response) {
                     if (error.response.status === 401) {
