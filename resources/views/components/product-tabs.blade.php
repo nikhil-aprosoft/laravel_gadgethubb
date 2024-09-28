@@ -27,6 +27,9 @@
                 alert("Failed to add to wishlist. Please try again.");
             });
     }
+    function addToCart(){
+        console.log("console.log");
+    }
 </script>
 
 <!-- End of Tab -->
@@ -47,7 +50,7 @@
                                     @endif
                                 </a>
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
+                                    <a href="#" onclick="addToCart()" class="btn-product-icon btn-cart w-icon-cart"
                                         title="Add to cart"></a>
                                     <a href="#" onClick="wishList({{ json_encode($product) }})"
                                         class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
