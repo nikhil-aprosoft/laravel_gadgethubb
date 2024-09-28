@@ -33,7 +33,6 @@ Route::view('daily_deal', 'website.daily_deal');
 
 
 //  Website View End Here
-
 Route::controller(CategoryController::class)->group(function () {
     Route::get('index', 'index');
     Route::get('category/{slug}', 'showCategoryProducts')->name('category.product');   
