@@ -63,5 +63,5 @@ Route::controller(ContactController::class)->group(function () {
     Route::post('contact', 'store')->name('contact');
 });
 Route::controller(CartController::class)->group(function () {
-    Route::post('/cart', 'store')->name('cart')->middleware('session');
+    Route::post('/cart', 'store')->name('cart');
 });
