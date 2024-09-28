@@ -14,7 +14,7 @@ class CartController extends Controller
     {
         $user = session('user');
         if (!$user) {
-            return redirect('register_login');
+            return response()->json(['status' => 401]);
         }
         $validator = Validator::make($request->all(), [
             'product_id' => 'required|exists:products,product_id',

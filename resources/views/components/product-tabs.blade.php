@@ -30,7 +30,7 @@
 
     function addToCart(product) {
         const url = `{{ route('cart') }}`;
-
+        const loginUrl = `{{ route('register_login') }}`;
         axios.post(url, {
                 product_id: product.product_id,
                 quantity: 1
@@ -44,6 +44,13 @@
             .catch(error => {
                 console.error("There was an error adding the product to the cart:", error);
                 alert("Failed to add to cart. Please try again.");
+
+                if (error.response && error.response.status === 401) {
+
+                    window.location.href = loginUrl;
+                } else {
+                    alert("Failed to add to cart. Please try again.");
+                }
             });
     }
 </script>
