@@ -37,7 +37,7 @@
             })
             .then(response => {
                 if(response.status === 401){
-                    
+                    console.log("log hit");
                     window.location.href = loginUrl;
                 }
                 Swal.fire({
