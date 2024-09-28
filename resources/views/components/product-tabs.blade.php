@@ -78,7 +78,7 @@
                                     class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
                                     @else
                                     <a href="{{route('register_login')}}" 
-                                    class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+                                    class="btn-product-icon btn-cart w-icon-cart"></a>
                                     @endif
                                     <a href="#" onClick="wishList({{ json_encode($product) }})"
                                         class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
