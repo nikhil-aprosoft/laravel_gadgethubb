@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DailyDealController;
+use Illuminate\Support\Facades\Artisan;
 
 Route::prefix('products')->name('products.')->group(function () {
     Route::get('create', [ProductController::class, 'create'])->name('create');
@@ -26,3 +27,21 @@ Route::prefix('categories')->name('categories.')->group(function () {
 
 
 Route::resource('daily-deals', DailyDealController::class);
+
+
+Route::prefix('migrations')->name('migrations.')->group(function () {
+    Route::get('run', function () {
+        Artisan::call('migrate');
+        return back()->with('success', 'Migrations run successfully!');
+    })->name('run');
+
+    Route::get('rollback', function () {
+        Artisan::call('migrate:rollback');
+        return back()->with('success', 'Last migration batch rolled back successfully!');
+    })->name('rollback');
+
+    Route::get('refresh', function () {
+        Artisan::call('migrate:refresh');
+        return back()->with('success', 'Migrations refreshed successfully!');
+    })->name('refresh');
+});
