@@ -26,10 +26,11 @@ Route::get('/', function () {
 Route::view('index', 'website.index');
 Route::view('myaccount', 'website.myaccount')->name('myaccount')->middleware('auth');
 Route::view('cart','website.cart');
-//------------------------------- Nikhil Chages Start Here -------------------------------
+Route::view('login','website.login');
+Route::view('wishlist', 'website.wishlist');
 Route::view('cat_product', 'website.cat_product');
 Route::view('daily_deal', 'website.daily_deal');
-//------------------------------- Nikhil Chages End Here ---------------------------------
+
 
 //  Website View End Here
 
