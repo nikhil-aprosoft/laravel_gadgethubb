@@ -73,8 +73,10 @@
                                     @endif
                                 </a>
                                 <div class="product-action-vertical">
-                                    <a href="#" onclick="addToCart({{ json_encode($product) }})"
-                                        class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+                                @session('user')                                    
+                                <a href="#" onclick="addToCart({{ json_encode($product) }})"
+                                    class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+                                @endsession
                                     <a href="#" onClick="wishList({{ json_encode($product) }})"
                                         class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
                                     <a href="javascript:void(0)" id="show-user"
