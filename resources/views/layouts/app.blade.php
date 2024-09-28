@@ -10,6 +10,9 @@
     <x-head />
     <!-- You can include your stylesheets here -->
     <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}">
+    <!-- Add this line in your Blade template -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </head>
 
 <body>

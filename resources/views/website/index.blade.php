@@ -15,7 +15,7 @@
     <meta name="keywords" content="Marketplace ecommerce responsive HTML5 Template" />
     <meta name="description" content="Wolmart is powerful marketplace &amp; ecommerce responsive Html5 Template.">
     <meta name="author" content="D-THEMES">
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/icons/favicon.png">
     <!-- WebFont.js -->

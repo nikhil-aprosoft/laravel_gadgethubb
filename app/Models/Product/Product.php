@@ -67,6 +67,10 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class, 'product_id', 'product_id');
     }
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
     protected static function booted()
     {
         static::addGlobalScope(new ActiveScope);

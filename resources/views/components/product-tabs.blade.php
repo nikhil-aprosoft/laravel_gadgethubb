@@ -9,6 +9,26 @@
         @endforeach
     </ul>
 </div>
+<script>
+    function wishList(product) {
+        const url = '/wishlist';
+
+        axios.post(url, {
+                product_id: product.product_id
+            })
+            .then(response => {
+
+                Swal.fire({
+                    title: "Product added to wishlist",
+                    icon: "success"
+                });
+            })
+            .catch(error => {
+                console.error("There was an error adding the product to the wishlist:", error);
+                alert("Failed to add to wishlist. Please try again.");
+            });
+    }
+</script>
 <!-- End of Tab -->
 <div class="tab-content product-wrapper appear-animate">
     @foreach ($tabs as $index => $tab)
@@ -29,8 +49,8 @@
                                 <div class="product-action-vertical">
                                     <a href="#" class="btn-product-icon btn-cart w-icon-cart"
                                         title="Add to cart"></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="Add to wishlist"></a>
+                                    <a href="#" onClick="wishList({{ json_encode($product) }})"
+                                        class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
                                     <a href="javascript:void(0)" id="show-user"
                                         data-url="{{ route('quick-view', $product['slug']) }}"
                                         class="btn-product-icon btn-quickview w-icon-search">
@@ -261,9 +281,9 @@
                     } else {
                         $('#productSizeSwatch').hide();
                     }
-                    
+
                 },
-                
+
                 error: function() {
                     alert('Failed to fetch product details');
                 }

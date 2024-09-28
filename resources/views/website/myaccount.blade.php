@@ -136,7 +136,7 @@
                                 <a href="tel:#" class="phone-number font-weight-bolder ls-50">0(800)123-456</a>
                             </div>
                         </div>
-                        <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                        <a class="wishlist label-down link d-xs-show" href="{{  route('view-wishlist')  }}">
                             <i class="w-icon-heart"></i>
                             <span class="wishlist-label d-lg-show">Wishlist</span>
                         </a>
@@ -762,7 +762,7 @@
                                             <li><a href="faq.html">FAQs</a></li>
                                             <li><a href="error-404.html">Error 404</a></li>
                                             <li><a href="coming-soon.html">Coming Soon</a></li>
-                                            <li><a href="wishlist.html">Wishlist</a></li>
+                                            <li><a href="{{  route('view-wishlist')  }}">Wishlist</a></li>
                                             <li><a href="cart.html">Cart</a></li>
                                             <li><a href="checkout.html">Checkout</a></li>
                                             <li><a href="my-account.html">My Account</a></li>
@@ -846,7 +846,7 @@
                                 <a href="#account-details" class="nav-link">Account details</a>
                             </li>
                             <li class="link-item">
-                                <a href="wishlist.html">Wishlist</a>
+                                <a href="{{  route('view-wishlist')  }}">Wishlist</a>
                             </li>
                             <li class="link-item">
                                 <a href="login.html">Logout</a>
@@ -923,7 +923,7 @@
                                         </a>
                                     </div>
                                     <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                                        <a href="wishlist.html" class="link-to-tab">
+                                        <a href="{{  route('view-wishlist')  }}" class="link-to-tab">
                                             <div class="icon-box text-center">
                                                 <span class="icon-box-icon icon-wishlist">
                                                     <i class="w-icon-heart"></i>
@@ -1279,7 +1279,7 @@
                                     <li><a href="cart.html">View Cart</a></li>
                                     <li><a href="login.html">Sign In</a></li>
                                     <li><a href="#">Help</a></li>
-                                    <li><a href="wishlist.html">My Wishlist</a></li>
+                                    <li><a href="{{  route('view-wishlist')  }}">My Wishlist</a></li>
                                     <li><a href="#">Privacy Policy</a></li>
                                 </ul>
                             </div>
@@ -1649,7 +1649,7 @@
                                 <li><a href="faq.html">FAQs</a></li>
                                 <li><a href="error-404.html">Error 404</a></li>
                                 <li><a href="coming-soon.html">Coming Soon</a></li>
-                                <li><a href="wishlist.html">Wishlist</a></li>
+                                <li><a href="{{  route('view-wishlist')  }}">Wishlist</a></li>
                                 <li><a href="cart.html">Cart</a></li>
                                 <li><a href="checkout.html">Checkout</a></li>
                                 <li><a href="my-account.html">My Account</a></li>

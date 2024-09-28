@@ -15,7 +15,13 @@ return new class extends Migration
     {
         Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
+            $table->uuid('user_id');
+            $table->uuid('product_id');
             $table->timestamps();
+
+            // Foreign key constraints
+            $table->foreign('user_id')->references('userid')->on('users')->onDelete('cascade');
+            $table->foreign('product_id')->references('product_id')->on('products')->onDelete('cascade');
         });
     }
 

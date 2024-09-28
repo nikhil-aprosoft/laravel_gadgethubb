@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DailyDealController;
 
 /*
@@ -49,3 +50,10 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('products','mixProducts')->name('products');
 });
 Route::get('daily-deals',[DailyDealController::class,'dailyDeal'])->name('daily-deals');
+
+
+Route::controller(WishlistController::class)->group(function () {
+    Route::post('/wishlist', 'store')->name('wishlist');
+    Route::get('view-wishlist','index')->name('view-wishlist');
+    Route::delete('wishlist/{id}','destroy')->name('wishlist.destroy');
+});

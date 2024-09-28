@@ -28,6 +28,8 @@ class UserController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            session(['user' => auth()->user()]); // Replace with your actual key and value
+
             // return response()->json(['success' => 'Logged in successfully']);
             return redirect()->back()->with('status', 'Logged in successfully.')->with('status_type', 'success');
         }
@@ -58,6 +60,7 @@ class UserController extends Controller
             ]);
     
             Auth::login($user);
+            session(['user' => auth()->user()]);
             return redirect()->back()->with('status', 'Thank you for signing up! Your account has been created successfully.')->with('status_type', 'success');
         } catch (\Exception $e) {
             Log::error('Sign-up error: ' . $e->getMessage());
