@@ -37,3 +37,9 @@
 
 <!-- Default CSS -->
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.min.css') }}">
+
+<!-- Add this in the <head> section of your Blade template -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+

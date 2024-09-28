@@ -20,4 +20,12 @@ class ProductController extends Controller
             return view('website.product-details', compact('product', 'frequentlyBoughtProduct', 'latestProduct','relatedProducts'));
         }
     }
+    public function quickView($slug){
+        $product = Product::with('attributes.color', 'attributes.size')->where('slug','=',$slug)->first();
+         return response()->json($product, 200);       
+    }
+    public function mixProducts(){
+        $products = Product::latest()->limit(24)->get();
+        return view('website.products',compact('products'));   
+    }
 }

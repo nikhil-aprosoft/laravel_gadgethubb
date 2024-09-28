@@ -19,16 +19,17 @@ $(document).ready(function() {
             },
             dataType: 'JSON',
             success: function(response) {
+                console.log(response)
                 $('#search-results').empty();
                 if (response.data && response.data.length) {
                     $('#search-results').show();
                     response.data.forEach(product => {
                         $('#search-results').append(
                             `<div class="search-item">
-                                <a href="/product/${product.product_id}" class="search-item-link">                                                  
+                                <a href="/product-details/${product.slug}" class="search-item-link">                                                  
                                     <div class="search-item-details">
                                         <h4 class="search-item-title">${product.product_name}</h4>
-                                        <p class="search-item-price">$${product.price}</p>
+                                        <p class="search-item-price">${product.price}</p>
                                     </div>
                                 </a>
                             </div>`

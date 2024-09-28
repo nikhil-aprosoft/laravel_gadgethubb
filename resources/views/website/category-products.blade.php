@@ -31,7 +31,7 @@
                     <ul class="breadcrumb bb-no">
                         <li><a href="{{ url('index') }}">Home</a></li>
                         <li><a href="shop-banner-sidebar.html">Shop</a></li>
-                        <li>Fullwidth</li>
+                        
                     </ul>
                 </div>
             </nav>

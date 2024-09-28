@@ -25,7 +25,7 @@ class CategoryController extends Controller
         $dailyDeals = DailyDeal::With('product.attributes')->latest()->get();
         $bestSeller = $this->bestSeller();
         $newArrival = Product::latest()->limit(10)->get();
-        $shoesSection = Product::where('category_id', '=', "1449b012-f7d7-4004-a08f-aa227390bed3")->limit(8)->get();
+        $shoesSection = Product::where('category_id', '=', "841922dd-11b7-460f-95ff-2f3b0dc2de2a")->limit(8)->get();
         return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners', 'bestSeller', 'dailyDeals', 'newArrival', 'shoesSection'));
     }
     public function banners()
@@ -64,10 +64,11 @@ class CategoryController extends Controller
 
         $formattedProducts = $products->map(function ($product) {
             return [
+                'slug'=>$product->slug,
                 'product_id' => $product->product_id,
                 'product_name' => $product->product_name,
                 'price' => $product->price,
-                'images' => json_decode($product->images),
+                'images' => $product->thumbnail,
                 'description' => $product->description,
             ];
         });

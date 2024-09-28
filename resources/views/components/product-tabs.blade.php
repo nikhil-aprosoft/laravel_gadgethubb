@@ -31,8 +31,11 @@
                                         title="Add to cart"></a>
                                     <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
                                         title="Add to wishlist"></a>
-                                    <a href="#" class="btn-product-icon btn-quickview w-icon-search"
-                                        title="Quickview" data-product="{{ json_encode($product) }}"></a>
+                                    <a href="javascript:void(0)" id="show-user"
+                                        data-url="{{ route('quick-view', $product['slug']) }}"
+                                        class="btn-product-icon btn-quickview w-icon-search">
+                                    </a>
+
                                     <!-- <a href="#" class="btn-product-icon btn-compare w-icon-compare" title="Add to Compare"></a> -->
                                 </div>
                             </figure>
@@ -57,28 +60,215 @@
             </div>
         </div>
         <!-- End of Tab Pane -->
-        <!-- Placeholder for dynamic component content -->
-        <div id="quick-view-placeholder"></div>
-
-        <!-- Hidden Blade components for each product -->
-        @foreach ($tab['products'] as $item)
-            <x-quick-view :product="$item" id="quick-view-{{ $item['product_id'] }}" style="display: none;" />
-        @endforeach
-
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-        <script>
-            $(document).ready(function() {
-                $('.btn-quickview').on('click', function(e) {
-                    e.preventDefault();
-                    var productData = $(this).data('product');
-                    var productId = productData.id; // Ensure each product has a unique ID
-
-                    // Find the hidden component and show it
-                    var quickViewHtml = $(`#quick-view-${productId}`).html();
-                    $('#quick-view-placeholder').html(quickViewHtml).show();
-                });
-            });
-        </script>
     @endforeach
 </div>
+
+
+<div class="product product-single product-popup">
+    <div class="row gutter-lg">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="product-gallery product-gallery-sticky">
+                <div class="swiper-container product-single-swiper swiper-theme nav-inner">
+                    <div class="swiper-wrapper row cols-1 gutter-no" id="productImages">
+
+
+                    </div>
+                    <button class="swiper-button-next"></button>
+                    <button class="swiper-button-prev"></button>
+                </div>
+                <div class="product-thumbs-wrap swiper-container"
+                    data-swiper-options="{
+                        'navigation': {
+                            'nextEl': '.swiper-button-next',
+                            'prevEl': '.swiper-button-prev'
+                        }
+                    }">
+                    <div class="product-thumbs swiper-wrapper row cols-4 gutter-sm" id="thumbImages">
+                        <!-- Thumbnail slides will be injected here -->
+                    </div>
+                    <button class="swiper-button-next"></button>
+                    <button class="swiper-button-prev"></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 overflow-hidden p-relative">
+            <div class="product-details scrollable pl-0">
+                <h2 class="product-title" id="productName"></h2>
+                <div class="product-bm-wrapper">
+                    <figure class="brand">
+                        <img src="assets/images/products/brand/brand-1.jpg" alt="Brand" width="102"
+                            height="48" />
+                    </figure>
+                    <div class="product-meta">
+                        <div class="product-categories">
+                            Category:
+                            <span class="product-category"><a id="productCategory"></a></span>
+                        </div>
+                        <div class="product-sku">
+                            SKU: <span id="sku"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ratings-container">
+                    <div class="ratings-full">
+                        <span class="ratings" style="width: 80%;"></span>
+                        <span class="tooltiptext tooltip-top"></span>
+                    </div>
+                    <a href="#" class="rating-reviews">(3 Reviews)</a>
+                </div>
+                <hr class="product-divider">
+
+                <div class="product-short-desc" id="productShortDesc">
+                    <!-- Short description will be updated here -->
+                </div>
+
+                <!-- Color Swatch -->
+                <div class="product-form product-variation-form product-color-swatch" id="productColorSwatch">
+                    <label>Color:</label>
+                    <div class="d-flex align-items-center product-variations" id="colorVariations">
+                        <!-- Colors will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Size Swatch -->
+                <div class="product-form product-variation-form product-size-swatch" id="productSizeSwatch">
+                    <label class="mb-1">Size:</label>
+                    <div class="flex-wrap d-flex align-items-center product-variations" id="sizeVariations">
+                        <!-- Sizes will be inserted here -->
+                    </div>
+                    <a href="#" class="product-variation-clean" id="cleanSizeSwatch">Clean All</a>
+                </div>
+
+                <div class="product-form">
+                    <div class="product-qty-form">
+                        <div class="input-group">
+                            <input class="quantity form-control" type="number" min="1" max="10000000">
+                            <button class="quantity-plus w-icon-plus"></button>
+                            <button class="quantity-minus w-icon-minus"></button>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-cart">
+                        <i class="w-icon-cart"></i>
+                        <span>Add to Cart</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('body').on('click', '#show-user', function() {
+            var userURL = $(this).data('url');
+
+            $.ajax({
+                url: userURL,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Update basic product details
+                    $('#productName').text(data.product_name || 'N/A');
+                    $('#productCategory').text(data.category ? data.category.category_name :
+                        'N/A');
+                    $('#sku').text(data.sku || 'N/A');
+                    $('#productPrice').text(data.price || 'N/A');
+
+                    // Process images
+                    var images = data.images || [];
+                    var popImages = data.pop_images || [];
+
+                    var imagesHtml = '';
+                    var productThumbHtml = '';
+
+                    for (var i = 0; i < images.length; i++) {
+                        imagesHtml +=
+                            '<div class="swiper-slide">' +
+                            '<figure class="product-image">' +
+                            '<img src="' + images[i] + '" ' +
+                            'data-zoom-image="' + (popImages[i] || '') + '" ' +
+                            'alt="Product image" width="800" height="900">' +
+                            '</figure>' +
+                            '</div>';
+
+                        // Generate thumbnail HTML
+                        if (popImages[i]) {
+                            productThumbHtml +=
+                                '<div class="product-thumb swiper-slide swiper-slide-visible" style="width: 91.25px; margin-right: 10px;">' +
+                                '<img src="' + popImages[i] +
+                                '" alt="Product Thumb" width="103" height="116">' +
+                                '</div>';
+                        }
+                    }
+
+                    // Inject generated HTML into the swiper container
+                    $('#productImages').html(imagesHtml);
+                    $('#thumbImages').html(productThumbHtml);
+
+                    // Update short description
+                    var shortDescList = '';
+                    if (data.short_desc) {
+                        var descriptions = data.short_desc.split('|');
+                        descriptions.forEach(function(desc) {
+                            if (desc.trim()) {
+                                shortDescList += '<li>' + desc.trim() + '</li>';
+                            }
+                        });
+                    }
+                    $('#productShortDesc').html(
+                        '<ul class="list-type-check list-style-none">' + shortDescList +
+                        '</ul>'
+                    );
+
+                    // Update color swatches
+                    var colorSwatches = '';
+                    var hasColor = false;
+                    if (data.attributes) {
+                        data.attributes.forEach(function(attribute) {
+                            if (attribute.color && attribute.color.hex_value) {
+                                hasColor = true;
+                                colorSwatches +=
+                                    '<a href="#" class="color" style="background-color: ' +
+                                    attribute.color.hex_value +
+                                    '; display: inline-block; width: 30px; height: 29px;" title="' +
+                                    attribute.color.name + '"></a>';
+                            }
+                        });
+                    }
+                    if (hasColor) {
+                        $('#productColorSwatch').show();
+                        $('#colorVariations').html(colorSwatches);
+                    } else {
+                        $('#productColorSwatch').hide();
+                    }
+
+                    // Update size swatches
+                    var sizeSwatches = '';
+                    var hasSize = false;
+                    if (data.attributes) {
+                        data.attributes.forEach(function(attribute) {
+                            if (attribute.size && attribute.size.size) {
+                                hasSize = true;
+                                sizeSwatches += '<a href="#" class="size">' +
+                                    attribute.size.size + '</a>';
+                            }
+                        });
+                    }
+                    if (hasSize) {
+                        $('#productSizeSwatch').show();
+                        $('#sizeVariations').html(sizeSwatches);
+                    } else {
+                        $('#productSizeSwatch').hide();
+                    }
+                    
+                },
+                
+                error: function() {
+                    alert('Failed to fetch product details');
+                }
+            });
+        });
+    });
+</script>
+<script></script>

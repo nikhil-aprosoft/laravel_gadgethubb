@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DailyDealController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +24,10 @@ Route::get('/', function () {
     return view('website.index');
 });
 Route::view('index', 'website.index');
-Route::view('login', 'website.login');
+Route::view('myaccount', 'website.myaccount')->name('myaccount')->middleware('auth');
 Route::view('cart','website.cart');
 //------------------------------- Nikhil Chages Start Here -------------------------------
 Route::view('cat_product', 'website.cat_product');
-Route::view('product_detail', 'website.product_detail');
 Route::view('daily_deal', 'website.daily_deal');
 //------------------------------- Nikhil Chages End Here ---------------------------------
 
@@ -39,9 +39,12 @@ Route::controller(CategoryController::class)->group(function () {
     Route::get('/search', 'search')->name('search');
 });
 Route::controller(UserController::class)->group(function () {
-    Route::post('/login', 'login')->name('login');
+    Route::post('/user-login', 'login')->name('user-login');
     Route::post('/signup', 'signUp')->name('signup');
 });
 Route::controller(ProductController::class)->group(function () {
     Route::get('product-details/{slug}', 'productDetails')->name('product-details');
+    Route::get('quick-view/{slug}','quickView')->name('quick-view');
+    Route::get('products','mixProducts')->name('products');
 });
+Route::get('daily-deals',[DailyDealController::class,'dailyDeal'])->name('daily-deals');
