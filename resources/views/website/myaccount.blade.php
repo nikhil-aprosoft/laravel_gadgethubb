@@ -103,7 +103,7 @@
                     <div class="header-left mr-md-4">
                         <a href="#" class="mobile-menu-toggle  w-icon-hamburger" aria-label="menu-toggle">
                         </a>
-                        <a href="demo1.html" class="logo ml-lg-0">
+                        <a href="{{url('index')}}" class="logo ml-lg-0">
                             <img src="assets/images/logo.png" alt="logo" width="144" height="45" />
                         </a>
                         <form method="get" action="#" class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
@@ -623,7 +623,7 @@
                             <nav class="main-nav">
                                 <ul class="menu active-underline">
                                     <li>
-                                        <a href="demo1.html">Home</a>
+                                        <a href="{{url('index')}}">Home</a>
                                     </li>
                                     <li>
                                         <a href="shop-banner-sidebar.html">Shop</a>
@@ -818,7 +818,7 @@
             <nav class="breadcrumb-nav">
                 <div class="container">
                     <ul class="breadcrumb">
-                        <li><a href="demo1.html">Home</a></li>
+                        <li><a href="{{url('index')}}">Home</a></li>
                         <li>My account</li>
                     </ul>
                 </div>
@@ -1237,7 +1237,7 @@
                     <div class="row">
                         <div class="col-lg-4 col-sm-6">
                             <div class="widget widget-about">
-                                <a href="demo1.html" class="logo-footer">
+                                <a href="{{url('index')}}" class="logo-footer">
                                     <img src="assets/images/logo_footer.png" alt="logo-footer" width="144"
                                         height="45" />
                                 </a>
@@ -1394,7 +1394,7 @@
 
     <!-- Start of Sticky Footer -->
     <div class="sticky-footer sticky-content fix-bottom">
-        <a href="demo1.html" class="sticky-link active">
+        <a href="{{url('index')}}" class="sticky-link active">
             <i class="w-icon-home"></i>
             <p>Home</p>
         </a>
@@ -1521,7 +1521,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="main-menu">
                     <ul class="mobile-menu">
-                        <li><a href="demo1.html">Home</a></li>
+                        <li><a href="{{url('index')}}">Home</a></li>
                         <li>
                             <a href="shop-banner-sidebar.html">Shop</a>
                             <ul>

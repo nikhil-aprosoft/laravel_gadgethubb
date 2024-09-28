@@ -9,7 +9,7 @@
                 <span class="divider d-lg-show"></span>
                 <a href="contact-us.html" class="d-lg-show">Contact Us</a>
                 <a href="{{ route('myaccount') }}" class="d-lg-show">My Account</a>
-                <a href="{{ route('user-login') }}" class="d-lg-show login sign-in"><i class="w-icon-account"></i>Sign
+                <a href="{{ url('login') }}" class="d-lg-show login sign-in"><i class="w-icon-account"></i>Sign
                     In</a>
                 <span class="delimiter d-lg-show">/</span>
                 <a href="{{ route('user-login') }}" class="ml-0 d-lg-show login register">Register</a>
@@ -52,7 +52,11 @@
             <div class="header-right ml-4">
                 <div class="header-call d-xs-show d-lg-flex align-items-center">
                     <a href="tel:#" class="w-icon-call"></a>
-                    <div class="call-info d-lg-show">                   
+                    <div class="call-info d-lg-show">    
+                    <h4 class="chat font-weight-normal font-size-md text-normal ls-normal text-light mb-0">
+                            <a href="https://portotheme.com/cdn-cgi/l/email-protection#3a19"
+                                class="text-capitalize">Call now</a> 
+                        </h4>               
                         <a href="tel:+91 8699643223" class="phone-number font-weight-bolder ls-50">+91 8699643223</a>
                     </div>
                 </div>
