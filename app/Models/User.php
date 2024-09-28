@@ -44,4 +44,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Wishlist::class);
     }
+    public function recentViews()
+    {
+        return $this->hasMany(RecentView::class);
+    }
 }

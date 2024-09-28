@@ -6,11 +6,10 @@ use App\Models\Banner\Banner;
 use App\Models\Banner\Featurewallpaper;
 use App\Models\Category;
 use App\Models\DailyDeal;
-use App\Models\Order\Order;
 use App\Models\ParentCategory;
 use App\Models\Product\Product;
+use App\Models\RecentView;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -26,7 +25,9 @@ class CategoryController extends Controller
         $bestSeller = $this->bestSeller();
         $newArrival = Product::latest()->limit(10)->get();
         $shoesSection = Product::where('category_id', '=', "841922dd-11b7-460f-95ff-2f3b0dc2de2a")->limit(8)->get();
-        return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners', 'bestSeller', 'dailyDeals', 'newArrival', 'shoesSection'));
+        $recentViews = $this->getRecentViews();
+        return view('website.index', compact('categories', 'parentCategoriesMega', 'parentCategoriesNormal', 'banners', 'featureBanners', 'bestSeller', 'dailyDeals', 'newArrival', 'shoesSection', 'recentViews'));
+
     }
     public function banners()
     {
@@ -43,10 +44,23 @@ class CategoryController extends Controller
         //     ->get();
         // if ($buyProductLists) {
 
-            return Product::
-                limit(10)
-                ->get();
+        return Product::
+            limit(10)
+            ->get();
         // }
+    }
+    public function getRecentViews()
+    {
+        $user = session('user');
+        if ($user) {
+            return RecentView::where('user_id', $user->userid)
+                ->with('product') // Assuming a relationship exists
+                ->orderBy('viewed_at', 'desc')
+                ->take(10) // Limit to the most recent 10
+                ->get();
+        }
+
+        return collect(); // Return an empty collection if not logged in
     }
     public function search(Request $request)
     {
@@ -64,7 +78,7 @@ class CategoryController extends Controller
 
         $formattedProducts = $products->map(function ($product) {
             return [
-                'slug'=>$product->slug,
+                'slug' => $product->slug,
                 'product_id' => $product->product_id,
                 'product_name' => $product->product_name,
                 'price' => $product->price,
@@ -83,7 +97,7 @@ class CategoryController extends Controller
 
         if ($category) {
 
-                 $products = Product::with('attributes.color', 'attributes.size')
+            $products = Product::with('attributes.color', 'attributes.size')
                 ->where('category_id', $category->category_id)
                 ->limit(20)
                 ->get();

@@ -2,7 +2,7 @@
 <html lang="en">
 
 
-<!-- Mirrored from portotheme.com/html/wolmart/{{url('index')}} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:50:42 GMT -->
+<!-- Mirrored from portotheme.com/html/wolmart/{{ url('index') }} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:50:42 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
@@ -55,16 +55,16 @@
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.min.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-<!-- Add this in the <head> section of your Blade template -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Add this in the <head> section of your Blade template -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
 <body class="home">
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             var status = @json(session('status'));
             var statusType = @json(session('status_type'));
 
@@ -277,7 +277,7 @@
                     <div class="col-md-6 mb-4">
                         <div class="banner banner-fixed br-xs">
                             <figure>
-                                <img src="{{asset('assets/images/short_banner/1.png')}}" alt="Category Banner"
+                                <img src="{{ asset('assets/images/short_banner/1.png') }}" alt="Category Banner"
                                     width="610" height="160" style="background-color: #ecedec;" />
                             </figure>
                             {{-- <div class="banner-content y-50 mt-0">
@@ -296,7 +296,7 @@
                     <div class="col-md-6 mb-4">
                         <div class="banner banner-fixed br-xs">
                             <figure>
-                                <img src="{{asset('assets/images/short_banner/2.png')}}" alt="Category Banner"
+                                <img src="{{ asset('assets/images/short_banner/2.png') }}" alt="Category Banner"
                                     width="610" height="160" style="background-color: #636363;" />
                             </figure>
                             {{-- <div class="banner-content y-50 mt-0">
@@ -358,7 +358,9 @@
                                                                 <button class="swiper-button-next"></button>
                                                                 <button class="swiper-button-prev"></button>
                                                                 <div class="product-label-group">
-                                                                    <label class="product-label label-discount">{{$dailyDeal->discount_amount}}% off</label>
+                                                                    <label
+                                                                        class="product-label label-discount">{{ $dailyDeal->discount_amount }}%
+                                                                        off</label>
                                                                 </div>
                                                             </div>
                                                             <div class="product-thumbs-wrap swiper-container"
@@ -430,7 +432,7 @@
                                                                             isset($attribute['color']) &&
                                                                             !empty($attribute['color'])
                                                                         ) {
-                                                                            \Log::alert("message");
+                                                                            \Log::alert('message');
                                                                             $hasColor = true;
                                                                         }
 
@@ -569,8 +571,9 @@
                                                         <div class="product-widget-wrap">
                                                             <div class="product product-widget bb-no">
                                                                 <figure class="product-media">
-                                                                    <a href="{{ route('product-details', ['slug' => $bS->slug]) }}">
-                                                                        <img src="{{$bS->thumbnail}}"
+                                                                    <a
+                                                                        href="{{ route('product-details', ['slug' => $bS->slug]) }}">
+                                                                        <img src="{{ $bS->thumbnail }}"
                                                                             alt="Product" width="105"
                                                                             height="118" />
                                                                     </a>
@@ -675,7 +678,9 @@
         <x-shoes-section :data="$shoesSection" />
 
 
-        <x-recent-product-view />
+        <!-- Example usage in a Blade view -->
+        <x-recent-product-view :recentViews="$recentViews" />
+
     </div>
 
     </div>
@@ -705,6 +710,6 @@
 </body>
 
 
-<!-- Mirrored from portotheme.com/html/wolmart/{{url('index')}} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:52:46 GMT -->
+<!-- Mirrored from portotheme.com/html/wolmart/{{ url('index') }} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:52:46 GMT -->
 
 </html>

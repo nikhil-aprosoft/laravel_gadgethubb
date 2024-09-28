@@ -71,6 +71,10 @@ class Product extends Model
     {
         return $this->hasMany(Wishlist::class);
     }
+    public function recentViews()
+    {
+        return $this->hasMany(RecentView::class);
+    }
     protected static function booted()
     {
         static::addGlobalScope(new ActiveScope);

@@ -11,12 +11,12 @@ class RecentProductView extends Component
      *
      * @return void
      */
+    public $recentViews;
     
-    public function __construct()
+    public function __construct($recentViews)
     {
-        //
+        $this->recentViews = $recentViews;
     }
-
     /**
      * Get the view / contents that represent the component.
      *
