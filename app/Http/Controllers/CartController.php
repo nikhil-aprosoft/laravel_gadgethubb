@@ -44,7 +44,7 @@ class CartController extends Controller
                 'user_id' => $user->userid,
                 'product_id' => $request->product_id,
                 'quantity' => $request->quantity,
-                'price' => Product::find($request->product_id)->price,
+                'price' => \DB::table('products')->where('product_id',$request->product_id)->first()->price,
             ]);
         }
     }
