@@ -14,7 +14,9 @@ class CartController extends Controller
     {
         $user = session('user');
         if (!$user) {
-            return response()->json(['status' => 401]);
+            return response()->json([
+                'error' => 'Unauthorized'
+            ], 401);
         }
         $validator = Validator::make($request->all(), [
             'product_id' => 'required|exists:products,product_id',
