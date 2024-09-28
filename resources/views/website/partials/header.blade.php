@@ -1,226 +1,3 @@
-{{-- <header class="header">
-    <div class="header-top">
-
-    </div>
-
-    <div class="header-middle">
-        <div class="container">
-            <div class="header-left mr-md-4">
-                <a href="#" class="mobile-menu-toggle  w-icon-hamburger" aria-label="menu-toggle">
-                </a>
-                <a href="index" class="logo ml-lg-0">
-                    <img src="assets/images/logo.png" alt="logo" width="144" height="45" />
-                </a>
-                <form class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
-                    <div class="select-box">
-                        <select id="category" name="category">
-                            <option value="">All Categories</option>
-                            <?php
-$commonData = app('commonData');
-$categories = $commonData['categories'];
-?>
-                            @foreach ($categories as $cat)
-                                <option value="{{ $cat->category_id }}">{{ $cat->category_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <script>
-                        var searchRoute = "{{ route('search') }}"; // Replace 'search.route' with your route name
-                    </script>
-                    <input type="text" class="form-control" name="search" id="search" placeholder="Search in..."
-                        required />
-                    <button class="btn btn-search" type="submit"><i class="w-icon-search"></i>
-                    </button>
-                </form>
-                <div id="search-results"></div>
-            </div>
-            <div class="header-right ml-4">
-                <div class="header-call d-xs-show d-lg-flex align-items-center">
-                    <a href="tel:#" class="w-icon-call"></a>
-                    <div class="call-info d-lg-show">
-                        <h4 class="chat font-weight-normal font-size-md text-normal ls-normal text-light mb-0">
-                            <a href="https://portotheme.com/cdn-cgi/l/email-protection#1132"
-                                class="text-capitalize">Live Chat</a> or :
-                        </h4>
-                        <a href="tel:#" class="phone-number font-weight-bolder ls-50">0(800)123-456</a>
-                    </div>
-                </div>
-                <a class="wishlist label-down link d-xs-show" href="wishlist.html">
-                    <i class="w-icon-heart"></i>
-                    <span class="wishlist-label d-lg-show">Wishlist</span>
-                </a>
-                <a class="compare label-down link d-xs-show" href="compare.html">
-                    <i class="w-icon-compare"></i>
-                    <span class="compare-label d-lg-show">Compare</span>
-                </a>
-                <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
-                    <div class="cart-overlay"></div>
-                    <a href="#" class="cart-toggle label-down link">
-                        <i class="w-icon-cart">
-                            <span class="cart-count">2</span>
-                        </i>
-                        <span class="cart-label">Cart</span>
-                    </a>
-                    <div class="dropdown-box">
-                        <div class="cart-header">
-                            <span>Shopping Cart</span>
-                            <a href="#" class="btn-close">Close<i class="w-icon-long-arrow-right"></i></a>
-                        </div>
-
-                        <div class="products">
-                            <div class="product product-cart">
-                                <div class="product-detail">
-                                    <a href="product-default.html" class="product-name">Beige knitted
-                                        elas<br>tic
-                                        runner shoes</a>
-                                    <div class="price-box">
-                                        <span class="product-quantity">1</span>
-                                        <span class="product-price">$25.68</span>
-                                    </div>
-                                </div>
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/cart/product-1.jpg" alt="product" height="84"
-                                            width="94" />
-                                    </a>
-                                </figure>
-                                <button class="btn btn-link btn-close" aria-label="button">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-
-                            <div class="product product-cart">
-                                <div class="product-detail">
-                                    <a href="product-default.html" class="product-name">Blue utility
-                                        pina<br>fore
-                                        denim dress</a>
-                                    <div class="price-box">
-                                        <span class="product-quantity">1</span>
-                                        <span class="product-price">$32.99</span>
-                                    </div>
-                                </div>
-                                <figure class="product-media">
-                                    <a href="product-default.html">
-                                        <img src="assets/images/cart/product-2.jpg" alt="product" width="84"
-                                            height="94" />
-                                    </a>
-                                </figure>
-                                <button class="btn btn-link btn-close" aria-label="button">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="cart-total">
-                            <label>Subtotal:</label>
-                            <span class="price">$58.67</span>
-                        </div>
-
-                        <div class="cart-action">
-                            <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                            <a href="checkout.html" class="btn btn-primary  btn-rounded">Checkout</a>
-                        </div>
-                    </div>
-                    <!-- End of Dropdown Box -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End of Header Middle -->
-
-    <div class="header-bottom sticky-content fix-top sticky-header has-dropdown">
-        <div class="container">
-            <div class="inner-wrap">
-                <div class="header-left">
-                    <div class="dropdown category-dropdown has-border" data-visible="true">
-                        <a href="#" class="category-toggle text-dark" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="true" data-display="static"
-                            title="Browse Categories">
-                            <i class="w-icon-category"></i>
-                            <span>Browse Categories</span>
-                        </a>
-
-                        <div class="dropdown-box">
-                            <ul class="menu vertical-menu category-menu">
-                                @foreach ($commonData['parentCategoriesMega'] as $item)
-                                    <li>
-                                        <a href="shop-fullwidth-banner.html">
-                                            <i class="w-icon-tshirt2"></i>{{ $item->name }}
-                                        </a>
-                                        <ul class="megamenu">
-                                            <li>
-                                                <ul>
-                                                    @foreach ($item['categories'] as $cat)
-                                                        <li>
-                                                            <a
-                                                                href="{{ route('category.show', ['slug' => $cat->slug]) }}">{{ $cat->category_name }}</a>
-                                                        </li>
-                                                    @endforeach
-
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                @endforeach
-                                @foreach ($commonData['parentCategoriesNormal'] as $parentCat)
-                                    <li>
-
-                                        <a href="">
-                                            <i class="w-icon-heartbeat"></i>{{ $parentCat->name }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                                <li>
-                                    <a href="{{ url('category') }}"
-                                        class="font-weight-bold text-primary text-uppercase ls-25">
-                                        View All Categories<i class="w-icon-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <nav class="main-nav">
-                        <ul class="menu active-underline">
-                            <li class="active">
-                                <a href="{{ url('index') }}">Home</a>
-                            </li>
-                            <li class="">
-                                <a href="{{route('products') }}">Products</a>
-                            </li>
-                            <li class="">
-                                <a href="{{route('daily-deals') }}">Daily-Deals</a>
-                            </li>
-                            <!-- <li>
-                                <a href="about-us.html">Pages</a>
-                                <ul>
-                                    <li><a href="about-us.html">About Us</a></li>
-                                    <li><a href="become-a-vendor.html">Become A Vendor</a></li>
-                                    <li><a href="contact-us.html">Contact Us</a></li>
-                                    <li><a href="faq.html">FAQs</a></li>
-                                    <li><a href="error-404.html">Error 404</a></li>
-                                    <li><a href="coming-soon.html">Coming Soon</a></li>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="my-account.html">My Account</a></li>
-                                    <li><a href="compare.html">Compare</a></li>
-                                </ul>
-                            </li> -->
-                           
-                        </ul>
-                    </nav>
-                </div>
-                <div class="header-right">
-                    <a href="#" class="d-xl-show"><i class="w-icon-map-marker mr-1"></i>Track Order</a>
-                    <a href="#"><i class="w-icon-sale"></i>Daily Deals</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- End of Header --> --}}
-
-
 <!-- Start of Header -->
 <header class="header header-border">
     <div class="header-top">
@@ -231,11 +8,11 @@ $categories = $commonData['categories'];
             <div class="header-right">
                 <span class="divider d-lg-show"></span>
                 <a href="contact-us.html" class="d-lg-show">Contact Us</a>
-                <a href="{{route('myaccount')}}" class="d-lg-show">My Account</a>
-                <a href="{{route('user-login')}}" class="d-lg-show login sign-in"><i class="w-icon-account"></i>Sign
+                <a href="{{ route('myaccount') }}" class="d-lg-show">My Account</a>
+                <a href="{{ route('user-login') }}" class="d-lg-show login sign-in"><i class="w-icon-account"></i>Sign
                     In</a>
                 <span class="delimiter d-lg-show">/</span>
-                <a href="{{route('user-login')}}" class="ml-0 d-lg-show login register">Register</a>
+                <a href="{{ route('user-login') }}" class="ml-0 d-lg-show login register">Register</a>
             </div>
         </div>
     </div>
@@ -254,9 +31,9 @@ $categories = $commonData['categories'];
                         <select id="category" name="category">
                             <option value="">All Categories</option>
                             <?php
-$commonData = app('commonData');
-$categories = $commonData['categories'];
-?>
+                            $commonData = app('commonData');
+                            $categories = $commonData['categories'];
+                            ?>
                             @foreach ($categories as $cat)
                                 <option value="{{ $cat->category_id }}">{{ $cat->category_name }}</option>
                             @endforeach
@@ -378,37 +155,40 @@ $categories = $commonData['categories'];
                             <span>Browse Categories</span>
                         </a>
                         <?php
-$commonData = app('commonData');
-$categories = $commonData['categories'];
-?>
-                     <div class="dropdown-box">
-                        <ul class="menu vertical-menu category-menu">
-                            @foreach ($commonData['parentCategoriesMega'] as $item)
-                                @if(count($item['categories']) > 0) <!-- Check if there are categories to display -->
-                                    <li>
-                                        <a href="shop-fullwidth-banner.html">
-                                            <i class="w-icon-tshirt2"></i>{{ $item->name }}
-                                        </a>
-                                        <ul class="megamenu">
-                                            <li>
-                                                <ul>
-                                                    @foreach ($item['categories'] as $cat)
-                                                        @if($cat->category_name) <!-- Check if category name is present -->
-                                                            <li>
-                                                                <a href="{{ route('category.product', ['slug' => $cat->slug]) }}">
-                                                                    {{ $cat->category_name }}
-                                                                </a>
-                                                            </li>
-                                                        @endif
-                                                    @endforeach
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ul>
-                    </div>
+                        $commonData = app('commonData');
+                        $categories = $commonData['categories'];
+                        ?>
+                        <div class="dropdown-box">
+                            <ul class="menu vertical-menu category-menu">
+                                @foreach ($commonData['parentCategoriesMega'] as $item)
+                                    @if (count($item['categories']) > 0)
+                                        <!-- Check if there are categories to display -->
+                                        <li>
+                                            <a href="shop-fullwidth-banner.html">
+                                                <i class="w-icon-tshirt2"></i>{{ $item->name }}
+                                            </a>
+                                            <ul class="megamenu">
+                                                <li>
+                                                    <ul>
+                                                        @foreach ($item['categories'] as $cat)
+                                                            @if ($cat->category_name)
+                                                                <!-- Check if category name is present -->
+                                                                <li>
+                                                                    <a
+                                                                        href="{{ route('category.product', ['slug' => $cat->slug]) }}">
+                                                                        {{ $cat->category_name }}
+                                                                    </a>
+                                                                </li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
 
                     </div>
                     <nav class="main-nav">
@@ -417,7 +197,10 @@ $categories = $commonData['categories'];
                                 <a href="{{ url('index') }}">Home</a>
                             </li>
                             <li>
-                                <a href="{{route('products') }}">Products</a>
+                                <a href="{{ route('products') }}">Products</a>
+                            </li>
+                            <li class="">
+                                <a href="{{ route('daily-deals') }}">Daily-Deals</a>
                             </li>
                             <!-- <li class="active">
                                 <a href="shop-banner-sidebar.html">Shop</a>
