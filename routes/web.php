@@ -23,8 +23,8 @@ use Illuminate\Support\Facades\Route;
 //  Website View Start Here
 Route::get('/', function () {
     return view('website.index');
-});
-Route::get('/', [CategoryController::class, 'index']);
+})->name('home');
+Route::get('/', [CategoryController::class, 'index'])->name('home');
 Route::view('index', 'website.index');
 Route::view('cart', 'website.cart');
 Route::view('login', 'website.login');

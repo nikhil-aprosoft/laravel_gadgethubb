@@ -33,7 +33,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             session(['user' => auth()->user()]);
 
-            return redirect()->back()->with('status', 'Logged in successfully.')->with('status_type', 'success');
+            return redirect()->route('home')->with('status', 'Logged in successfully.')->with('status_type', 'success');
         }
         return redirect()->back()->with('status', 'The provided credentials do not match our records')->with('status_type', 'error');
         // return response()->json(['errors' => ['email' => 'The provided credentials do not match our records.']], 401);
@@ -63,7 +63,7 @@ class UserController extends Controller
 
             Auth::login($user);
             session(['user' => auth()->user()]);
-            return redirect()->back()->with('status', 'Thank you for signing up! Your account has been created successfully.')->with('status_type', 'success');
+            return redirect()->route('home')->with('status', 'Thank you for signing up! Your account has been created successfully.')->with('status_type', 'success');
         } catch (\Exception $e) {
             Log::error('Sign-up error: ' . $e->getMessage());
             return redirect()->back()->with('status', 'An error occurred during registration. Please try again.')->with('status_type', 'error');
