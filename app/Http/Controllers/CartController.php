@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\Product\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -15,7 +14,7 @@ class CartController extends Controller
         $user = session('user');
         if (!$user) {
             return response()->json([
-                'error' => 'Unauthorized'
+                'error' => 'Unauthorized',
             ], 401);
         }
         $validator = Validator::make($request->all(), [
@@ -44,7 +43,7 @@ class CartController extends Controller
                 'user_id' => $user->userid,
                 'product_id' => $request->product_id,
                 'quantity' => $request->quantity,
-                'price' => \DB::table('products')->where('product_id',$request->product_id)->first()->price,
+                'price' => \DB::table('products')->where('product_id', $request->product_id)->first()->price,
             ]);
         }
     }
@@ -54,12 +53,21 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $cartItem = Cart::findOrFail($cartId);
+        // Attempt to find the cart item
+        $cartItem = Cart::where('cart_id', $cartId)->first();
+
+        // Check if the cart item exists
+        if (!$cartItem) {
+            return redirect()->route('cart.index')->withErrors(['error' => 'Cart item not found.']);
+        }
+
+        // Update the quantity
         $cartItem->quantity = $request->quantity;
         $cartItem->save();
 
         return redirect()->route('cart.index')->with('success', 'Cart updated successfully!');
     }
+
     public function destroy($cartId)
     {
         $cartItem = Cart::findOrFail($cartId);

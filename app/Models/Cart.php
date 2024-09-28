@@ -10,10 +10,12 @@ class Cart extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cart_id','user_id','product_id','price'];
+    protected $table = 'carts';
+    protected $primaryKey = 'cart_id'; // Change this to your actual primary key
+    public $incrementing = false; // If your primary key is not auto-incrementing
+    protected $keyType = 'string'; // If your primary key is a UUID
     
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $fillable = ['cart_id', 'user_id', 'product_id', 'quantity', 'price'];
 
     public function user()
     {
