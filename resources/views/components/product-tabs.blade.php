@@ -27,8 +27,24 @@
                 alert("Failed to add to wishlist. Please try again.");
             });
     }
-    function addToCart(){
-        console.log("console.log");
+
+    function addToCart(product) {
+        const url = `{{ route('cart') }}`;
+
+        axios.post(url, {
+                product_id: product.product_id,
+                quantity: 1
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product added to cart",
+                    icon: "success"
+                });
+            })
+            .catch(error => {
+                console.error("There was an error adding the product to the cart:", error);
+                alert("Failed to add to cart. Please try again.");
+            });
     }
 </script>
 
@@ -50,8 +66,8 @@
                                     @endif
                                 </a>
                                 <div class="product-action-vertical">
-                                    <a href="#" onclick="addToCart()" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="Add to cart"></a>
+                                    <a href="#" onclick="addToCart({{ json_encode($product) }})"
+                                        class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
                                     <a href="#" onClick="wishList({{ json_encode($product) }})"
                                         class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
                                     <a href="javascript:void(0)" id="show-user"
