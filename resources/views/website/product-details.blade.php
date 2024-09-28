@@ -245,7 +245,7 @@
                             <div class="frequently-bought-together mt-5">
                                 <h2 class="title title-underline">Frequently Bought Together</h2>
                                 <div class="bought-together-products row mt-8 pb-4">
-                                    @foreach ($frequentlyBoughtProduct as $fbp)                                      
+                                    @foreach ($frequentlyBoughtProduct as $fbp)
                                         <div class="product product-wrap text-center col-4">
                                             <figure class="product-media">
                                                 <img src="{{ $fbp['product']['thumbnail'] }}" alt="Product"
@@ -1072,41 +1072,46 @@
                                     }
                                 }">
                                     <div class="swiper-wrapper row cols-lg-3 cols-md-4 cols-sm-3 cols-2">
-                                     @foreach ($relatedProducts as $item)                                         
-                                     <div class="swiper-slide product">
-                                         <figure class="product-media">
-                                             <a href="{{ url('product-details/'.$item->slug) }}">
-                                                 <img src="{{ $item->thumbnail }}"
-                                                     alt="Product" width="300" height="338" />
-                                             </a>
-                                             <div class="product-action-vertical">
-                                                 <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                                     title="Add to cart"></a>
-                                                 <a href="#"
-                                                     class="btn-product-icon btn-wishlist w-icon-heart"
-                                                     title="Add to wishlist"></a>
-                                             </div>
-                                             <div class="product-action">
-                                                 <a href="{{url('product-details/'.$item->slug) }}" class="btn-product btn-quickview"
-                                                     title="Quick View">Product-Details</a>
-                                             </div>
-                                         </figure>
-                                         <div class="product-details">
-                                             <h4 class="product-name"><a href="{{ url('product-details/'.$item->slug) }}">Drone</a></h4>
-                                             <div class="ratings-container">
-                                                 <div class="ratings-full">
-                                                     <span class="ratings" style="width: 100%;"></span>
-                                                     <span class="tooltiptext tooltip-top"></span>
-                                                 </div>
-                                                 <a href="{{ url('product-details/'.$item->slug) }}" class="rating-reviews">(3
-                                                     reviews)</a>
-                                             </div>
-                                             <div class="product-pa-wrapper">
-                                                 <div class="product-price">{{$item->price}}</div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                     @endforeach
+                                        @foreach ($relatedProducts as $item)
+                                            <div class="swiper-slide product">
+                                                <figure class="product-media">
+                                                    <a href="{{ url('product-details/' . $item->slug) }}">
+                                                        <img src="{{ $item->thumbnail }}" alt="Product"
+                                                            width="300" height="338" />
+                                                    </a>
+                                                    <div class="product-action-vertical">
+                                                        <a href="#"
+                                                            class="btn-product-icon btn-cart w-icon-cart"
+                                                            title="Add to cart"></a>
+                                                        <a href="#"
+                                                            class="btn-product-icon btn-wishlist w-icon-heart"
+                                                            title="Add to wishlist"></a>
+                                                    </div>
+                                                    <div class="product-action">
+                                                        <a href="{{ url('product-details/' . $item->slug) }}"
+                                                            class="btn-product btn-quickview"
+                                                            title="Quick View">Product-Details</a>
+                                                    </div>
+                                                </figure>
+                                                <div class="product-details">
+                                                    <h4 class="product-name"><a
+                                                            href="{{ url('product-details/' . $item->slug) }}">{{ $item->product_name }}</a>
+                                                    </h4>
+                                                    <div class="ratings-container">
+                                                        <div class="ratings-full">
+                                                            <span class="ratings" style="width: 100%;"></span>
+                                                            <span class="tooltiptext tooltip-top"></span>
+                                                        </div>
+                                                        <a href="{{ url('product-details/' . $item->slug) }}"
+                                                            class="rating-reviews">(3
+                                                            reviews)</a>
+                                                    </div>
+                                                    <div class="product-pa-wrapper">
+                                                        <div class="product-price">{{ $item->price }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </section>
@@ -1256,4 +1261,5 @@
         <script src="{{ asset('assets/js/main.min.js') }}"></script>
 
 </body>
+
 </html>
