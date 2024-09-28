@@ -36,6 +36,10 @@
                 quantity: 1
             })
             .then(response => {
+                if(response.status === 401){
+                    
+                    window.location.href = loginUrl;
+                }
                 Swal.fire({
                     title: "Product added to cart",
                     icon: "success"
@@ -73,13 +77,10 @@
                                     @endif
                                 </a>
                                 <div class="product-action-vertical">
-                                @if(session('user'))                                    
+                                                              
                                 <a href="#" onclick="addToCart({{ json_encode($product) }})"
                                     class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
-                                    @else
-                                    <a href="{{route('register_login')}}" 
-                                    class="btn-product-icon btn-cart w-icon-cart"></a>
-                                    @endif
+                                   
                                     <a href="#" onClick="wishList({{ json_encode($product) }})"
                                         class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
                                     <a href="javascript:void(0)" id="show-user"
