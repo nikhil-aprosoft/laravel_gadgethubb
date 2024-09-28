@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -677,9 +678,34 @@
         <x-recent-product-view :recentViews="$recentViews" />
 
     </div>
-<script>
-     Wolmart.$body.on("click", ".product:not(.product-select) .btn-cart, .product-popup .btn-cart, .home .product-single .btn-cart", (function (e) { e.preventDefault(); var i = t(this), a = i.closest(".product, .product-popup"); i.hasClass("disabled") ? alert("Please select some product options before adding this product to your cart.") : (i.toggleClass("added").addClass("load-more-overlay loading"), setTimeout((function () { i.removeClass("load-more-overlay loading"), Wolmart.Minipopup.open({ productClass: " product-cart", name: a.find(".product-name, .product-title").text(), nameLink: a.find(".product-name > a, .product-title > a").attr("href"), imageSrc: a.find(".product-media img, .product-image:first-child img").attr("src"), imageLink: a.find(".product-name > a").attr("href"), message: "<p>has been added to cart:</p>", actionTemplate: '<a href="cart.html" class="btn btn-rounded btn-sm">View Cart</a><a href="checkout.html" class="btn btn-dark btn-rounded btn-sm">Checkout</a>' }) }), 500)) })),
-</script>
+    <script>
+        Wolmart.$body.on("click", ".product:not(.product-select) .btn-cart, .product-popup .btn-cart, .home .product-single .btn-cart", function(e) {
+            e.preventDefault();
+            var i = $(this),
+                a = i.closest(".product, .product-popup");
+    
+            if (i.hasClass("disabled")) {
+                alert("Please select some product options before adding this product to your cart.");
+            } else {
+                i.toggleClass("added").addClass("load-more-overlay loading");
+    
+                setTimeout(function() {
+                    i.removeClass("load-more-overlay loading");
+                    Wolmart.Minipopup.open({
+                        productClass: "product-cart",
+                        name: a.find(".product-name, .product-title").text(),
+                        nameLink: a.find(".product-name > a, .product-title > a").attr("href"),
+                        imageSrc: a.find(".product-media img, .product-image:first-child img").attr("src"),
+                        imageLink: a.find(".product-name > a").attr("href"),
+                        message: "<p>has been added to cart:</p>",
+                        actionTemplate: '<a href="cart.html" class="btn btn-rounded btn-sm">View Cart</a>' +
+                                        '<a href="checkout.html" class="btn btn-dark btn-rounded btn-sm">Checkout</a>'
+                    });
+                }, 500);
+            }
+        });
+    </script>
+    
     </div>
     <!--End of Catainer -->
     </main>
@@ -705,4 +731,5 @@
     <script src="assets/js/main.min.js"></script>
     <script src="{{ asset('assets/js/search.js') }}"></script>
 </body>
+
 </html>
