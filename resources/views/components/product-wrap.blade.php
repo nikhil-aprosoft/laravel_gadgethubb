@@ -1,3 +1,54 @@
+<script>
+    function wishList(product) {
+        const url = `{{ route('wishlist') }}`;
+
+        axios.post(url, {
+                product_id: product.product_id
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product added to wishlist",
+                    icon: "success"
+                });
+            })
+            .catch(error => {
+                console.error("There was an error adding the product to the wishlist:", error);
+                alert("Failed to add to wishlist. Please try again.");
+            });
+    }
+    function addToCart(product) {
+        const url = `{{ route('cart') }}`;
+        const loginUrl = `{{ route('register_login') }}`;
+
+        axios.post(url, {
+                product_id: product.product_id,
+                quantity: 1
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product added to cart",
+                    icon: "success"
+                });
+            })
+            .catch(error => {
+                // console.error("There was an error adding the product to the cart:", error);
+                // alert("Failed to add to cart. Please try again.");
+
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
+            });
+    }
+</script>
 <div class="main-content">
     <nav class="toolbox sticky-toolbox sticky-content fix-top">
         <div class="toolbox-left">
@@ -20,25 +71,6 @@
 
     </nav>
     <div class="product-wrapper row cols-xl-6 cols-lg-5 cols-md-4 cols-sm-3 cols-2">
-        <script>
-            function wishList(product) {
-                const url = `{{ route('wishlist') }}`;
-        
-                axios.post(url, {
-                        product_id: product.product_id
-                    })
-                    .then(response => {
-                        Swal.fire({
-                            title: "Product added to wishlist",
-                            icon: "success"
-                        });
-                    })
-                    .catch(error => {
-                        console.error("There was an error adding the product to the wishlist:", error);
-                        alert("Failed to add to wishlist. Please try again.");
-                    });
-            }
-        </script>
         @foreach ($products as $item)
             <div class="product-wrap">
                 <div class="product text-center">
@@ -48,7 +80,9 @@
                                 height="338" />
                         </a>                      
                         <div class="product-action-horizontal">
-                            <a href="#" class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+                            <a href="#" onclick="addToCart({{ json_encode($item) }})"
+                            class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+
                             <a href="#" onClick="wishList({{ json_encode($item) }})" class="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
                             <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quick View"
                                 data-product="{{ json_encode($item) }}">

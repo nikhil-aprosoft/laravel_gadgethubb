@@ -1,3 +1,37 @@
+<script>
+    function addToCart(product) {
+        const url = `{{ route('cart') }}`;
+        const loginUrl = `{{ route('register_login') }}`;
+
+        axios.post(url, {
+                product_id: product.product_id,
+                quantity: 1
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product added to cart",
+                    icon: "success"
+                });
+            })
+            .catch(error => {
+                // console.error("There was an error adding the product to the cart:", error);
+                // alert("Failed to add to cart. Please try again.");
+
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
+            });
+    }
+</script>
 <div class="product-wrapper-1 appear-animate mb-5">
     <div class="title-link-wrapper pb-1 mb-4">
         <h2 class="title ls-normal mb-0">New Shoes Arrivals</h2>
@@ -62,8 +96,8 @@
                                             width="216" height="243" />
                                     </a>
                                     <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                            title="Add to cart"></a>
+                                        <a href="#" onclick="addToCart({{ json_encode($shoe) }})"
+                                            class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
                                         <a href="#" onClick="wishList({{ json_encode($shoe) }})"
                                             class="btn-product-icon btn-wishlist w-icon-heart"
                                             title="Add to wishlist"></a>

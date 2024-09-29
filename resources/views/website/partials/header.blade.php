@@ -133,7 +133,7 @@
                                 <a href="{{ route('daily-deals') }}">Daily-Deals</a>
                             </li>
                             <li>
-                                <a href="{{ route('contact-us') }}">/Contact Us</a>
+                                <a href="{{ route('contact-us') }}">Contact Us</a>
                             </li>
                         </ul>
                     </nav>
