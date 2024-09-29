@@ -46,13 +46,12 @@
 
         <div class="cart-total">
             <label>Subtotal:</label>
-            <span
-                class="price">${{ number_format(
-                    $cartItems->sum(function ($item) {
-                        return $item->product->price * $item->quantity;
-                    }),
-                    2,
-                ) }}</span>
+            <span class="price">${{ 
+                $cartItems->sum(function ($item) {
+                    return $item->product->price * $item->quantity;
+                }) 
+            }}</span>
+            
         </div>
 
         <div class="cart-action">
