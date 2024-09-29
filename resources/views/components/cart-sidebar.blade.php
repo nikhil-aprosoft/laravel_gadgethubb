@@ -18,7 +18,7 @@
 
         <div class="products">
             @php
-                $cartItems = $userId ? Cart::with('product')->where('user_id', $userId)->get() : collect();
+                $cartItems = $userId ? App\Models\Cart::with('product')->where('user_id', $userId)->get() : collect();
             @endphp
 
             @foreach ($cartItems as $item)
