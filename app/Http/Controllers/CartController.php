@@ -71,7 +71,9 @@ class CartController extends Controller
     public function destroy(Request $request)
     {
         $cartId = $request->input('cart_id');
+        \Log::alert($cartId);
         $cartItem = Cart::where('cart_id', $cartId)->first();
+       
         if (!$cartItem) {
             return response()->json(['error' => 'No product found']);
 
