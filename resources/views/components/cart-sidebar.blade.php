@@ -63,35 +63,38 @@
 </div>
 <script>
     function removeCartProduct(id) {
-        const url = `{{ route('remove_product_cart') }}`;
-        console.log(id)
-        axios.post(url, {
-                cart_id: id,
-            })
-            .then(response => {
-                Swal.fire({
-                    title: "Product removed from cart",
-                    icon: "success"
-                }).then(() => {
-                    // Optionally remove the item from the UI
-                    document.querySelector(`[data-id='${id}']`).closest('.cart-item').remove();
-                    // Update subtotal or refresh cart items if needed
-                    // location.reload(); // Uncomment if you prefer a full reload
-                });
-            })
-            .catch(error => {
-                if (error.response) {
-                    if (error.response.status === 401) {
-                        console.error('Unauthorized access. Please log in.');
-                        window.location.href = loginUrl;
-                    } else {
-                        console.error('An error occurred:', error.response.data);
+    const url = `{{ route('remove_product_cart') }}`;
+    console.log(id);
+    axios.post(url, {
+            cart_id: id,
+        })
+        .then(response => {
+            Swal.fire({
+                title: "Product removed from cart",
+                icon: "success"
+            }).then(() => {
+                const itemElement = document.querySelector(`[data-id='${id}']`);
+                if (itemElement) {
+                    const parentElement = itemElement.closest('.product-cart');
+                    if (parentElement) {
+                        parentElement.remove();
                     }
-                } else if (error.request) {
-                    console.error('No response received from the server.');
-                } else {
-                    console.error('Error:', error.message);
                 }
             });
-    }
+        })
+        .catch(error => {
+            if (error.response) {
+                if (error.response.status === 401) {
+                    console.error('Unauthorized access. Please log in.');
+                    window.location.href = loginUrl;
+                } else {
+                    console.error('An error occurred:', error.response.data);
+                }
+            } else if (error.request) {
+                console.error('No response received from the server.');
+            } else {
+                console.error('Error:', error.message);
+            }
+        });
+}
 </script>
