@@ -2,10 +2,10 @@
     <div class="cart-overlay"></div>
     <a href="#" class="cart-toggle label-down link" id="cart-toggle">
         <i class="w-icon-cart">
-            <span class="cart-count" id="cart-count">{{ $carCount }}</span>
+            <span class="cart-count" id="cart-count">{{ $carCount ?? 0 }}</span>
         </i>
         <span class="cart-label">Cart</span>
-    </a>
+    </a>    
     <div class="dropdown-box" id="cart-dropdown">
         <div class="cart-header">
             <span>Shopping Cart</span>
@@ -26,8 +26,8 @@
         </div>
 
         <div class="cart-action">
-            <a href="{{ route('cart') }}" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-            <a href="{{ route('checkout') }}" class="btn btn-primary btn-rounded">Checkout</a>
+            <a href="" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
+            <a href="" class="btn btn-primary btn-rounded">Checkout</a>
         </div>
     </div>
 </div>
