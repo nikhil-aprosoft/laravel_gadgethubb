@@ -4,7 +4,7 @@
         <i class="w-icon-cart">
             @php
                 $userId = session('user')->userid ?? null;
-                $carCount = $userId ? Cart::where('user_id', $userId)->count() : 0;
+                $carCount = $userId ? App\Models\Cart::where('user_id', $userId)->count() : 0;
             @endphp
             <span class="cart-count">{{ $carCount }}</span>
         </i>
