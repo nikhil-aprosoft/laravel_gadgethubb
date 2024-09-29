@@ -24,16 +24,16 @@
             @foreach ($cartItems as $item)
                 <div class="product product-cart">
                     <div class="product-detail">
-                        <a href="{{ route('product.show', $item->product->id) }}"
+                        <a href="{{ route('product-details', ['slug' => $item->slug]) }}"
                             class="product-name">{{ $item->product->name }}</a>
                         <div class="price-box">
                             <span class="product-quantity">{{ $item->quantity }}</span>
-                            <span class="product-price">${{ number_format($item->product->price, 2) }}</span>
+                            <span class="product-price">{{ $item->product->price}}</span>
                         </div>
                     </div>
                     <figure class="product-media">
-                        <a href="{{ route('product.show', $item->product->id) }}">
-                            <img src="{{ asset('assets/images/cart/' . $item->product->image) }}"
+                        <a href="{{ route('product-details', ['slug' => $item->slug]) }}">
+                            <img src="{{ $item->product->thumbnail }}"
                                 alt="{{ $item->product->name }}" height="84" width="94" />
                         </a>
                     </figure>
@@ -56,8 +56,8 @@
         </div>
 
         <div class="cart-action">
-            <a href="{{ route('cart.index') }}" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-            <a href="{{ route('checkout.index') }}" class="btn btn-primary btn-rounded">Checkout</a>
+            <a href="" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
+            <a href="" class="btn btn-primary btn-rounded">Checkout</a>
         </div>
     </div>
     <!-- End of Dropdown Box -->
