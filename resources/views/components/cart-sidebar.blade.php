@@ -1,3 +1,42 @@
+<script>
+    function removeCartProduct(id) {
+        const url = `{{ route('remove_product_cart') }}`;
+        console.log(id);
+        axios.post(url, {
+                cart_id: id,
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product removed from cart",
+                    icon: "success"
+                }).then(() => {
+                    const itemElement = document.querySelector(`[data-id='${id}']`);
+                    if (itemElement) {
+                        const parentElement = itemElement.closest('.product-cart');
+                        if (parentElement) {
+                            parentElement.remove();
+                            location.reload();
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
+            });
+    }
+</script>
+
 <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
     <div class="cart-overlay"></div>
     <a href="#" class="cart-toggle label-down link">
@@ -55,47 +94,9 @@
         </div>
 
         <div class="cart-action">
-            <a href="" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
+            <a href="{{ route('view-cart') }}" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
             <a href="" class="btn btn-primary btn-rounded">Checkout</a>
         </div>
     </div>
     <!-- End of Dropdown Box -->
 </div>
-<script>
-    function removeCartProduct(id) {
-        const url = `{{ route('remove_product_cart') }}`;
-        console.log(id);
-        axios.post(url, {
-                cart_id: id,
-            })
-            .then(response => {
-                Swal.fire({
-                    title: "Product removed from cart",
-                    icon: "success"
-                }).then(() => {
-                    const itemElement = document.querySelector(`[data-id='${id}']`);
-                    if (itemElement) {
-                        const parentElement = itemElement.closest('.product-cart');
-                        if (parentElement) {
-                            parentElement.remove();
-                            location.reload();
-                        }
-                    }
-                });
-            })
-            .catch(error => {
-                if (error.response) {
-                    if (error.response.status === 401) {
-                        console.error('Unauthorized access. Please log in.');
-                        window.location.href = loginUrl;
-                    } else {
-                        console.error('An error occurred:', error.response.data);
-                    }
-                } else if (error.request) {
-                    console.error('No response received from the server.');
-                } else {
-                    console.error('Error:', error.message);
-                }
-            });
-    }
-</script>

@@ -12,6 +12,9 @@
                     title: "Product added to cart",
                     icon: "success"
                 });
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
             })
             .catch(error => {
                 // console.error("There was an error adding the product to the cart:", error);

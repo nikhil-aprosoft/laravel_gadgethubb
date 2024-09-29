@@ -61,7 +61,7 @@
                                             <td class="product-quantity">
                                                 <div class="input-group">
                                                     <input class="quantity form-control" type="number" min="1"
-                                                        max="100000">
+                                                        max="100000"  value="{{ $item->product->quantity }}"">
                                                     <button class="quantity-plus w-icon-plus"></button>
                                                     <button class="quantity-minus w-icon-minus"></button>
                                                 </div>
