@@ -63,7 +63,9 @@ Route::controller(ContactController::class)->group(function () {
     Route::post('contact', 'store')->name('contact');
 });
 Route::controller(CartController::class)->group(function () {
+    Route::get('view-cart','index')->name('view-cart')->middleware('session');
     Route::post('/cart', 'store')->name('cart');
     Route::post('destroy','destroy')->name('remove_product_cart');
+    Route::get('clear-cart','clearCart')->name('clear-cart');
 });
 

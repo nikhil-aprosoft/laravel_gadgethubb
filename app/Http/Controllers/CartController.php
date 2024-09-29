@@ -9,6 +9,13 @@ use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
+
+    public function index()
+    {
+        $user = session('user');
+        $cartItems = Cart::where('user_id', $user->userid)->get();
+        return view('website.cart', compact('cartItems'));
+    }
     public function store(Request $request)
     {
         $user = session('user');
@@ -53,15 +60,12 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        // Attempt to find the cart item
         $cartItem = Cart::where('cart_id', $cartId)->first();
 
-        // Check if the cart item exists
         if (!$cartItem) {
             return redirect()->route('cart.index')->withErrors(['error' => 'Cart item not found.']);
         }
 
-        // Update the quantity
         $cartItem->quantity = $request->quantity;
         $cartItem->save();
 
@@ -72,7 +76,7 @@ class CartController extends Controller
     {
         $cartId = $request->input('cart_id');
         $cartItem = Cart::where('cart_id', $cartId)->first();
-       
+
         if (!$cartItem) {
             return response()->json(['error' => 'No product found']);
 
@@ -80,5 +84,11 @@ class CartController extends Controller
         $cartItem->delete();
 
         return response()->json(['success' => 'Product removed from cart!']);
+    }
+    public function clearCart()
+    {
+        $user = session('user');
+        $cart = Cart::where('user_id', $user->userid)->delete();
+        return redirect()->back()->with('success', 'Cart removed!');;
     }
 }

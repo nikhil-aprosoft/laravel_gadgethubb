@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-
-<!-- Mirrored from portotheme.com/html/wolmart/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:53:47 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>Cart</title>
-    <x-head />
-</head>
-
-<body>
+@extends('layouts.app')
+@section('title', 'Cart')
+@section('content')
     <div class="page-wrapper">
         <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
-        <!-- Start of Header -->
-      @include('website.partials.header')
+
+        @include('website.partials.header')
         <!-- End of Header -->
 
         <!-- Start of Main -->
@@ -48,77 +37,79 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="product-thumbnail">
-                                            <div class="p-relative">
+                                    @foreach ($cartItems as $item)
+                                        <tr>
+                                            <td class="product-thumbnail">
+                                                <div class="p-relative">
+                                                    <a href="product-default.html">
+                                                        <figure>
+                                                            <img src="{{ $item->product->thumbnail }}" alt="product"
+                                                                width="300" height="338">
+                                                        </figure>
+                                                    </a>
+                                                    <button type="submit" class="btn btn-close"><i
+                                                            class="fas fa-times"></i></button>
+                                                </div>
+                                            </td>
+                                            <td class="product-name">
                                                 <a href="product-default.html">
-                                                    <figure>
-                                                        <img src="assets/images/shop/12.jpg" alt="product"
-                                                            width="300" height="338">
-                                                    </figure>
+                                                    {{ $item->product->product_name }}
                                                 </a>
-                                                <button type="submit" class="btn btn-close"><i
-                                                        class="fas fa-times"></i></button>
-                                            </div>
-                                        </td>
-                                        <td class="product-name">
-                                            <a href="product-default.html">
-                                                Classic Simple Backpack
-                                            </a>
-                                        </td>
-                                        <td class="product-price"><span class="amount">$40.00</span></td>
-                                        <td class="product-quantity">
-                                            <div class="input-group">
-                                                <input class="quantity form-control" type="number" min="1" max="100000">
-                                                <button class="quantity-plus w-icon-plus"></button>
-                                                <button class="quantity-minus w-icon-minus"></button>
-                                            </div>
-                                        </td>
-                                        <td class="product-subtotal">
-                                            <span class="amount">$40.00</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="product-thumbnail">
-                                            <div class="p-relative">
-                                                <a href="product-default.html">
-                                                    <figure>
-                                                        <img src="assets/images/shop/13.jpg" alt="product"
-                                                            width="300" height="338">
-                                                    </figure>
-                                                </a>
-                                                <button class="btn btn-close"><i class="fas fa-times"></i></button>
-                                            </div>
-                                        </td>
-                                        <td class="product-name">
-                                            <a href="product-default.html">
-                                                Smart Watch
-                                            </a>
-                                        </td>
-                                        <td class="product-price"><span class="amount">$60.00</span></td>
-                                        <td class="product-quantity">
-                                            <div class="input-group">
-                                                <input class="quantity form-control" type="number" min="1" max="100000">
-                                                <button class="quantity-plus w-icon-plus"></button>
-                                                <button class="quantity-minus w-icon-minus"></button>
-                                            </div>
-                                        </td>
-                                        <td class="product-subtotal">
-                                            <span class="amount">$60.00</span>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td class="product-price"><span
+                                                    class="amount">{{ $item->product->price }}</span></td>
+                                            <td class="product-quantity">
+                                                <div class="input-group">
+                                                    <input class="quantity form-control" type="number" min="1"
+                                                        max="100000">
+                                                    <button class="quantity-plus w-icon-plus"></button>
+                                                    <button class="quantity-minus w-icon-minus"></button>
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal">
+                                                <span
+                                                    class="amount">₹{{ $cartItems->sum(function ($item) {
+                                                        return (float) str_replace('₹', '', $item->product->price) * $item->quantity;
+                                                    }) }}</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
                                 </tbody>
                             </table>
 
                             <div class="cart-action mb-6">
-                                <a href="#" class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto"><i class="w-icon-long-arrow-left"></i>Continue Shopping</a>
-                                <button type="submit" class="btn btn-rounded btn-default btn-clear" name="clear_cart" value="Clear Cart">Clear Cart</button> 
-                                <button type="submit" class="btn btn-rounded btn-update disabled" name="update_cart" value="Update Cart">Update Cart</button>
+                                <a href="{{ route('products') }}"
+                                    class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto"><i
+                                        class="w-icon-long-arrow-left"></i>Continue Shopping</a>
+                                <button type="submit" class="btn btn-rounded btn-default btn-clear" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" name="clear_cart" value="Clear Cart">Clear Cart</button>
+                                <button type="submit" class="btn btn-rounded btn-update disabled" name="update_cart"
+                                    value="Update Cart">Update Cart</button>
+                            </div>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Are you sure want clear cart</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <a href="{{ route('clear-cart') }}" type="button"
+                                                class="btn btn-dark btn-outline btn-rounded">Clear-Cart</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <form class="coupon">
                                 <h5 class="title coupon-title font-weight-bold text-uppercase">Coupon Discount</h5>
-                                <input type="text" class="form-control mb-4" placeholder="Enter coupon code here..." required />
+                                <input type="text" class="form-control mb-4" placeholder="Enter coupon code here..."
+                                    required />
                                 <button class="btn btn-dark btn-outline btn-rounded">Apply Coupon</button>
                             </form>
                         </div>
@@ -135,15 +126,13 @@
 
                                     <ul class="shipping-methods mb-2">
                                         <li>
-                                            <label
-                                                class="shipping-title text-dark font-weight-bold">Shipping</label>
+                                            <label class="shipping-title text-dark font-weight-bold">Shipping</label>
                                         </li>
                                         <li>
                                             <div class="custom-radio">
                                                 <input type="radio" id="free-shipping" class="custom-control-input"
                                                     name="shipping">
-                                                <label for="free-shipping"
-                                                    class="custom-control-label color-dark">Free
+                                                <label for="free-shipping" class="custom-control-label color-dark">Free
                                                     Shipping</label>
                                             </div>
                                         </li>
@@ -151,8 +140,7 @@
                                             <div class="custom-radio">
                                                 <input type="radio" id="local-pickup" class="custom-control-input"
                                                     name="shipping">
-                                                <label for="local-pickup"
-                                                    class="custom-control-label color-dark">Local
+                                                <label for="local-pickup" class="custom-control-label color-dark">Local
                                                     Pickup</label>
                                             </div>
                                         </li>
@@ -198,8 +186,8 @@
                                                     name="town-city" placeholder="Town / City">
                                             </div>
                                             <div class="form-group">
-                                                <input class="form-control form-control-md" type="text"
-                                                    name="zipcode" placeholder="ZIP">
+                                                <input class="form-control form-control-md" type="text" name="zipcode"
+                                                    placeholder="ZIP">
                                             </div>
                                             <button type="submit" class="btn btn-dark btn-outline btn-rounded">Update
                                                 Totals</button>
@@ -224,14 +212,5 @@
         </main>
         <!-- End of Main -->
         @include('website.partials.footer')
-
-    <!-- Plugin JS File -->
-    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/sticky/sticky.js"></script>
-    <script src="assets/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-    <script src="assets/js/main.min.js"></script>
-</body>
-
-
-<!-- Mirrored from portotheme.com/html/wolmart/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:53:49 GMT -->
-</html>
+    </div>
+@endsection
