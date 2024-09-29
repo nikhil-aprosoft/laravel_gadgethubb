@@ -80,33 +80,14 @@
                                 <a href="{{ route('products') }}"
                                     class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto"><i
                                         class="w-icon-long-arrow-left"></i>Continue Shopping</a>
-                              
-                                        <button class="btn btn-rounded btn-default btn-clear" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" name="clear_cart" value="Clear Cart">Clear Cart</button>
 
+                                <a href="{{ route('clear-cart') }}" class="btn btn-rounded btn-default btn-clear"
+                                    data-bs-toggle="modal"
+                                    >Clear Cart</a>
 
                                 <button type="submit" class="btn btn-rounded btn-update disabled" name="update_cart"
                                     value="Update Cart">Update Cart</button>
                             </div>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Are you sure want clear cart</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <a href="{{ route('clear-cart') }}" type="button"
-                                                class="btn btn-dark btn-outline btn-rounded">Clear-Cart</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <form class="coupon">
                                 <h5 class="title coupon-title font-weight-bold text-uppercase">Coupon Discount</h5>
                                 <input type="text" class="form-control mb-4" placeholder="Enter coupon code here..."
