@@ -82,9 +82,9 @@
                                         <a href="" class="rating-reviews">( 7 reviews)</a>
                                     </div>
                                     <div class="product-price">
-                                        <ins class="new-price">${{ $shoe->price }}</ins>
+                                        <ins class="new-price">{{ $shoe->price }}</ins>
                                         @if ($shoe->old_price)
-                                            <del class="old-price">${{ $shoe->old_price }}</del>
+                                            <del class="old-price">{{ $shoe->old_price }}</del>
                                         @endif
                                     </div>
                                 </div>
