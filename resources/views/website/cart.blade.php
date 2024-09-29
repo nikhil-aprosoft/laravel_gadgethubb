@@ -68,9 +68,7 @@
                                             </td>
                                             <td class="product-subtotal">
                                                 <span
-                                                    class="amount">₹{{ $cartItems->sum(function ($item) {
-                                                        return (float) str_replace('₹', '', $item->product->price) * $item->quantity;
-                                                    }) }}</span>
+                                                    class="amount">₹{{ (float) str_replace('₹', '', $item->product->price) * $item->quantity }}</span>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -82,8 +80,11 @@
                                 <a href="{{ route('products') }}"
                                     class="btn btn-dark btn-rounded btn-icon-left btn-shopping mr-auto"><i
                                         class="w-icon-long-arrow-left"></i>Continue Shopping</a>
-                                <button type="submit" class="btn btn-rounded btn-default btn-clear" data-bs-toggle="modal"
+                              
+                                        <button class="btn btn-rounded btn-default btn-clear" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal" name="clear_cart" value="Clear Cart">Clear Cart</button>
+
+
                                 <button type="submit" class="btn btn-rounded btn-update disabled" name="update_cart"
                                     value="Update Cart">Update Cart</button>
                             </div>
