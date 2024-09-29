@@ -48,10 +48,7 @@
 
         <div class="cart-total">
             <label>Subtotal:</label>
-            <span
-                class="price">{{$item->product->price * $item->quantity }}</span>
-
-
+            <span class="price">{{ (float) str_replace('₹', '', $item->product->price) * $item->quantity }}</span>
         </div>
 
         <div class="cart-action">
