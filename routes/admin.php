@@ -16,7 +16,6 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::get('activate-deactivate/{slug}', [ProductController::class, 'deactivate'])->name('deactivate-product');
     Route::get('update/{slug}', [ProductController::class, 'show']);
     Route::put('update/{product_id}', [ProductController::class, 'update'])->name('update');
-
 });
 Route::prefix('categories')->name('categories.')->group(function () {
     Route::get('create', [CategoryController::class, 'create'])->name('create');

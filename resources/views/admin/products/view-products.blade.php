@@ -113,32 +113,38 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="mb-0">Filter</h5>
-                                <div class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0">
-                                    <div class="col-md-4 product_category">
-                                        <select id="ProductCategory" class="form-select text-capitalize">
-                                            @foreach ($globalService['categories'] as $item)
-                                                <option value="{{ $item['category_id'] }}">{{ $item['category_name'] }}
-                                                </option>
-                                            @endforeach
-
-                                        </select>
+                                <form method="GET" action="{{url('admin/products/show')}}">
+                                    <!-- Update with your route -->
+                                    <div
+                                        class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0">
+                                        <div class="col-md-4 product_category">
+                                            <select name="category_id" class="form-select text-capitalize">
+                                                <option value="">Select Category</option>
+                                                @foreach ($globalService['categories'] as $item)
+                                                    <option value="{{ $item['category_id'] }}">
+                                                        {{ $item['category_name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 product_status">
+                                            <select name="status" class="form-select text-capitalize">
+                                                <option value="">Select Status</option>
+                                                <option value="1">Publish</option>
+                                                <option value="0">Inactive</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 product_stock">
+                                            <select name="stock" class="form-select text-capitalize">
+                                                <option value="">Select Stock</option>
+                                                <option value="0">Out of Stock</option>
+                                                <option value="1">In Stock</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4 product_status">
-                                        <select id="ProductStatus" class="form-select text-capitalize">
-                                            <option value="">Select Status</option>
-                                            <option value="Scheduled">Scheduled</option>
-                                            <option value="Publish">Publish</option>
-                                            <option value="Inactive">Inactive</option>
-                                        </select>
+                                    <div class="pt-3">
+                                        <button type="submit" class="btn btn-primary">Filter</button>
                                     </div>
-                                    <div class="col-md-4 product_stock">
-                                        <select id="ProductStock" class="form-select text-capitalize">
-                                            <option value=""> Stock </option>
-                                            <option value="Out_of_Stock">Out of Stock</option>
-                                            <option value="In_Stock">In Stock</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
 
                             <div class="card-datatable table-responsive">
@@ -216,8 +222,8 @@
                                                         <div class="d-flex flex-column"><span
                                                                 class="text-nowrap text-heading fw-medium">{{ $item->product_name }}</span>
                                                             <small class="text-truncate d-none d-sm-block">
-                                                           
-                                                            
+
+
                                                             </small>
                                                         </div>
                                                 </td>
@@ -252,15 +258,15 @@
                                                             <i class="ri-edit-box-line ri-22px"></i>
                                                         </button>
                                                         <div class="dropdown-menu dropdown-menu-end m-0">
-                                                            <a href="{{url('admin/products/update/'.$item->slug)}}" class="dropdown-item"
-                                                                >View</a>
-                                                                @if($item->is_active == 1)
-                                                            <a href="{{url('admin/products/activate-deactivate/'.$item->slug)}}"
-                                                                class="dropdown-item">Deactivate</a>
-                                                                @else
-                                                                <a href="{{url('admin/products/activate-deactivate/'.$item->slug)}}"
+                                                            <a href="{{ url('admin/products/update/' . $item->slug) }}"
+                                                                class="dropdown-item">View</a>
+                                                            @if ($item->is_active == 1)
+                                                                <a href="{{ url('admin/products/activate-deactivate/' . $item->slug) }}"
+                                                                    class="dropdown-item">Deactivate</a>
+                                                            @else
+                                                                <a href="{{ url('admin/products/activate-deactivate/' . $item->slug) }}"
                                                                     class="dropdown-item">Activate</a>
-                                                                    @endif
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </td>
@@ -268,46 +274,60 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                                
+
                                 <div class="row mx-1">
                                     <!-- Pagination Container -->
                                     <div class="pagination-container d-flex justify-content-end mt-3">
-                                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        <div class="dataTables_paginate paging_simple_numbers"
+                                            id="DataTables_Table_0_paginate">
                                             <ul class="pagination">
                                                 {{-- Previous Button --}}
                                                 @if ($products->onFirstPage())
-                                                    <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-                                                        <a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" class="page-link waves-effect">Previous</a>
+                                                    <li class="paginate_button page-item previous disabled"
+                                                        id="DataTables_Table_0_previous">
+                                                        <a aria-controls="DataTables_Table_0" aria-disabled="true"
+                                                            role="link" class="page-link waves-effect">Previous</a>
                                                     </li>
                                                 @else
-                                                    <li class="paginate_button page-item previous" id="DataTables_Table_0_previous">
-                                                        <a href="{{ $products->previousPageUrl() }}" aria-controls="DataTables_Table_0" role="link" class="page-link waves-effect">Previous</a>
+                                                    <li class="paginate_button page-item previous"
+                                                        id="DataTables_Table_0_previous">
+                                                        <a href="{{ $products->previousPageUrl() }}"
+                                                            aria-controls="DataTables_Table_0" role="link"
+                                                            class="page-link waves-effect">Previous</a>
                                                     </li>
                                                 @endif
-                                
+
                                                 {{-- Pagination Links --}}
                                                 @for ($i = 1; $i <= $products->lastPage(); $i++)
-                                                    <li class="paginate_button page-item {{ $i == $products->currentPage() ? 'active' : '' }}">
-                                                        <a href="{{ $products->url($i) }}" aria-controls="DataTables_Table_0" role="link" class="page-link waves-effect">{{ $i }}</a>
+                                                    <li
+                                                        class="paginate_button page-item {{ $i == $products->currentPage() ? 'active' : '' }}">
+                                                        <a href="{{ $products->url($i) }}"
+                                                            aria-controls="DataTables_Table_0" role="link"
+                                                            class="page-link waves-effect">{{ $i }}</a>
                                                     </li>
                                                 @endfor
-                                
+
                                                 {{-- Next Button --}}
                                                 @if ($products->hasMorePages())
-                                                    <li class="paginate_button page-item next" id="DataTables_Table_0_next">
-                                                        <a href="{{ $products->nextPageUrl() }}" aria-controls="DataTables_Table_0" role="link" class="page-link waves-effect">Next</a>
+                                                    <li class="paginate_button page-item next"
+                                                        id="DataTables_Table_0_next">
+                                                        <a href="{{ $products->nextPageUrl() }}"
+                                                            aria-controls="DataTables_Table_0" role="link"
+                                                            class="page-link waves-effect">Next</a>
                                                     </li>
                                                 @else
-                                                    <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
-                                                        <a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" class="page-link waves-effect">Next</a>
+                                                    <li class="paginate_button page-item next disabled"
+                                                        id="DataTables_Table_0_next">
+                                                        <a aria-controls="DataTables_Table_0" aria-disabled="true"
+                                                            role="link" class="page-link waves-effect">Next</a>
                                                     </li>
                                                 @endif
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
+
+
                                 <div style="width: 1%;"></div>
                             </div>
                         </div>
