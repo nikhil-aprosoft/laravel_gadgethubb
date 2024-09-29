@@ -71,9 +71,13 @@ class CartController extends Controller
     public function destroy(Request $request)
     {
         $cartId = $request->input('cart_id');
-        $cartItem = Cart::findOrFail($cartId);
+        $cartItem = Cart::where('cart_id', $cartId)->first();
+        if (!$cartItem) {
+            return response()->json(['error' => 'No product found']);
+
+        }
         $cartItem->delete();
-    
+
         return response()->json(['success' => 'Product removed from cart!']);
     }
 }
