@@ -69,11 +69,16 @@
                 cart_id: id,
             })
             .then(response => {
-                Swal.fire({
-                    title: "Product removed from cart",
-                    icon: "success"
-                });
-            })
+            Swal.fire({
+                title: "Product removed from cart",
+                icon: "success"
+            }).then(() => {
+                // Optionally remove the item from the UI
+                document.querySelector(`[data-id='${id}']`).closest('.cart-item').remove();
+                // Update subtotal or refresh cart items if needed
+                // location.reload(); // Uncomment if you prefer a full reload
+            });
+        })
             .catch(error => {
                 if (error.response) {
                     if (error.response.status === 401) {
