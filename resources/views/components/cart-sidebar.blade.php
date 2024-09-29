@@ -24,7 +24,7 @@
             @foreach ($cartItems as $item)
                 <div class="product product-cart">
                     <div class="product-detail">
-                        <a href="{{ route('product-details', ['slug' => $item->slug]) }}"
+                        <a href="{{ route('product-details', ['slug' => $item->product->slug]) }}"
                             class="product-name">{{ $item->product->name }}</a>
                         <div class="price-box">
                             <span class="product-quantity">{{ $item->quantity }}</span>
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <figure class="product-media">
-                        <a href="{{ route('product-details', ['slug' => $item->slug]) }}">
+                        <a href="{{ route('product-details', ['slug' => $item->product->slug]) }}">
                             <img src="{{ $item->product->thumbnail }}"
                                 alt="{{ $item->product->name }}" height="84" width="94" />
                         </a>
