@@ -37,7 +37,7 @@
                                 width="94" />
                         </a>
                     </figure>
-                    <button class="btn btn-link btn-close" onclick="removeCartProduct({{ json_encode($item->id) }})"
+                    <button class="btn btn-link btn-close" onclick="removeCartProduct({{ json_encode($item->cart_id) }})"
                         aria-label="button" data-id="{{ $item->id }}">
                         <i class="fas fa-times"></i>
                     </button>
