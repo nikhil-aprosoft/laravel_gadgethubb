@@ -67,16 +67,7 @@
                 <a class="wishlist label-down link d-xs-show" href="{{ route('view-wishlist') }}">
                     <i class="w-icon-heart"></i>
                     <span class="wishlist-label d-lg-show">Wishlist</span>
-                </a>
-                @php
-                    $userId = session('user')->userid ?? null;
-
-                    if ($userId) {
-                        $carCount = \Cart::where('user_id', $userId)->count();
-                    } else {
-                        $carCount = 0;
-                    }
-                @endphp
+                </a>               
               <x-cart-sidebar />
             </div>
         </div>

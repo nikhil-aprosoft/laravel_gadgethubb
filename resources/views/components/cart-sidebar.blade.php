@@ -2,6 +2,15 @@
     <div class="cart-overlay"></div>
     <a href="#" class="cart-toggle label-down link">
         <i class="w-icon-cart">
+            @php
+            $userId = session('user')->userid ?? null;
+
+            if ($userId) {
+                $carCount = \Cart::where('user_id', $userId)->count();
+            } else {
+                $carCount = 0;
+            }
+        @endphp
             <span class="cart-count">{{ $carCount }}</span>
         </i>
         <span class="cart-label">Cart</span>
