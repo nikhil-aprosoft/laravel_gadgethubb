@@ -48,9 +48,10 @@
             <label>Subtotal:</label>
             <span class="price">${{ 
                 $cartItems->sum(function ($item) {
-                    return $item->product->price * $item->quantity;
+                    return (float)$item->product->price * $item->quantity;
                 }) 
             }}</span>
+            
             
         </div>
 
