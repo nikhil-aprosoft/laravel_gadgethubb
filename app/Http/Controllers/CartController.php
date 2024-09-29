@@ -68,24 +68,17 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Cart updated successfully!');
     }
 
-    public function remove($id)
+    public function destroy(Request $request)
     {
-        $cartItem = Cart::findOrFail($id);
+        $cartId = $request->input('cart_id');
+        $cartItem = Cart::where('cart_id', $cartId)->first();
+       
+        if (!$cartItem) {
+            return response()->json(['error' => 'No product found']);
+
+        }
         $cartItem->delete();
 
-        $userId = session('user')->userid ?? null;
-        $cartCount = $userId ? Cart::where('user_id', $userId)->count() : 0;
-        $cartItems = $userId ? Cart::with('product')->where('user_id', $userId)->get() : collect();
-
-        $cartItemsHtml = view('cart.items', compact('cartItems'))->render();
-        $cartTotal = $cartItems->sum(function ($item) {
-            return (float) str_replace('₹', '', $item->product->price) * $item->quantity;
-        });
-
-        return response()->json([
-            'cartCount' => $cartCount,
-            'cartItemsHtml' => $cartItemsHtml,
-            'cartTotal' => $cartTotal,
-        ]);
+        return response()->json(['success' => 'Product removed from cart!']);
     }
 }
