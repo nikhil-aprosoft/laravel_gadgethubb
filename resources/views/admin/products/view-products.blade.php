@@ -216,17 +216,8 @@
                                                         <div class="d-flex flex-column"><span
                                                                 class="text-nowrap text-heading fw-medium">{{ $item->product_name }}</span>
                                                             <small class="text-truncate d-none d-sm-block">
-                                                                @php
-                                                                    $words = explode(' ', $item->short_desc);
-                                                                    $limitedWords = array_slice($words, 0, 15);
-                                                                    $limitedDesc = implode(' ', $limitedWords);
-                                                                @endphp
-
-                                                                @foreach (explode('|', $limitedDesc) as $desc)
-                                                                    @if (trim($desc))
-                                                                        <li>{{ trim($desc) }}</li>
-                                                                    @endif
-                                                                @endforeach
+                                                           
+                                                            
                                                             </small>
                                                         </div>
                                                 </td>
@@ -277,45 +268,46 @@
                                         @endforeach
                                     </tbody>
                                 </table>
-                             
+                                
                                 <div class="row mx-1">
                                     <!-- Pagination Container -->
                                     <div class="pagination-container d-flex justify-content-end mt-3">
-                                        <div class="dataTables_paginate paging_simple_numbers"
-                                            id="DataTables_Table_0_paginate">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
                                             <ul class="pagination">
-                                                <li class="paginate_button page-item previous disabled"
-                                                    id="DataTables_Table_0_previous">
-                                                    <a aria-controls="DataTables_Table_0" aria-disabled="true"
-                                                        role="link" data-dt-idx="previous" tabindex="-1"
-                                                        class="page-link waves-effect">Previous</a>
-                                                </li>
-                                                <li class="paginate_button page-item active">
-                                                    <a href="#" aria-controls="DataTables_Table_0"
-                                                        role="link" aria-current="page" data-dt-idx="0"
-                                                        tabindex="0" class="page-link waves-effect">1</a>
-                                                </li>
-                                                <li class="paginate_button page-item">
-                                                    <a href="#" aria-controls="DataTables_Table_0"
-                                                        role="link" data-dt-idx="1" tabindex="0"
-                                                        class="page-link waves-effect">2</a>
-                                                </li>
-                                                <li class="paginate_button page-item">
-                                                    <a href="#" aria-controls="DataTables_Table_0"
-                                                        role="link" data-dt-idx="2" tabindex="0"
-                                                        class="page-link waves-effect">3</a>
-                                                </li>
-                                                <li class="paginate_button page-item next"
-                                                    id="DataTables_Table_0_next">
-                                                    <a href="#" aria-controls="DataTables_Table_0"
-                                                        role="link" data-dt-idx="next" tabindex="0"
-                                                        class="page-link waves-effect">Next</a>
-                                                </li>
+                                                {{-- Previous Button --}}
+                                                @if ($products->onFirstPage())
+                                                    <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                                                        <a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" class="page-link waves-effect">Previous</a>
+                                                    </li>
+                                                @else
+                                                    <li class="paginate_button page-item previous" id="DataTables_Table_0_previous">
+                                                        <a href="{{ $products->previousPageUrl() }}" aria-controls="DataTables_Table_0" role="link" class="page-link waves-effect">Previous</a>
+                                                    </li>
+                                                @endif
+                                
+                                                {{-- Pagination Links --}}
+                                                @for ($i = 1; $i <= $products->lastPage(); $i++)
+                                                    <li class="paginate_button page-item {{ $i == $products->currentPage() ? 'active' : '' }}">
+                                                        <a href="{{ $products->url($i) }}" aria-controls="DataTables_Table_0" role="link" class="page-link waves-effect">{{ $i }}</a>
+                                                    </li>
+                                                @endfor
+                                
+                                                {{-- Next Button --}}
+                                                @if ($products->hasMorePages())
+                                                    <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                        <a href="{{ $products->nextPageUrl() }}" aria-controls="DataTables_Table_0" role="link" class="page-link waves-effect">Next</a>
+                                                    </li>
+                                                @else
+                                                    <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
+                                                        <a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" class="page-link waves-effect">Next</a>
+                                                    </li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
-
                                 </div>
+                                
+                                
                                 <div style="width: 1%;"></div>
                             </div>
                         </div>
