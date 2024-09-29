@@ -67,8 +67,8 @@
                 <a class="wishlist label-down link d-xs-show" href="{{ route('view-wishlist') }}">
                     <i class="w-icon-heart"></i>
                     <span class="wishlist-label d-lg-show">Wishlist</span>
-                </a>               
-              <x-cart-sidebar />
+                </a>
+                <x-cart-sidebar />
             </div>
         </div>
     </div>
@@ -80,8 +80,7 @@
                 <div class="header-left">
                     <div class="dropdown category-dropdown has-border" data-visible="true">
                         <a href="#" class="category-toggle" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="true" data-display="static"
-                            title="Browse Categories">
+                            aria-haspopup="true" aria-expanded="true" data-display="static" title="Browse Categories">
                             <i class="w-icon-category"></i>
                             <span>Browse Categories</span>
                         </a>
@@ -132,6 +131,9 @@
                             </li>
                             <li class="">
                                 <a href="{{ route('daily-deals') }}">Daily-Deals</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('contact-us') }}">/Contact Us</a>
                             </li>
                         </ul>
                     </nav>
