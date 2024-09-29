@@ -49,4 +49,5 @@
             }
         });
     }
+    removeCartProduct();
 </script>
