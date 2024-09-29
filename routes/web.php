@@ -64,4 +64,5 @@ Route::controller(ContactController::class)->group(function () {
 });
 Route::controller(CartController::class)->group(function () {
     Route::post('/cart', 'store')->name('cart');
+    Route::post('destroy','destroy')->name('remove_product_cart');
 });

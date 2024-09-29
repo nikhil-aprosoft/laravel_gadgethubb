@@ -68,11 +68,12 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Cart updated successfully!');
     }
 
-    public function destroy($cartId)
+    public function destroy(Request $request)
     {
+        $cartId = $request->input('cart_id');
         $cartItem = Cart::findOrFail($cartId);
         $cartItem->delete();
-
-        return redirect()->route('cart.index')->with('success', 'Product removed from cart!');
+    
+        return response()->json(['success' => 'Product removed from cart!']);
     }
 }

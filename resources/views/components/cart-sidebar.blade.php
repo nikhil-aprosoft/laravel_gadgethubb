@@ -25,19 +25,20 @@
                 <div class="product product-cart">
                     <div class="product-detail">
                         <a href="{{ route('product-details', ['slug' => $item->product->slug]) }}"
-                            class="product-name">{{ $item->product->name }}</a>
+                            class="product-name">{{ $item->product->product_name }}</a>
                         <div class="price-box">
                             <span class="product-quantity">{{ $item->quantity }}</span>
-                            <span class="product-price">{{ $item->product->price}}</span>
+                            <span class="product-price">{{ $item->product->price }}</span>
                         </div>
                     </div>
                     <figure class="product-media">
                         <a href="{{ route('product-details', ['slug' => $item->product->slug]) }}">
-                            <img src="{{ $item->product->thumbnail }}"
-                                alt="{{ $item->product->name }}" height="84" width="94" />
+                            <img src="{{ $item->product->thumbnail }}" alt="{{ $item->product->name }}" height="84"
+                                width="94" />
                         </a>
                     </figure>
-                    <button class="btn btn-link btn-close" aria-label="button" data-id="{{ $item->id }}">
+                    <button class="btn btn-link btn-close" onclick="removeCartProduct({{ json_encode($item->id) }})"
+                        aria-label="button" data-id="{{ $item->id }}">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -46,13 +47,12 @@
 
         <div class="cart-total">
             <label>Subtotal:</label>
-            <span class="price">${{ 
-                $cartItems->sum(function ($item) {
-                    return (float)$item->product->price * $item->quantity;
-                }) 
-            }}</span>
-            
-            
+            <span
+                class="price">${{ $cartItems->sum(function ($item) {
+                    return (float) $item->product->price * $item->quantity;
+                }) }}</span>
+
+
         </div>
 
         <div class="cart-action">
@@ -62,3 +62,31 @@
     </div>
     <!-- End of Dropdown Box -->
 </div>
+<script>
+    function removeCartProduct(id) {
+        const url = `{{ route('remove_product_cart') }}`;
+        axios.post(url, {
+                cart_id: id,
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product removed from cart",
+                    icon: "success"
+                });
+            })
+            .catch(error => {
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
+            });
+    }
+</script>
