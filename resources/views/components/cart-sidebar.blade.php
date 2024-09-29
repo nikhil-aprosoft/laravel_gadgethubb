@@ -37,8 +37,9 @@
                                 width="94" />
                         </a>
                     </figure>
-                    <button class="btn btn-link btn-close" onclick="removeCartProduct({{ json_encode($item->cart_id) }})"
-                        aria-label="button" data-id="{{ $item->id }}">
+                    <button class="btn btn-link btn-close"
+                        onclick="removeCartProduct({{ json_encode($item->cart_id) }})" aria-label="button"
+                        data-id="{{ $item->cart_id }}">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -48,9 +49,7 @@
         <div class="cart-total">
             <label>Subtotal:</label>
             <span
-                class="price">${{ $cartItems->sum(function ($item) {
-                    return (float) $item->product->price * $item->quantity;
-                }) }}</span>
+                class="price">{{$item->product->price * $item->quantity }}</span>
 
 
         </div>
