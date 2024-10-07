@@ -23,8 +23,18 @@
                 });
             })
             .catch(error => {
-                console.error("There was an error adding the product to the wishlist:", error);
-                alert("Failed to add to wishlist. Please try again.");
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
             });
     }
 

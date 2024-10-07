@@ -12,10 +12,21 @@
                 });
             })
             .catch(error => {
-                console.error("There was an error adding the product to the wishlist:", error);
-                alert("Failed to add to wishlist. Please try again.");
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
             });
     }
+
     function addToCart(product) {
         const url = `{{ route('cart') }}`;
         const loginUrl = `{{ route('register_login') }}`;
@@ -79,14 +90,14 @@
                 <div class="product text-center">
                     <figure class="product-media">
                         <a href="{{ route('product-details', ['slug' => $item->slug]) }}">
-                            <img src="{{$item->thumbnail}}" alt="Product" width="300"
-                                height="338" />
-                        </a>                      
+                            <img src="{{ $item->thumbnail }}" alt="Product" width="300" height="338" />
+                        </a>
                         <div class="product-action-horizontal">
                             <a href="#" onclick="addToCart({{ json_encode($item) }})"
-                            class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+                                class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
 
-                            <a href="#" onClick="wishList({{ json_encode($item) }})" class="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
+                            <a href="#" onClick="wishList({{ json_encode($item) }})"
+                                class="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
                             <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quick View"
                                 data-product="{{ json_encode($item) }}">
                             </a>
