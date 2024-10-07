@@ -526,7 +526,7 @@
                                                                             class="quantity-minus w-icon-minus"></button>
                                                                     </div>
                                                                 </div>
-                                                                <button class="btn btn-primary btn-cart" onclick="addToCart($product)">
+                                                                <button class="btn btn-primary btn-cart"  onclick="addToCart({{ json_encode($product) }})">
                                                                     <i class="w-icon-cart"></i>
                                                                     <span>Add to Cart</span>
                                                                 </button>
