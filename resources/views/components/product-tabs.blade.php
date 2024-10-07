@@ -12,7 +12,7 @@
 <script>
     function wishList(product) {
         const url = `{{ route('wishlist') }}`;
-
+        const loginUrl = `{{ route('register_login') }}`;
         axios.post(url, {
                 product_id: product.product_id
             })
