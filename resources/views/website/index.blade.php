@@ -72,6 +72,41 @@
                 });
             }
         });
+        function addToCart(product) {
+        const url = `{{ route('cart') }}`;
+        const loginUrl = `{{ route('register_login') }}`;
+
+        axios.post(url, {
+                product_id: product.product_id,
+                quantity: 1
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product added to cart",
+                    icon: "success"
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            })
+            .catch(error => {
+                // console.error("There was an error adding the product to the cart:", error);
+                // alert("Failed to add to cart. Please try again.");
+
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
+            });
+    }
     </script>
     <div class="page-wrapper">
         <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
@@ -491,7 +526,7 @@
                                                                             class="quantity-minus w-icon-minus"></button>
                                                                     </div>
                                                                 </div>
-                                                                <button class="btn btn-primary btn-cart">
+                                                                <button class="btn btn-primary btn-cart" onclick="addToCart($product)">
                                                                     <i class="w-icon-cart"></i>
                                                                     <span>Add to Cart</span>
                                                                 </button>
