@@ -119,7 +119,7 @@
                                     <a href="{{ $product['link'] }}" class="rating-reviews">4.6</a>
                                 </div>
                                 <div class="product-price">
-                                    <ins class="new-price">{{ $product['price'] }}</ins>
+                                    <ins class="new-price" style="font-family: Arial;">{{ $product['price'] }}</ins>
                                 </div>
                             </div>
                         </div>

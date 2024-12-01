@@ -67,7 +67,7 @@
                             class="product-name">{{ $item->product->product_name }}</a>
                         <div class="price-box">
                             <span class="product-quantity">{{ $item->quantity }}</span>
-                            <span class="product-price">{{ $item->product->price }}</span>
+                            <span class="product-price" style="font-family: Arial;">{{ $item->product->price }}</span>
                         </div>
                     </div>
                     <figure class="product-media">
@@ -88,15 +88,32 @@
         <div class="cart-total">
             <label>Subtotal:</label>
             <span
-                class="price">₹{{ $cartItems->sum(function ($item) {
+                class="price" style="font-family: Arial;">₹{{ $cartItems->sum(function ($item) {
                     return (float) str_replace('₹', '', $item->product->price) * $item->quantity;
                 }) }}</span>
         </div>
 
         <div class="cart-action">
             <a href="{{ route('view-cart') }}" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-            <a href="" class="btn btn-primary btn-rounded">Checkout</a>
+            <a href="{{route('checkout')}}" class="btn btn-primary btn-rounded">Checkout</a>
         </div>
     </div>
     <!-- End of Dropdown Box -->
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Use event delegation
+    document.body.addEventListener('click', (event) => {
+        if (event.target.closest('.btn-cart')) {
+            // Your event handler code here
+            console.log('Add to Cart button clicked!');
+            // You can also access other data if needed
+            window.appData = {
+            cartId: 123, // Example data
+            userId: 456
+        };
+        }
+    });
+});
+
+</script>

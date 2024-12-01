@@ -67,7 +67,7 @@
                                             </a>
                                         </td>
                                         <td class="product-price">
-                                            <ins class="new-price">{{ $item->product->price }}</ins>
+                                            <ins class="new-price"style="font-family: Arial;">{{ $item->product->price }}</ins>
                                         </td>
                                         <td class="product-stock-status">
                                             <span class="wishlist-in-stock">{{$item->product->quantity > 0 ? "In Stock" : "out of stock"}}</span>

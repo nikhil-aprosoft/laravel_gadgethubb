@@ -121,7 +121,7 @@
                                 reviews)</a>
                         </div>
                         <div class="product-pa-wrapper">
-                            <div class="product-price">
+                            <div class="product-price" style="font-family: Arial;">
                                 {{ $item->price }}
                             </div>
                         </div>

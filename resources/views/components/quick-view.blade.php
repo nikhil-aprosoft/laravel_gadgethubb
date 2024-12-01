@@ -64,7 +64,7 @@
 
                 <hr class="product-divider">
 
-                <div class="product-price">{{ $product->price }}</div>
+                <div class="product-price" style="font-family: Arial;">{{ $product->price }}</div>
 
                 <div class="ratings-container">
                     <div class="ratings-full">

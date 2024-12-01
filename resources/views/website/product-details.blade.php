@@ -1,7 +1,43 @@
 @extends('layouts.app')
 @section('title', 'Product-Details')
 @section('content')
+<script>
+    function addToCart(product) {
+        const url = `{{ route('cart') }}`;
+        const loginUrl = `{{ route('register_login') }}`;
 
+        axios.post(url, {
+                product_id: product.product_id,
+                quantity: 1
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product added to cart",
+                    icon: "success"
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            })
+            .catch(error => {
+                // console.error("There was an error adding the product to the cart:", error);
+                // alert("Failed to add to cart. Please try again.");
+
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
+            });
+    }
+</script>
     <div class="page-wrapper">
         <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
 
@@ -100,7 +136,7 @@
 
                                             <hr class="product-divider">
 
-                                            <div class="product-price"><ins class="new-price">{{ $product->price }}</ins>
+                                            <div class="product-price"><ins class="new-price" style="font-family: Arial;">{{ $product->price }}</ins>
                                             </div>
 
                                             <div class="ratings-container">
@@ -181,11 +217,12 @@
                                                             <button class="quantity-plus w-icon-plus"></button>
                                                             <button class="quantity-minus w-icon-minus"></button>
                                                         </div>
-                                                    </div>
-                                                    <button class="btn btn-primary btn-cart">
+                                                    </div>                                            
+                                                    <button class="btn btn-primary btn-cart"  onclick="addToCart({{ json_encode($product) }})">
                                                         <i class="w-icon-cart"></i>
                                                         <span>Add to Cart</span>
                                                     </button>
+
                                                 </div>
                                             </div>
 
@@ -1100,7 +1137,7 @@
                                                                 reviews)</a>
                                                         </div>
                                                         <div class="product-pa-wrapper">
-                                                            <div class="product-price">{{ $item->price }}</div>
+                                                            <div class="product-price" style="font-family: Arial;">{{ $item->price }}</div>
                                                         </div>
                                                     </div>
                                                 </div>

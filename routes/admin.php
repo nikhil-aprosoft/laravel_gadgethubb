@@ -2,11 +2,17 @@
 
 // routes/admin.php
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DailyDealController;
-use App\Http\Controllers\Admin\ProductController;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DeliveryController;
+use App\Http\Controllers\Admin\DailyDealController;
+
+
+Route::prefix('deliveries')->name('deliveries.')->group(function () {
+    Route::resource('/', DeliveryController::class);
+});
 
 Route::prefix('products')->name('products.')->group(function () {
     Route::get('create', [ProductController::class, 'create'])->name('create');

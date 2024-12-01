@@ -430,7 +430,7 @@
                                                             <hr class="product-divider">
 
                                                             <div class="product-price"><ins
-                                                                    class="new-price ls-50">{{ $product->price }}</ins>
+                                                                    class="new-price ls-50" style="font-family: Arial;">{{ $product->price }}</ins>
                                                             </div>
 
                                                             <div class="product-countdown-container flex-wrap">
@@ -622,7 +622,7 @@
                                                                     </div>
                                                                     <div class="product-price">
                                                                         <ins
-                                                                            class="new-price">{{ $bS->price }}</ins>
+                                                                            class="new-price" style="font-family: Arial;">{{ $bS->price }}</ins>
                                                                     </div>
                                                                 </div>
                                                             </div>
