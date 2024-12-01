@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- Mirrored from portotheme.com/html/wolmart/{{url('index')}} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:50:42 GMT -->
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <head>
     <meta charset="UTF-8">
@@ -15,7 +11,7 @@
     <meta name="keywords" content="Marketplace ecommerce responsive HTML5 Template" />
     <meta name="description" content="Wolmart is powerful marketplace &amp; ecommerce responsive Html5 Template.">
     <meta name="author" content="D-THEMES">
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/icons/favicon.png">
     <!-- WebFont.js -->
@@ -55,16 +51,16 @@
     <!-- Default CSS -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.min.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-<!-- Add this in the <head> section of your Blade template -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Add this in the <head> section of your Blade template -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
 <body class="home">
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             var status = @json(session('status'));
             var statusType = @json(session('status_type'));
 
@@ -76,6 +72,41 @@
                 });
             }
         });
+        function addToCart(product) {
+        const url = `{{ route('cart') }}`;
+        const loginUrl = `{{ route('register_login') }}`;
+
+        axios.post(url, {
+                product_id: product.product_id,
+                quantity: 1
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product added to cart",
+                    icon: "success"
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            })
+            .catch(error => {
+                // console.error("There was an error adding the product to the cart:", error);
+                // alert("Failed to add to cart. Please try again.");
+
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
+            });
+    }
     </script>
     <div class="page-wrapper">
         <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
@@ -277,7 +308,7 @@
                     <div class="col-md-6 mb-4">
                         <div class="banner banner-fixed br-xs">
                             <figure>
-                                <img src="{{asset('assets/images/short_banner/1.png')}}" alt="Category Banner"
+                                <img src="{{ asset('assets/images/short_banner/1.png') }}" alt="Category Banner"
                                     width="610" height="160" style="background-color: #ecedec;" />
                             </figure>
                             {{-- <div class="banner-content y-50 mt-0">
@@ -296,7 +327,7 @@
                     <div class="col-md-6 mb-4">
                         <div class="banner banner-fixed br-xs">
                             <figure>
-                                <img src="{{asset('assets/images/short_banner/2.png')}}" alt="Category Banner"
+                                <img src="{{ asset('assets/images/short_banner/2.png') }}" alt="Category Banner"
                                     width="610" height="160" style="background-color: #636363;" />
                             </figure>
                             {{-- <div class="banner-content y-50 mt-0">
@@ -358,7 +389,9 @@
                                                                 <button class="swiper-button-next"></button>
                                                                 <button class="swiper-button-prev"></button>
                                                                 <div class="product-label-group">
-                                                                    <label class="product-label label-discount">{{$dailyDeal->discount_amount}}% off</label>
+                                                                    <label
+                                                                        class="product-label label-discount">{{ $dailyDeal->discount_amount }}%
+                                                                        off</label>
                                                                 </div>
                                                             </div>
                                                             <div class="product-thumbs-wrap swiper-container"
@@ -397,7 +430,7 @@
                                                             <hr class="product-divider">
 
                                                             <div class="product-price"><ins
-                                                                    class="new-price ls-50">{{ $product->price }}</ins>
+                                                                    class="new-price ls-50" style="font-family: Arial;">{{ $product->price }}</ins>
                                                             </div>
 
                                                             <div class="product-countdown-container flex-wrap">
@@ -430,7 +463,7 @@
                                                                             isset($attribute['color']) &&
                                                                             !empty($attribute['color'])
                                                                         ) {
-                                                                            \Log::alert("message");
+                                                                            \Log::alert('message');
                                                                             $hasColor = true;
                                                                         }
 
@@ -493,14 +526,14 @@
                                                                             class="quantity-minus w-icon-minus"></button>
                                                                     </div>
                                                                 </div>
-                                                                <button class="btn btn-primary btn-cart">
+                                                                <button class="btn btn-primary btn-cart"  onclick="addToCart({{ json_encode($product) }})">
                                                                     <i class="w-icon-cart"></i>
                                                                     <span>Add to Cart</span>
                                                                 </button>
                                                             </div>
 
                                                             <div class="social-links-wrapper mt-1">
-                                                                <div class="social-links">
+                                                                <div class="social-links mx-auto">
                                                                     <div
                                                                         class="social-icons social-no-color border-thin">
                                                                         <a href="#"
@@ -515,13 +548,13 @@
                                                                             class="social-icon social-youtube fab fa-linkedin-in"></a>
                                                                     </div>
                                                                 </div>
-                                                                <span class="divider d-xs-show"></span>
-                                                                <div class="product-link-wrapper d-flex">
+                                                                {{-- <span class="divider d-xs-show"></span> --}}
+                                                                {{-- <div class="product-link-wrapper d-flex">
                                                                     <a href="#"
-                                                                        class="btn-product-icon btn-wishlist w-icon-heart"></a>
+                                                                    onClick="wishList({{ json_encode($product) }})"   class="btn-product-icon btn-wishlist w-icon-heart"></a>
                                                                     <a href="#"
                                                                         class="btn-product-icon btn-compare btn-icon-left w-icon-compare"></a>
-                                                                </div>
+                                                                </div> --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -569,8 +602,9 @@
                                                         <div class="product-widget-wrap">
                                                             <div class="product product-widget bb-no">
                                                                 <figure class="product-media">
-                                                                    <a href="product-default.html">
-                                                                        <img src="assets/images/demos/demo1/products/2-7.jpg"
+                                                                    <a
+                                                                        href="{{ route('product-details', ['slug' => $bS->slug]) }}">
+                                                                        <img src="{{ $bS->thumbnail }}"
                                                                             alt="Product" width="105"
                                                                             height="118" />
                                                                     </a>
@@ -578,7 +612,7 @@
                                                                 <div class="product-details">
                                                                     <h4 class="product-name">
                                                                         <a
-                                                                            href="product-default.html">{{ $bS->product_name }}</a>
+                                                                            href="{{ route('product-details', ['slug' => $bS->slug]) }}">{{ $bS->product_name }}</a>
                                                                     </h4>
                                                                     <div class="ratings-container">
                                                                         {{-- <div class="ratings-full">
@@ -588,7 +622,7 @@
                                                                     </div>
                                                                     <div class="product-price">
                                                                         <ins
-                                                                            class="new-price">{{ $bS->price }}</ins>
+                                                                            class="new-price" style="font-family: Arial;">{{ $bS->price }}</ins>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -675,9 +709,12 @@
         <x-shoes-section :data="$shoesSection" />
 
 
-        <x-recent-product-view />
+        <!-- Example usage in a Blade view -->
+        <x-recent-product-view :recentViews="$recentViews" />
+
     </div>
 
+    
     </div>
     <!--End of Catainer -->
     </main>
@@ -703,8 +740,5 @@
     <script src="assets/js/main.min.js"></script>
     <script src="{{ asset('assets/js/search.js') }}"></script>
 </body>
-
-
-<!-- Mirrored from portotheme.com/html/wolmart/{{url('index')}} by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Jun 2024 11:52:46 GMT -->
 
 </html>

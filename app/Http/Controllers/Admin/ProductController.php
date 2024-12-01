@@ -16,6 +16,11 @@ use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
+    public function index(Request $request)
+    {
+
+    }
+
     public function create()
     {
         $categories = Category::all();
@@ -177,9 +182,27 @@ class ProductController extends Controller
             $ProductAttribute->save();
         }
     }
-    public function viewProduts()
+    public function viewProduts(Request $request)
     {
-        $products = Product::paginate(10);
+        $query = Product::query();
+      
+        // Filter by category if selected
+        if ($request->category_id) {
+            $query->where('category_id', $request->input('category_id'));
+        }
+    
+        // Filter by status if selected
+        if ($request->status) {
+            $query->where('is_active', $request->input('status'));
+        }
+    
+        // Filter by stock status if selected
+        if ($request->stock) {
+            $query->where('stock','>', $request->stock);
+        }
+    
+        $products = $query->paginate(10);
+    
         return view('admin.products.view-products', compact('products'));
     }
     public function updateStockStatus(Request $request, $id)
