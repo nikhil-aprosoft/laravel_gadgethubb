@@ -237,51 +237,13 @@
                                         <h4 class="icon-box-title mb-0 ls-normal">Addresses</h4>
                                     </div>
                                 </div>
-                                <p>The following addresses will be used on the checkout page
-                                    by default.</p>
+                                {{-- <p>The following addresses will be used on the checkout page
+                                    by default.</p> --}}
+                                    @php
+                                        $address = App\Models\Address::where('user_id',$user->userid)->latest()->limit(1)->first();
+                                    @endphp
                                 <div class="row">
-                                    <div class="col-sm-6 mb-6">
-                                        <div class="ecommerce-address billing-address pr-lg-8">
-                                            <h4 class="title title-underline ls-25 font-weight-bold">Billing Address</h4>
-                                            <address class="mb-4">
-                                                <table class="address-table">
-                                                    <tbody>
-                                                        <tr>
-                                                            <th>Name:</th>
-                                                            <td>John Doe</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Company:</th>
-                                                            <td>Conia</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Address:</th>
-                                                            <td>Wall Street</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>City:</th>
-                                                            <td>California</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Country:</th>
-                                                            <td>United States (US)</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Postcode:</th>
-                                                            <td>92020</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Phone:</th>
-                                                            <td>1112223334</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </address>
-                                            <a href="#"
-                                                class="btn btn-link btn-underline btn-icon-right text-primary">Edit
-                                                your billing address<i class="w-icon-long-arrow-right"></i></a>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-sm-6 mb-6">
                                         <div class="ecommerce-address shipping-address pr-lg-8">
                                             <h4 class="title title-underline ls-25 font-weight-bold">Shipping Address</h4>
@@ -290,40 +252,37 @@
                                                     <tbody>
                                                         <tr>
                                                             <th>Name:</th>
-                                                            <td>John Doe</td>
+                                                            <td>{{$address->fname}}</td>
                                                         </tr>
                                                         <tr>
-                                                            <th>Company:</th>
-                                                            <td>Conia</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Address:</th>
-                                                            <td>Wall Street</td>
-                                                        </tr>
+                                                            <th>State:</th>
+                                                            <td>{{$address->state}}</td>
+                                                        </tr>                                                        
                                                         <tr>
                                                             <th>City:</th>
-                                                            <td>California</td>
+                                                            <td>{{$address->city}}</td>
                                                         </tr>
                                                         <tr>
-                                                            <th>Country:</th>
-                                                            <td>United States (US)</td>
+                                                            <th>Area:</th>
+                                                            <td>{{$address->area}}</td>
                                                         </tr>
                                                         <tr>
-                                                            <th>Postcode:</th>
-                                                            <td>92020</td>
+                                                            <th>Phone:</th>
+                                                            <td>{{$address->phone_no}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Pincode:</th>
+                                                            <td>{{$address->pincode}}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                            </address>
-                                            <a href="#"
-                                                class="btn btn-link btn-underline btn-icon-right text-primary">Edit your
-                                                shipping address<i class="w-icon-long-arrow-right"></i></a>
+                                            </address>                                           
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="tab-pane" id="account-details">
+                            {{-- <div class="tab-pane" id="account-details">
                                 <div class="icon-box icon-box-side icon-box-light">
                                     <span class="icon-box-icon icon-account mr-2">
                                         <i class="w-icon-user"></i>
@@ -385,7 +344,7 @@
                                     <button type="submit" class="btn btn-dark btn-rounded btn-sm mb-4">Save
                                         Changes</button>
                                 </form>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
