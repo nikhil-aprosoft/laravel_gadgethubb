@@ -10,13 +10,15 @@ use App\Http\Controllers\Admin\DeliveryController;
 use App\Http\Controllers\Admin\DailyDealController;
 
 
+
+Route::view('login','admin.login');
 Route::prefix('deliveries')->name('deliveries.')->group(function () {
     Route::resource('/', DeliveryController::class);
 });
 
 Route::prefix('products')->name('products.')->group(function () {
     Route::get('create', [ProductController::class, 'create'])->name('create');
-    Route::post('/', [ProductController::class, 'store'])->name('store');
+    Route::post('store', [ProductController::class, 'store'])->name('store');
     Route::get('show', [ProductController::class, 'viewProduts']);
     Route::post('update-stock-status/{id}', [ProductController::class, 'updateStockStatus'])->name('updateStockStatus');
     Route::get('activate-deactivate/{slug}', [ProductController::class, 'deactivate'])->name('deactivate-product');
