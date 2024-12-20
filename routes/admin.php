@@ -8,10 +8,21 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DeliveryController;
 use App\Http\Controllers\Admin\DailyDealController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 
 Route::view('login','admin.login');
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');
+Route::get('/weekly-overview', [DashboardController::class, 'getWeeklyOverview'])->name('admin.weekly-overview');
+
+
 Route::prefix('deliveries')->name('deliveries.')->group(function () {
     Route::resource('/', DeliveryController::class);
 });

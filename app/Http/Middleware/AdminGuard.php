@@ -16,6 +16,13 @@ class AdminGuard
      */
     public function handle(Request $request, Closure $next)
     {
+        
+        if (auth()->user()->role !== "admin") {
+            return response()->json(['message' => 'Your account is inactive'], 403);
+        }
+        
+
+  
         return $next($request);
     }
 }
