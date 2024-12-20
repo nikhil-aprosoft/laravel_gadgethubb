@@ -8,6 +8,19 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DeliveryController;
 use App\Http\Controllers\Admin\DailyDealController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+
+
+
+Route::view('login','admin.login');
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');
+Route::get('/weekly-overview', [DashboardController::class, 'getWeeklyOverview'])->name('admin.weekly-overview');
 
 
 Route::prefix('deliveries')->name('deliveries.')->group(function () {
@@ -16,7 +29,7 @@ Route::prefix('deliveries')->name('deliveries.')->group(function () {
 
 Route::prefix('products')->name('products.')->group(function () {
     Route::get('create', [ProductController::class, 'create'])->name('create');
-    Route::post('/', [ProductController::class, 'store'])->name('store');
+    Route::post('store', [ProductController::class, 'store'])->name('store');
     Route::get('show', [ProductController::class, 'viewProduts']);
     Route::post('update-stock-status/{id}', [ProductController::class, 'updateStockStatus'])->name('updateStockStatus');
     Route::get('activate-deactivate/{slug}', [ProductController::class, 'deactivate'])->name('deactivate-product');

@@ -67,17 +67,19 @@
                                             </a>
                                         </td>
                                         <td class="product-price">
-                                            <ins class="new-price"style="font-family: Arial;">{{ $item->product->price }}</ins>
+                                            <ins
+                                                class="new-price"style="font-family: Arial;">{{ $item->product->price }}</ins>
                                         </td>
                                         <td class="product-stock-status">
-                                            <span class="wishlist-in-stock">{{$item->product->quantity > 0 ? "In Stock" : "out of stock"}}</span>
+                                            <span
+                                                class="wishlist-in-stock">{{ $item->product->quantity > 0 ? 'In Stock' : 'out of stock' }}</span>
                                         </td>
                                         <td class="wishlist-action">
                                             <div class="d-lg-flex">
                                                 <a href="{{ route('product-details', ['slug' => $item->product->slug]) }}"
                                                     class="btn btn-quickview btn-outline btn-default btn-rounded btn-sm mb-2 mb-lg-0">
                                                     View-Product</a>
-                                                <a href="#"
+                                                <a href="#" onclick="addToCart({{ json_encode( $item->product) }})"
                                                     class="btn btn-dark btn-rounded btn-sm ml-lg-2 btn-cart">Add to cart</a>
                                             </div>
                                         </td>
@@ -109,7 +111,7 @@
     <script>
         function removeFromWishlist(itemId) {
             const url = `{{ route('wishlist.destroy', '') }}/${itemId}`;
-    
+
             axios.delete(url)
                 .then(response => {
                     // Handle success response
@@ -123,6 +125,42 @@
                     console.error(error);
                 });
         }
+
+        function addToCart(product) {
+            const url = `{{ route('cart') }}`;
+            const loginUrl = `{{ route('register_login') }}`;
+
+            axios.post(url, {
+                    product_id: product.product_id,
+                    quantity: 1
+                })
+                .then(response => {
+                    Swal.fire({
+                        title: "Product added to cart",
+                        icon: "success"
+                    });
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                })
+                .catch(error => {
+                    // console.error("There was an error adding the product to the cart:", error);
+                    // alert("Failed to add to cart. Please try again.");
+
+                    if (error.response) {
+                        if (error.response.status === 401) {
+                            console.error('Unauthorized access. Please log in.');
+                            window.location.href = loginUrl;
+                        } else {
+                            console.error('An error occurred:', error.response.data);
+                        }
+                    } else if (error.request) {
+                        console.error('No response received from the server.');
+                    } else {
+                        console.error('Error:', error.message);
+                    }
+                });
+        }
     </script>
-    
+
 @endsection
