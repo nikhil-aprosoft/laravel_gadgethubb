@@ -252,7 +252,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="frequently-bought-together mt-5">
+                                {{-- <div class="frequently-bought-together mt-5">
                                     <h2 class="title title-underline">Frequently Bought Together</h2>
                                     <div class="bought-together-products row mt-8 pb-4">
                                         @foreach ($frequentlyBoughtProduct as $fbp)
@@ -286,7 +286,7 @@
                                                 To Cart</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <script>
                                     document.addEventListener('DOMContentLoaded', function() {
                                         const checkboxes = document.querySelectorAll('.custom-checkbox');
