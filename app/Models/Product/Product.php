@@ -67,6 +67,18 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class, 'product_id', 'product_id');
     }
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+    public function recentViews()
+    {
+        return $this->hasMany(RecentView::class);
+    }
+    public function cart()
+    {
+        return $this->hasMany(Cart::class);
+    }
     protected static function booted()
     {
         static::addGlobalScope(new ActiveScope);

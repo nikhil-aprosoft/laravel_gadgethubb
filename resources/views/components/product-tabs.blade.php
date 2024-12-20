@@ -9,6 +9,72 @@
         @endforeach
     </ul>
 </div>
+<script>
+    function wishList(product) {
+        const url = `{{ route('wishlist') }}`;
+        const loginUrl = `{{ route('register_login') }}`;
+        axios.post(url, {
+                product_id: product.product_id
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product added to wishlist",
+                    icon: "success"
+                });
+            })
+            .catch(error => {
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
+            });
+    }
+
+    function addToCart(product) {
+        const url = `{{ route('cart') }}`;
+        const loginUrl = `{{ route('register_login') }}`;
+
+        axios.post(url, {
+                product_id: product.product_id,
+                quantity: 1
+            })
+            .then(response => {
+                Swal.fire({
+                    title: "Product added to cart",
+                    icon: "success"
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            })
+            .catch(error => {
+                // console.error("There was an error adding the product to the cart:", error);
+                // alert("Failed to add to cart. Please try again.");
+
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        console.error('Unauthorized access. Please log in.');
+                        window.location.href = loginUrl;
+                    } else {
+                        console.error('An error occurred:', error.response.data);
+                    }
+                } else if (error.request) {
+                    console.error('No response received from the server.');
+                } else {
+                    console.error('Error:', error.message);
+                }
+            });
+    }
+</script>
+
 <!-- End of Tab -->
 <div class="tab-content product-wrapper appear-animate">
     @foreach ($tabs as $index => $tab)
@@ -27,10 +93,12 @@
                                     @endif
                                 </a>
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-cart w-icon-cart"
-                                        title="Add to cart"></a>
-                                    <a href="#" class="btn-product-icon btn-wishlist w-icon-heart"
-                                        title="Add to wishlist"></a>
+
+                                    <a href="#" onclick="addToCart({{ json_encode($product) }})"
+                                        class="btn-product-icon btn-cart w-icon-cart" title="Add to cart"></a>
+
+                                    <a href="#" onClick="wishList({{ json_encode($product) }})"
+                                        class="btn-product-icon btn-wishlist w-icon-heart" title="Add to wishlist"></a>
                                     <a href="javascript:void(0)" id="show-user"
                                         data-url="{{ route('quick-view', $product['slug']) }}"
                                         class="btn-product-icon btn-quickview w-icon-search">
@@ -51,7 +119,7 @@
                                     <a href="{{ $product['link'] }}" class="rating-reviews">4.6</a>
                                 </div>
                                 <div class="product-price">
-                                    <ins class="new-price">{{ $product['price'] }}</ins>
+                                    <ins class="new-price" style="font-family: Arial;">{{ $product['price'] }}</ins>
                                 </div>
                             </div>
                         </div>
@@ -261,9 +329,9 @@
                     } else {
                         $('#productSizeSwatch').hide();
                     }
-                    
+
                 },
-                
+
                 error: function() {
                     alert('Failed to fetch product details');
                 }

@@ -22,7 +22,7 @@
                         <input type="text" class="form-control" name="password" id="password" required>
                     </div>
                     <div class="form-checkbox d-flex align-items-center justify-content-between">
-                        <input type="checkbox" class="custom-checkbox" id="remember" name="remember" required="">
+                        <input type="checkbox" class="custom-checkbox" id="remember" name="remember" >
                         <label for="remember">Remember me</label>
                         <a href="#">Last your password?</a>
                     </div>
@@ -48,7 +48,7 @@
                     and for other purposes described in our <a href="#" class="text-primary">privacy policy</a>.</p>
                 <a href="#" class="d-block mb-5 text-primary">Signup as a vendor?</a>
                 <div class="form-checkbox d-flex align-items-center justify-content-between mb-5">
-                    <input type="checkbox" class="custom-checkbox" id="agree" name="agree" required="">
+                    <input type="checkbox" class="custom-checkbox" id="agree" name="agree">
                     <label for="agree" class="font-size-md">I agree to the <a href="#"
                             class="text-primary font-size-md">privacy policy</a></label>
                 </div>
