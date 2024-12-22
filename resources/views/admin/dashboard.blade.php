@@ -136,7 +136,7 @@
                                                     <div class="ms-3">
                                                         <p class="mb-0">Revenue</p>
                                                         <h5 class="mb-0">
-                                                            ${{ number_format($transactionsOverview['total_revenue'], 2) }}
+                                                            ₹{{ number_format($transactionsOverview['total_revenue'], 2) }}
                                                         </h5>
                                                     </div>
                                                 </div>
@@ -184,8 +184,7 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Total Earnings -->
+                            <!-- Total Earnings Section -->
                             <div class="col-xl-4 col-md-6">
                                 <div class="card">
                                     <div class="card-header d-flex align-items-center justify-content-between">
@@ -203,83 +202,60 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-body pt-lg-8">
-                                        <div class="mb-5 mb-lg-12">
+                                    <div class="card-body">
+                                        <div class="mb-5">
                                             <div class="d-flex align-items-center">
-                                                <h3 class="mb-0">$24,895</h3>
-                                                <span class="text-success ms-2">
-                                                    <i class="ri-arrow-up-s-line"></i>
-                                                    <span>10%</span>
-                                                </span>
+                                                <h3 class="mb-0">
+                                                    ₹ {{ number_format($getTotalEarning['totalEarnings'], 2) }}</h3>
+                                                {{-- <span
+                                                    class="{{ $getTotalEarning['percentageChange'] >= 0 ? 'text-success' : 'text-danger' }} ms-2">
+                                                    <i
+                                                        class="ri-arrow-{{ $getTotalEarning['percentageChange'] >= 0 ? 'up' : 'down' }}-s-line"></i>
+                                                    <span>{{ abs($getTotalEarning['percentageChange']) }}%</span>
+                                                </span> --}}
                                             </div>
-                                            <p class="mb-0">Compared to $84,325 last year</p>
+                                            {{-- <p class="mb-0">Compared to
+                                                ${{ number_format($getTotalEarning['lastYearEarnings'], 2) }} last year
+                                            </p> --}}
                                         </div>
                                         <ul class="p-0 m-0">
-                                            <li class="d-flex mb-6">
-                                                <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
-                                                    <img src="../assets/img/icons/misc/zipcar.png" alt="zipcar" />
-                                                </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <h6 class="mb-0">Zipcar</h6>
-                                                        <p class="mb-0">Vuejs, React & HTML</p>
+                                            @foreach ($getTotalEarning['sources'] as $source)
+                                                <li class="d-flex mb-6">
+                                                    <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
+                                                        @php
+                                                            $imagePath = env('APP_URL').'/storage/'.$source['cat_image'];
+                                                        @endphp
+                                                        <img src="{{ $imagePath }}"
+                                                            alt="{{ $source['name'] }}" />
                                                     </div>
-                                                    <div>
-                                                        <h6 class="mb-2">$24,895.65</h6>
-                                                        <div class="progress bg-label-primary" style="height: 4px">
-                                                            <div class="progress-bar bg-primary" style="width: 75%"
-                                                                role="progressbar" aria-valuenow="75"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                                    <div
+                                                        class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                                        <div class="me-2">
+                                                            <h6 class="mb-0">{{ $source['name'] }}</h6>
+                                                            <p class="mb-0">{{ $source['description'] }}</p>
+                                                        </div>
+                                                        <div>
+                                                            <h6>₹{{ number_format((float) $source['amount'], 2) }}</h6>
+
+                                                            <div class="progress bg-label-primary"
+                                                                style="height: 4px">
+                                                                <div class="progress-bar bg-primary"
+                                                                    style="width: {{ $source['progress'] }}%"
+                                                                    role="progressbar"
+                                                                    aria-valuenow="{{ $source['progress'] }}"
+                                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex mb-6">
-                                                <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
-                                                    <img src="../assets/img/icons/misc/bitbank.png" alt="bitbank" />
-                                                </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <h6 class="mb-0">Bitbank</h6>
-                                                        <p class="mb-0">Sketch, Figma & XD</p>
-                                                    </div>
-                                                    <div>
-                                                        <h6 class="mb-2">$8,6500.20</h6>
-                                                        <div class="progress bg-label-info" style="height: 4px">
-                                                            <div class="progress-bar bg-info" style="width: 75%"
-                                                                role="progressbar" aria-valuenow="75"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="d-flex">
-                                                <div class="avatar flex-shrink-0 bg-lightest rounded me-3">
-                                                    <img src="../assets/img/icons/misc/aviato.png" alt="aviato" />
-                                                </div>
-                                                <div
-                                                    class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                                    <div class="me-2">
-                                                        <h6 class="mb-0">Aviato</h6>
-                                                        <p class="mb-0">HTML & Angular</p>
-                                                    </div>
-                                                    <div>
-                                                        <h6 class="mb-2">$1,2450.80</h6>
-                                                        <div class="progress bg-label-secondary" style="height: 4px">
-                                                            <div class="progress-bar bg-secondary" style="width: 75%"
-                                                                role="progressbar" aria-valuenow="75"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                                </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <!--/ Total Earnings -->
+
+                            <!-- /Total Earnings Section -->
+
 
                             <!-- Four Cards -->
                             <div class="col-xl-4 col-md-6">
@@ -288,7 +264,7 @@
                                     <div class="col-sm-6">
                                         <div class="card h-100">
                                             <div class="card-header pb-0">
-                                                <h4 class="mb-0">$86.4k</h4>
+                                                <h4 class="mb-0">₹{{ number_format((float) $getTotalProfit, 2) }}</h4>
                                             </div>
                                             <div class="card-body">
                                                 <div id="totalProfitLineChart" class="mb-3"></div>
@@ -303,7 +279,7 @@
                                             <div class="card-header d-flex align-items-center justify-content-between">
                                                 <div class="avatar">
                                                     <div class="avatar-initial bg-secondary rounded-circle shadow-xs">
-                                                        <i class="ri-pie-chart-2-line ri-24px"></i>
+                                                        <i class="ri-file-word-2-line ri-24px"></i>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown">
@@ -322,12 +298,12 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
-                                                <h6 class="mb-1">Total Profit</h6>
+                                                <h6 class="mb-1">Last Week Profit</h6>
                                                 <div class="d-flex flex-wrap mb-1 align-items-center">
-                                                    <h4 class="mb-0 me-2">$25.6k</h4>
-                                                    <p class="text-success mb-0">+42%</p>
+                                                    <h4 class="mb-0 me-2">₹{{ number_format($lastWeekProfit, 2) }}</h4>
+                                                    <!-- Add a dynamic comparison or progress indicator if needed -->
                                                 </div>
-                                                <small>Weekly Project</small>
+                                                <small>Last Week's Project</small>
                                             </div>
                                         </div>
                                     </div>
@@ -338,7 +314,8 @@
                                             <div class="card-header d-flex align-items-center justify-content-between">
                                                 <div class="avatar">
                                                     <div class="avatar-initial bg-primary rounded-circle shadow-xs">
-                                                        <i class="ri-file-word-2-line ri-24px"></i>
+                                                        <i class="ri-pie-chart-2-line ri-24px"></i>
+
                                                     </div>
                                                 </div>
                                                 <div class="dropdown">
@@ -357,25 +334,47 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
-                                                <h6 class="mb-1">New Project</h6>
+                                                <h6 class="mb-1">Pending Orders</h6>
                                                 <div class="d-flex flex-wrap mb-1 align-items-center">
-                                                    <h4 class="mb-0 me-2">862</h4>
-                                                    <p class="text-danger mb-0">-18%</p>
+                                                    <h4 class="mb-0 me-2">{{$getPendingOrders}}</h4>
+                                                    <p class="text-danger mb-0"></p>
                                                 </div>
-                                                <small>Yearly Project</small>
+                                                {{-- <small>Pending Orders</small>/ --}}
                                             </div>
                                         </div>
                                     </div>
-                                    <!--/ New Yearly Project -->
+                                    <!--/ New Yearly Project-->
                                     <!-- Sessions chart -->
                                     <div class="col-sm-6">
                                         <div class="card h-100">
-                                            <div class="card-header pb-0">
-                                                <h4 class="mb-0">2,856</h4>
+                                            <div class="card-header d-flex align-items-center justify-content-between">
+                                                <div class="avatar">
+                                                    <div class="avatar-initial bg-primary rounded-circle shadow-xs">
+                                                        <i class="ri-money-dollar-circle-line ri-24px"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown">
+                                                    <button class="btn text-muted p-0" type="button"
+                                                        id="newProjectID" data-bs-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        <i class="ri-more-2-line ri-24px"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-end"
+                                                        aria-labelledby="newProjectID">
+                                                        <a class="dropdown-item"
+                                                            href="javascript:void(0);">Refresh</a>
+                                                        <a class="dropdown-item" href="javascript:void(0);">Share</a>
+                                                        <a class="dropdown-item" href="javascript:void(0);">Update</a>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="card-body">
-                                                <div id="sessionsColumnChart" class="mb-3"></div>
-                                                <h6 class="text-center mb-0">Sessions</h6>
+                                                <h6 class="mb-1">Success Orders</h6>
+                                                <div class="d-flex flex-wrap mb-1 align-items-center">
+                                                    <h4 class="mb-0 me-2">{{$getSuccessOrders}}</h4>
+                                                    <p class="text-danger mb-0"></p>
+                                                </div>
+                                                {{-- <small>Pending Orders</small>/ --}}
                                             </div>
                                         </div>
                                     </div>
@@ -384,7 +383,7 @@
                             </div>
                             <!--/ Total Earning -->
 
-                            <!-- Sales by Countries -->
+                            {{-- <!-- Sales by Countries -->
                             <div class="col-xl-4 col-md-6">
                                 <div class="card h-100">
                                     <div class="card-header d-flex align-items-center justify-content-between">
@@ -410,7 +409,7 @@
                                                 </div>
                                                 <div>
                                                     <div class="d-flex align-items-center gap-1 mb-1">
-                                                        <h6 class="mb-0">$8,656k</h6>
+                                                        <h6 class="mb-0">₹8,656k</h6>
                                                         <i class="ri-arrow-up-s-line ri-24px text-success"></i>
                                                         <span class="text-success">25.8%</span>
                                                     </div>
@@ -430,7 +429,7 @@
                                                 </div>
                                                 <div>
                                                     <div class="d-flex align-items-center gap-1 mb-1">
-                                                        <h6 class="mb-0">$2,415k</h6>
+                                                        <h6 class="mb-0">₹2,415k</h6>
                                                         <i class="ri-arrow-down-s-line ri-24px text-danger"></i>
                                                         <span class="text-danger">6.2%</span>
                                                     </div>
@@ -470,7 +469,7 @@
                                                 </div>
                                                 <div>
                                                     <div class="d-flex align-items-center gap-1 mb-1">
-                                                        <h6 class="mb-0">$745k</h6>
+                                                        <h6 class="mb-0">₹745k</h6>
                                                         <i class="ri-arrow-down-s-line ri-24px text-danger"></i>
                                                         <span class="text-danger">11.9%</span>
                                                     </div>
@@ -490,7 +489,7 @@
                                                 </div>
                                                 <div>
                                                     <div class="d-flex align-items-center gap-1 mb-1">
-                                                        <h6 class="mb-0">$45k</h6>
+                                                        <h6 class="mb-0">₹45k</h6>
                                                         <i class="ri-arrow-up-s-line ri-24px text-success"></i>
                                                         <span class="text-success">16.2%</span>
                                                     </div>
@@ -531,7 +530,7 @@
                                                                 <h6 class="mb-0">Gumroad Account</h6>
                                                                 <p class="mb-0">Sell UI Kit</p>
                                                             </div>
-                                                            <h6 class="text-success mb-0">+$4,650</h6>
+                                                            <h6 class="text-success mb-0">+₹4,650</h6>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex mb-4 align-items-center pb-2">
@@ -546,7 +545,7 @@
                                                                 <h6 class="mb-0">Mastercard</h6>
                                                                 <p class="mb-0">Wallet deposit</p>
                                                             </div>
-                                                            <h6 class="text-success mb-0">+$92,705</h6>
+                                                            <h6 class="text-success mb-0">+₹92,705</h6>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex mb-4 align-items-center pb-2">
@@ -561,7 +560,7 @@
                                                                 <h6 class="mb-0">Stripe Account</h6>
                                                                 <p class="mb-0">iOS Application</p>
                                                             </div>
-                                                            <h6 class="text-success mb-0">+$957</h6>
+                                                            <h6 class="text-success mb-0">+₹957</h6>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex mb-4 align-items-center pb-2">
@@ -576,7 +575,7 @@
                                                                 <h6 class="mb-0">American Bank</h6>
                                                                 <p class="mb-0">Bank Transfer</p>
                                                             </div>
-                                                            <h6 class="text-success mb-0">+$6,837</h6>
+                                                            <h6 class="text-success mb-0">+₹6,837</h6>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex align-items-center">
@@ -591,7 +590,7 @@
                                                                 <h6 class="mb-0">Bank Account</h6>
                                                                 <p class="mb-0">Wallet deposit</p>
                                                             </div>
-                                                            <h6 class="text-success mb-0">+$446</h6>
+                                                            <h6 class="text-success mb-0">+₹446</h6>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -619,7 +618,7 @@
                                                                 <h6 class="mb-0">Google Adsense</h6>
                                                                 <p class="mb-0">Paypal deposit</p>
                                                             </div>
-                                                            <h6 class="text-danger mb-0">-$145</h6>
+                                                            <h6 class="text-danger mb-0">-₹145</h6>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex mb-4 align-items-center pb-2">
@@ -634,7 +633,7 @@
                                                                 <h6 class="mb-0">Github Enterprise</h6>
                                                                 <p class="mb-0">Security &amp; compliance</p>
                                                             </div>
-                                                            <h6 class="text-danger mb-0">-$1870</h6>
+                                                            <h6 class="text-danger mb-0">-₹1870</h6>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex mb-4 align-items-center pb-2">
@@ -649,7 +648,7 @@
                                                                 <h6 class="mb-0">Upgrade Slack Plan</h6>
                                                                 <p class="mb-0">Debit card deposit</p>
                                                             </div>
-                                                            <h6 class="text-danger mb-0">$450</h6>
+                                                            <h6 class="text-danger mb-0">₹450</h6>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex mb-4 align-items-center pb-2">
@@ -664,7 +663,7 @@
                                                                 <h6 class="mb-0">Digital Ocean</h6>
                                                                 <p class="mb-0">Cloud Hosting</p>
                                                             </div>
-                                                            <h6 class="text-danger mb-0">-$540</h6>
+                                                            <h6 class="text-danger mb-0">-₹540</h6>
                                                         </div>
                                                     </li>
                                                     <li class="d-flex align-items-center">
@@ -679,7 +678,7 @@
                                                                 <h6 class="mb-0">AWS Account</h6>
                                                                 <p class="mb-0">Choosing a Cloud Platform</p>
                                                             </div>
-                                                            <h6 class="text-danger mb-0">-$21</h6>
+                                                            <h6 class="text-danger mb-0">-₹21</h6>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -897,7 +896,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--/ Data Tables -->
+                            <!--/ Data Tables --> --}}
                         </div>
                     </div>
                     <!-- / Content -->

@@ -42,3 +42,6 @@ function size(){
     
     return $cleanedText;
 }
+function removeCurrency($value){
+    return ((float) str_replace('₹', '', $value));
+}

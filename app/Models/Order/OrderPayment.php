@@ -21,23 +21,23 @@ class OrderPayment extends Model
         'payment_status',
         'payment_status',
         'transaction_id',
-        'payment_status',        
+        'payment_status',
         'transaction_id',
         'payment_date',
-        'status',               
-        'txnid',                
-        'mode',                 
-        'mihpayid',             
-        'net_amount_debit',     
-        'addedon',              
-        'hash',                 
-        'unmappedstatus',       
-        'payment_source',       
-        'pg_type',              
-        'bank_ref_num',         
-        'bankcode',             
-        'error',                
-        'error_message',        
+        'status',
+        'txnid',
+        'mode',
+        'mihpayid',
+        'net_amount_debit',
+        'addedon',
+        'hash',
+        'unmappedstatus',
+        'payment_source',
+        'pg_type',
+        'bank_ref_num',
+        'bankcode',
+        'error',
+        'error_message',
     ];
 
     /**
@@ -47,5 +47,13 @@ class OrderPayment extends Model
     {
         return $this->belongsTo(Order::class, 'order_id', 'orderid');
     }
-
+    public function getPaymentStatusAttribute($value)
+    {
+        switch ($value) {
+            case 'success':
+                return "Paid";
+            default:
+                return $value;
+        }
+    }
 }
