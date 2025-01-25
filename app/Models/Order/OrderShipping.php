@@ -2,22 +2,26 @@
 
 namespace App\Models\Order;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrderShipping extends Model
 {
     use HasFactory;
 
+    protected $table = 'order_shippings';
     protected $keyType = 'string';
     public $incrementing = false;
 
-    // Fillable fields
+    /**
+     * The attributes that are mass assignable.
+     */
     protected $fillable = [
-        'shipping_id',
+        'shipping_id',  // Ensure this is included
         'order_id',
         'shipment_id',
         'tracking_code',
+        'delivery_status'
     ];
 
     /**

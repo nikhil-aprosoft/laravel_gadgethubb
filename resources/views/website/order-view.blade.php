@@ -40,7 +40,7 @@
                     </li>
                     <li>
                         <label>Status</label>
-                        <strong>{{ $order->payments[0]->status }}</strong>
+                        <strong>{{ $order->payments->first()->payment_status }}</strong>
                     </li>
                     <li>
                         <label>Date</label>
@@ -48,12 +48,13 @@
                     </li>
                     <li>
                         <label>Total</label>
-                        <strong>₹ {{ number_format($order->payments[0]->amount, 2) }}</strong>
+                        <strong class="rupessPrice" style="font-family: Arial;">₹ {{ number_format($order->payments->first()->amount, 2) }}</strong>
                     </li>
                     <li>
                         <label>Payment Source</label>
-                        <strong>{{ $order->payments[0]->payment_source }}</strong>
+                        <strong>{{ ucfirst($order->payments->first()->payment_source) }}</strong>
                     </li>
+                    
                 </ul>
 
                 <!-- Order Details -->
@@ -72,14 +73,14 @@
                                     <td>
                                         <a href="{{ route('product-details', ['slug' =>$orderItem->product->slug]) }}">{{ $orderItem->product->product_name }}</a>&nbsp;<strong>x {{ $orderItem->quantity }}</strong>
                                     </td>
-                                    <td>₹{{ number_format($orderItem->price, 2) }}</td>
+                                    <td style="font-family: Arial;">₹{{ number_format($orderItem->price, 2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>Subtotal:</th>
-                                <td>₹{{ number_format($order->items->sum(fn($item) => $item->price * $item->quantity), 2) }}</td>
+                                <td style="font-family: Arial;">₹{{ number_format($order->items->sum(fn($item) => $item->price * $item->quantity), 2) }}</td>
                             </tr>
                             <tr>
                                 <th>Shipping:</th>
@@ -91,7 +92,7 @@
                             </tr>
                             <tr class="total">
                                 <th class="border-no">Total:</th>
-                                <td class="border-no">₹{{ number_format($order->payments[0]->amount, 2) }}</td>
+                                <td class="border-no" style="font-family: Arial;">₹{{ number_format($order->payments[0]->amount, 2) }}</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -100,6 +101,7 @@
         </div>
         <!-- End of Page Content -->
     </main>
+
     @include('website.partials.footer')
 </div>
 @endsection
