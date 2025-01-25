@@ -26,17 +26,17 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([       
-            // BannersSeeder::class,
-            // FeatureWallpapersSeeder::class,
-            // ParentCategoriesSeeder::class,
-            // CategoriesSeeder::class,
+            BannersSeeder::class,
+            FeatureWallpapersSeeder::class,
+            ParentCategoriesSeeder::class,
+            CategoriesSeeder::class,
             ProductsSeeder::class,
             ColorSeeder::class,
             SizeSeeder::class,
             ProductAttributeSeeder::class,
             DailyDealsSeeder::class,
-            UserSeeder::class,
-           AddressSeeder::class
+        //     UserSeeder::class,
+        //    AddressSeeder::class
         ]);
     }
 }
