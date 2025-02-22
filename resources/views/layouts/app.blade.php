@@ -9,7 +9,7 @@
     <title>@yield('title', 'My Application')</title>
     <x-head />
     <!-- You can include your stylesheets here -->
-    <link rel="stylesheet" href="{{ asset('assets/css/styles.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
     <!-- Add this line in your Blade template -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
@@ -26,9 +26,7 @@
 
 
 
-    <!-- Plugin JS Files -->
-    <script data-cfasync="false" src="{{ asset('cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}">
-    </script>
+
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/sticky/sticky.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery.plugin/jquery.plugin.min.js') }}"></script>

@@ -2,15 +2,16 @@
 
 namespace App\Models\Product;
 
+use App\Models\Category;
 use App\Models\DailyDeal;
-use App\Models\Product\FrequentlyBoughtProduct;
-use App\Models\Product\Product;
-use App\Models\Product\ProductAttribute;
 use App\Scopes\ActiveScope;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Product\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Product\ProductAttribute;
+use App\Models\Product\FrequentlyBoughtProduct;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
@@ -46,6 +47,11 @@ class Product extends Model
     protected $table = 'products';
 
     protected $appends = ['category'];
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+    }
 
     public function getCategoryAttribute()
     {

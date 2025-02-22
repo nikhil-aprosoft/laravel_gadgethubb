@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Address extends Model
 {
@@ -40,9 +41,9 @@ class Address extends Model
      */
     public static function storeUserAddress($request)
     {
-        $user  = session('user');
+        $user = session('user');
         return self::create([
-            'addressid'=>Str::uuid(),
+            'addressid' => Str::uuid(),
             'user_id' => $user->userid,
             'fname' => $request->fname,
             'phone_no' => $request->phone_no,
@@ -52,8 +53,16 @@ class Address extends Model
             'city' => $request->city,
             'state' => $request->state,
             'alternate_phone' => $request->alternate_phone,
-            'order_note'=>$request->order_note,
-            'landmark'=>$request->landmark,
+            'order_note' => $request->order_note,
+            'landmark' => $request->landmark,
         ]);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

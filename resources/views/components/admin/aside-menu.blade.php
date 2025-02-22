@@ -44,8 +44,8 @@
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item active open">
-            <a href="javascript:void(0);" class="menu-link  waves-effect">
+        <li class="menu-item active open"> 
+            <a href="{{url('admin/dashboard')}}" class="menu-link  waves-effect">
               <i class="menu-icon tf-icons ri-home-smile-line"></i>
               <div data-i18n="Dashboards">Dashboards</div>
               <div class="badge bg-danger rounded-pill ms-auto">5</div>
@@ -104,6 +104,26 @@
                     </a>
                 </li>
             </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-git-commit-line"></i>
+                <div data-i18n="Wizard Examples">Orders</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ url('admin/orders/') }}" class="menu-link">
+                        <div data-i18n="orders">Orders</div>
+                    </a>
+                </li>
+              
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="{{ url('admin/deliveries/') }}" class="menu-link">
+                <i class="menu-icon tf-icons ri-git-commit-line"></i>
+                <div data-i18n="Wizard Examples">Delivery</div>
+            </a>
         </li>
     </ul>
 </aside>

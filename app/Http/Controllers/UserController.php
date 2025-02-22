@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     public function index(){
-        return view('website.register_login');
+        return view('website.register-login');
     }
     public function login(Request $request)
     {
@@ -73,7 +73,7 @@ class UserController extends Controller
     {
         $user = session('user');
         if (!$user) {
-            return view('website.register_login');
+            return view('website.register-login');
         }
         return view('website.myaccount');
     }

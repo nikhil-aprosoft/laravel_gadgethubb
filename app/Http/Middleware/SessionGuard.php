@@ -19,7 +19,7 @@ class SessionGuard
         // Check if the user is authenticated
         $user = session('user');
         if (!$user) {
-            return redirect()->route('register_login');
+            return redirect()->route('register-login');
         }
         // If authenticated, proceed to the next request
         return $next($request);

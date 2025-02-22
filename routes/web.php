@@ -41,7 +41,7 @@ Route::controller(CategoryController::class)->group(function () {
     Route::get('/search', 'search')->name('search');
 });
 Route::controller(UserController::class)->group(function () {
-    Route::get('register_login', 'index')->name('register_login');
+    Route::get('register-login', 'index')->name('register-login');
     Route::post('/user-login', 'login')->name('user-login');
     Route::post('/signup', 'signUp')->name('signup');
     Route::get("/logout", 'logout')->name('logout');
