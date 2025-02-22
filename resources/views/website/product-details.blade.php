@@ -208,7 +208,7 @@
                                             @endif
 
 
-                                            <div class="fix-bottom product-sticky-content sticky-content">
+                                            <div class="fix-bottom product-sticky-content sticky-content" >
                                                 <div class="product-form container">
                                                     <div class="product-qty-form">
                                                         <div class="input-group">
@@ -1247,7 +1247,7 @@
                                                                                         class="tooltiptext tooltip-top"></span>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="product-price">
+                                                                            <div class="product-price" style="font-family: Arial;">
                                                                                 {{ $product->price }}
                                                                             </div>
                                                                         </div>

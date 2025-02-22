@@ -170,6 +170,7 @@ table {
           animation: fixedTopContent 0.4s;
 }
 .sticky-content.fixed.fix-bottom {
+  display: none;
   -webkit-animation: fixedBottomContent 0.4s;
           animation: fixedBottomContent 0.4s;
 }

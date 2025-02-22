@@ -603,7 +603,7 @@
                                                             <div class="product product-widget bb-no">
                                                                 <figure class="product-media">
                                                                     <a
-                                                                        href="{{ route('product-details', ['product' => $bS]) }}">
+                                                                        href="{{ route('product-details', ['slug' => $bS]) }}">
                                                                         <img src="{{ $bS->thumbnail }}"
                                                                             alt="Product" width="105"
                                                                             height="118" />
@@ -612,7 +612,7 @@
                                                                 <div class="product-details">
                                                                     <h4 class="product-name">
                                                                         <a
-                                                                            href="{{ route('product-details', ['product' => $bS]) }}">{{ $bS->product_name }}</a>
+                                                                            href="{{ route('product-details', ['slug' => $bS]) }}">{{ $bS->product_name }}</a>
                                                                     </h4>
                                                                     <div class="ratings-container">
                                                                         {{-- <div class="ratings-full">
