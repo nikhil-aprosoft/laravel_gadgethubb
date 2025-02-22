@@ -16,7 +16,7 @@ class Authenticate extends Middleware
     {
 
         if (! $request->expectsJson()) {
-            return view('website.register_login');
+            return view('website.register-login');
         }
     
         return response()->json(['message' => 'Success']);

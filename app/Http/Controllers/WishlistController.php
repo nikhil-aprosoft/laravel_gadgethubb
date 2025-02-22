@@ -22,7 +22,7 @@ class WishlistController extends Controller
 
             return view('website.wishlist', compact('wishlistItems'));
         } else {
-            return redirect('register_login');
+            return redirect('register-login');
         }
 
     }
