@@ -35,14 +35,13 @@ Route::view('login', 'website.login');
 // Route::view('daily_deal', 'website.daily_deal');
 
 //  Website View End Here
-
 Route::controller(CategoryController::class)->group(function () {
     Route::get('index', 'index');
     Route::get('category/{slug}', 'showCategoryProducts')->name('category.product');
     Route::get('/search', 'search')->name('search');
 });
 Route::controller(UserController::class)->group(function () {
-    Route::get('register_login', 'index')->name('register_login');
+    Route::get('register-login', 'index')->name('register-login');
     Route::post('/user-login', 'login')->name('user-login');
     Route::post('/signup', 'signUp')->name('signup');
     Route::get("/logout", 'logout')->name('logout');

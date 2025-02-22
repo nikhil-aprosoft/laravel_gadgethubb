@@ -12,7 +12,7 @@
 <script>
     function wishList(product) {
         const url = `{{ route('wishlist') }}`;
-        const loginUrl = `{{ route('register_login') }}`;
+        const loginUrl = `{{ route('register-login') }}`;
         axios.post(url, {
                 product_id: product.product_id
             })
@@ -40,7 +40,7 @@
 
     function addToCart(product) {
         const url = `{{ route('cart') }}`;
-        const loginUrl = `{{ route('register_login') }}`;
+        const loginUrl = `{{ route('register-login') }}`;
 
         axios.post(url, {
                 product_id: product.product_id,

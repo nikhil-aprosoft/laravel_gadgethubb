@@ -105,9 +105,9 @@
                                         <table class="order-table">
                                             <thead>
                                                 <tr>
-                                                    <th colspan="2">
+                                                    {{-- <th colspan="2">
                                                         <b>Product</b>
-                                                    </th>
+                                                    </th> --}}
                                                 </tr>
                                             </thead>
                                             @php
@@ -117,8 +117,8 @@
                                         <tbody>
                                             @foreach ($cartData as $item)
                                                 <tr class="bb-no">
-                                                    <td class="product-name">{{ $item->product->product_name }} <i class="fas fa-times"></i> <span class="product-quantity">1</span></td>
-                                                    <td class="product-total" style="font-family: Arial;">₹ {{ number_format($item->price, 2) }}</td>
+                                                    {{-- <td class="product-name">{{ $item->product->product_name }} <i class="fas fa-times"></i> <span class="product-quantity">1</span></td> --}}
+                                                    {{-- <td class="product-total" style="font-family: Arial;">₹ {{ number_format($item->price, 2) }}</td> --}}
                                                 </tr>
                                                 @php
                                                     $subtotal += $item->price; // Assuming you want to sum the price, not subtotal.
@@ -130,14 +130,25 @@
                                             <td><b>Subtotal</b></td>
                                             <td><b style="font-family: Arial;">₹ {{ number_format($subtotal, 2) }}</b></td>
                                         </tr>
-                                        
+                                        @php
+                                            $shipCost = 0;
+                                            foreach ($shippingCost as $key => $shipping) {                                                
+                                                if ($shipping->from <= $subtotal && $shipping->to >= $subtotal) {
+                                                    $shipCost += $shipping->cost;
+                                                }
+                                            }                                    
+                                            @endphp
+                                           <tr class="cart-subtotal bb-no">
+                                            <td><b>Shipping</b></td>
+                                            <td><b style="font-family: Arial;">₹ {{ number_format($shipCost, 2) }}</b></td>
+                                        </tr>
                                             <tfoot>
                                                 <tr class="order-total">
                                                     <th>
                                                         <b>Total</b>
                                                     </th>
-                                                    <td>
-                                                        <b>₹ {{ number_format($subtotal, 2) }}</b>
+                                                    <td style="font-family: arial;">
+                                                        <b>₹ {{ number_format($subtotal+$shipCost, 2) }}</b>
                                                     </td>
                                                 </tr>
                                             </tfoot>

@@ -4,11 +4,12 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DeliveryController;
 use App\Http\Controllers\Admin\DailyDealController;
-use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 
 
@@ -24,8 +25,18 @@ Route::get('/weekly-overview', [DashboardController::class, 'getWeeklyOverview']
 
 
 Route::prefix('deliveries')->name('deliveries.')->group(function () {
-    Route::resource('/', DeliveryController::class);
+    Route::get('/', [DeliveryController::class,'index']);
+    Route::post('store',[DeliveryController::class,'store'])->name('store');
+    Route::delete('destroy/{delivery}',[DeliveryController::class,'destroy'])->name('destroy');
+
 });
+
+Route::prefix('orders')->name('orders.')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('index');
+    Route::get('/order-details/{order_no}',[OrderController::class,'orderDetails']);
+    Route::get('/user-details/{userid}',[OrderController::class,'userDetails']);
+});
+
 
 Route::prefix('products')->name('products.')->group(function () {
     Route::get('create', [ProductController::class, 'create'])->name('create');

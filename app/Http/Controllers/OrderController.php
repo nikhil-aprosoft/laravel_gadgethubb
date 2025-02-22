@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Address;
+use App\Models\Shipping;
 use App\Models\Order\Order;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\Order\OrderItem;
 use App\Models\Order\OrderPayment;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use App\Jobs\PushOrderToShippingApi;
 
 class OrderController extends Controller
 {
@@ -30,7 +32,10 @@ class OrderController extends Controller
     public function create()
     {
         $user = session('user');
+       
         $cartData = Cart::with('product')->where('user_id', $user->userid)->get();
+        
+        $shippingCost = Shipping::all();
 
         $cartData->transform(function ($item) {
             // Clean and convert the price to a float
@@ -39,7 +44,7 @@ class OrderController extends Controller
             return $item;
         });
 
-        return view('website.checkout', compact('cartData'));
+        return view('website.checkout', compact('cartData','shippingCost'));
     }
 
     /**
@@ -106,7 +111,7 @@ class OrderController extends Controller
             $cleanPrice = str_replace(['₹', ','], '', $item->product->price);
             return floatval($cleanPrice) * $item->quantity; // Explicitly convert to a float
         });
-
+// return $amount;
         $productInfo = $productNamesString;
         $firstName = $request->fname;
         $email = $user->email;
@@ -114,6 +119,7 @@ class OrderController extends Controller
         $txnId = "TXN" . time();
         $surl = config('app.url') . "payment-success?order_id=" . $orderId;
         $furl = config('app.url') . "payment-failure";
+        $webhookUrl = config('app.url') . "api/payu-webhook";
 
         $params = [
             "key" => $merchantKey,
@@ -138,7 +144,7 @@ class OrderController extends Controller
 
         $form = $this->buildPaymentForm($apiEndpoint, $params);
         foreach ($cart as $cartItem) {
-            $cartItem->delete(); 
+            $cartItem->delete();
         }
         return response($form);
     }
@@ -170,18 +176,26 @@ class OrderController extends Controller
 
     public function paymentSuccess(Request $request)
     {
-        $orderId = $request->query('order_id');
+        try {
+            $orderId = $request->query('order_id');
 
-        $chkTxnId = OrderPayment::where('txnid', $request->txnid)->get();
-        if ($chkTxnId->isNotEmpty()) {
-            //Order already exist
-            return view('website.order-view',compact('orderId'));
+            $chkTxnId = OrderPayment::where('txnid', $request->txnid)->get();
+            if ($chkTxnId->isNotEmpty()) {
+                //Order already exist
+                return view('website.order-view', compact('orderId'));
+            }
+
+            $this->orderPayment($request->all(), $orderId);
+            $this->orderStatus($orderId);
+
+            return view('website.order-view', compact('orderId'));
+        } catch (\Throwable $th) {
+            \Log::error('An error occurred: ' . $th->getMessage(), [
+                'exception' => $th,
+                'trace' => $th->getTraceAsString(),
+            ]);
+            return redirect('/');
         }
-
-        $this->orderPayment($request->all(), $orderId);
-        $this->orderStatus($orderId);
-        
-        return view('website.order-view',compact('orderId'));
 
         // return response()->json(['status' => 'success', 'data' => $request->all()]);
     }
@@ -218,7 +232,7 @@ class OrderController extends Controller
         OrderPayment::create([
             'order_payment_id' => Str::uuid(),
             'order_id' => $orderId,
-            'payment_method' => 'cc',
+            'payment_method' => 'PREPAID',
             'amount' => $amount,
             'payment_status' => $status,
             'payment_date' => now(),
@@ -240,20 +254,18 @@ class OrderController extends Controller
             'email' => $email,
             'phone' => $phone,
             'cardnum' => $cardnum,
-        ]);        
+        ]);
     }
 
     public function orderStatus($orderId)
     {
-        // Update the order and generate a unique order number
         $order = Order::where('orderid', $orderId)->update([
-            'order_no' => 'Sandeep Product-' . mt_rand(1000, 9999) . '4',
-            'isactive' => 1
+            'order_no' => generateStylishId(),
+            'isactive' => 1,
         ]);
-    
-        return $order; 
+       // PushOrderToShippingApi::dispatch($orderId);
+        return $order;
     }
-    
     /**
      * Display the specified resource.
      *

@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Shipping;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
-
     public function index()
     {
         $user = session('user');
         $cartItems = Cart::where('user_id', $user->userid)->get();
-        return view('website.cart', compact('cartItems'));
+        $shippingCost = Shipping::all();
+        return view('website.cart', compact('cartItems','shippingCost'));
     }
     public function store(Request $request)
     {
+       // \Log::debug(json_encode($request->all()));
         $user = session('user');
         if (!$user) {
             return response()->json([
@@ -59,7 +61,7 @@ class CartController extends Controller
         $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
-
+        
         $cartItem = Cart::where('cart_id', $cartId)->first();
 
         if (!$cartItem) {
@@ -68,7 +70,10 @@ class CartController extends Controller
 
         $cartItem->quantity = $request->quantity;
         $cartItem->save();
-
+        if($request->cartPage == 1){
+            // \Log::debug(json_encode($cartItem));
+            return response()->json('Cart updated successfully');
+        }
         return redirect()->route('cart.index')->with('success', 'Cart updated successfully!');
     }
 

@@ -19,7 +19,7 @@ class CreateOrderPaymentsTable extends Migration
             $table->string('payment_method');
             $table->decimal('amount', 10, 2);
             $table->string('payment_status');
-            $table->string('transaction_id')->unique();
+            // $table->string('transaction_id')->unique();
             $table->timestamp('payment_date');
             $table->timestamps();
 

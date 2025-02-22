@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Shipping extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'to',
+        'from',
+        'cost'
+    ];
+    
     public function order()
     {
         return $this->belongsTo(Order::class);
