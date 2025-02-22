@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\PushOrderToShippingApi;
-use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Address;
+use App\Models\Shipping;
 use App\Models\Order\Order;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\Order\OrderItem;
 use App\Models\Order\OrderPayment;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use App\Jobs\PushOrderToShippingApi;
 
 class OrderController extends Controller
 {
@@ -31,7 +32,10 @@ class OrderController extends Controller
     public function create()
     {
         $user = session('user');
+       
         $cartData = Cart::with('product')->where('user_id', $user->userid)->get();
+        
+        $shippingCost = Shipping::all();
 
         $cartData->transform(function ($item) {
             // Clean and convert the price to a float
@@ -40,7 +44,7 @@ class OrderController extends Controller
             return $item;
         });
 
-        return view('website.checkout', compact('cartData'));
+        return view('website.checkout', compact('cartData','shippingCost'));
     }
 
     /**

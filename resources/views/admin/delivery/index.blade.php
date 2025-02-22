@@ -66,15 +66,21 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-title">Create Delivery</h5>
+                                             
+                                                <div class="mb-3">
+                                                    <label for="from" class="form-label">From</label>
+                                                    <input type="number" class="form-control" id="from"
+                                                        name="from" placeholder="Enter 'From' value" required />
+                                                </div>
                                                 <div class="mb-3">
                                                     <label for="to" class="form-label">To</label>
                                                     <input type="number" class="form-control" id="to"
                                                         name="to" placeholder="Enter 'To' value" required />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="from" class="form-label">From</label>
+                                                    <label for="cost" class="form-label">Cost</label>
                                                     <input type="number" class="form-control" id="from"
-                                                        name="from" placeholder="Enter 'From' value" required />
+                                                        name="cost" placeholder="Enter  Cost" required />
                                                 </div>
                                                 <button type="submit" class="btn btn-primary">Create Delivery</button>
                                             </div>
@@ -93,6 +99,7 @@
                                                         <th>#</th>
                                                         <th>To</th>
                                                         <th>From</th>
+                                                        <th>Cost</th>
                                                         <th>Actions</th>
                                                     </tr>
                                                 </thead>
@@ -103,8 +110,10 @@
                                                             <td>{{ $index + 1 }}</td>
                                                             <td>{{ $delivery->to }}</td>
                                                             <td>{{ $delivery->from }}</td>
+                                                            <td>{{ $delivery->cost }}</td>
+
                                                             <td>
-                                                                <form action="{{ route('deliveries.destroy', $delivery) }}" method="POST" style="display: inline-block;">
+                                                                <form action="{{ route('deliveries.destroy', $delivery) }}"      method="POST" style="display: inline-block;">
                                                                     @csrf
                                                                     @method('DELETE')
                                                                     <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -128,7 +137,17 @@
 
     <!-- Core JS -->
     <script src="{{ asset('admin_asset/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('admin_asset/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('admin_asset/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('admin_asset/vendor/libs/node-waves/node-waves.js') }}"></script>
+    <script src="{{ asset('admin_asset/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('admin_asset/vendor/libs/hammer/hammer.js') }}"></script>
+    <script src="{{ asset('admin_asset/vendor/libs/i18n/i18n.js') }}"></script>
+    <script src="{{ asset('admin_asset/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    <script src="{{ asset('admin_asset/vendor/js/menu.js') }}"></script>
+    <!-- Main JS -->
+    <script src="{{ asset('admin_asset/js/main.js') }}"></script>
+
 </body>
 
 </html>

@@ -2,14 +2,15 @@
 @section('title', 'Cart')
 
 @section('content')
-
     <script>
         function updateCart(itemId, quantity) {
             axios.post(`/cart/update/${itemId}`, {
-                    quantity: quantity
+                    quantity: quantity,
+                    cartPage: 1
                 })
                 .then(response => {
-                    console.log('Cart updated successfully:', response.data);
+                    console.log('Cart updated successfully:');
+                    location.reload();
                 })
                 .catch(error => {
                     console.error('Failed to update cart:', error);
@@ -17,6 +18,85 @@
         }
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('.quantity-plus').on('click', function() {
+                var inputField = $(this).siblings('input');
+                var currentValue = parseInt(inputField.val());
+                var updatedValue = currentValue + 1;
+                inputField.val(updatedValue);
+                var itemId = $(this).closest('td').attr('id').split('-').slice(1).join(
+                '-'); // Correctly handle the item ID
+                updateCart(itemId, updatedValue);
+            });
+
+            $('.quantity-minus').on('click', function() {
+                var inputField = $(this).siblings('input');
+                var currentValue = parseInt(inputField.val());
+
+                if (currentValue > 0) {
+                    var updatedValue = currentValue - 1;
+                    inputField.val(updatedValue);
+                    var itemId = $(this).closest('td').attr('id').split('-').slice(1).join(
+                    '-'); // Correctly handle the item ID
+                    if (updatedValue > 0) {
+                        updateCart(itemId, updatedValue);
+                    } else {
+                        removeCartProduct(itemId)
+                    }
+                }
+            });
+        });
+
+        function removeCartProduct(id) {
+            const url = `{{ route('remove_product_cart') }}`;
+            console.log(id);
+            axios.post(url, {
+                    cart_id: id,
+                })
+                .then(response => {
+                    Swal.fire({
+                        title: "Product removed from cart",
+                        icon: "success"
+                    }).then(() => {
+                        const itemElement = document.querySelector(`[data-id='${id}']`);
+                        if (itemElement) {
+                            const parentElement = itemElement.closest('.product-cart');
+                            if (parentElement) {
+                                parentElement.remove();
+                                location.reload();
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    if (error.response) {
+                        if (error.response.status === 401) {
+                            console.error('Unauthorized access. Please log in.');
+                            window.location.href = loginUrl;
+                        } else {
+                            console.error('An error occurred:', error.response.data);
+                        }
+                    } else if (error.request) {
+                        console.error('No response received from the server.');
+                    } else {
+                        console.error('Error:', error.message);
+                    }
+                });
+        }
+    </script>
+
+    <style>
+        .amount {
+            display: flex;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #333;
+            letter-spacing: -0.05em;
+        }
+    </style>
     <div class="page-wrapper">
         <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
 
@@ -38,7 +118,6 @@
                         <ul class="breadcrumb shop-breadcrumb bb-no">
                             <li class="active"><a href="{{ route('view-cart') }}">Shopping Cart</a></li>
                             <li><a href="{{ route('checkout') }}">Checkout</a></li>
-                            {{-- <li><a href="order.html">Order Complete</a></li> --}}
                         </ul>
                     </div>
                 </nav>
@@ -67,44 +146,41 @@
                                             <tr>
                                                 <td class="product-thumbnail">
                                                     <div class="p-relative">
-                                                        <a href="product-default.html">
+                                                        <a href="#">
                                                             <figure>
                                                                 <img src="{{ $item->product->thumbnail }}" alt="product"
                                                                     width="300" height="338">
                                                             </figure>
                                                         </a>
-                                                        <button type="button" class="btn btn-close"><i
+                                                        <button type="button" onClick="removeCartProduct('{{$item->cart_id}}')" class="btn btn-close"><i
                                                                 class="fas fa-times"></i></button>
                                                     </div>
                                                 </td>
                                                 <td class="product-name">
-                                                    <a href="product-default.html">
+                                                    <a href="{{ url('product-details/' . $item->product->slug) }}">
                                                         {{ $item->product->product_name }}
                                                     </a>
                                                 </td>
-                                                <td class="product-price"><span class="amount"
-                                                        style="font-family: Arial;">{{ $item->product->price }}</span></td>
-                                                <td class="product-quantity" x-data="{ quantity: {{ $item->quantity }} }">
+                                                <td class="product-price">
+                                                    <span class="amount"
+                                                        style="font-family: Arial;">₹{{number_format((float) str_replace('₹', '', $item->product->price),2) }}</span>
+                                                </td>
+                                                <td class="product-quantity" id="item-{{ $item->cart_id }}">
                                                     <div class="input-group">
-                                                        <input class="quantity form-control" type="number" min="1"
-                                                            x-model="quantity" id="quantityInput{{ $item->id }}"
-                                                            max="100000"
-                                                            @change="quantity = Math.max(1, quantity); updateCart({{ $item->cart_id }}, quantity)">
-                                                        <button class="quantity-plus w-icon-plus"
-                                                            @click="quantity = Math.min(100000, quantity + 1); updateCart({{ $item->cart_id }}, quantity)"></button>
-                                                        <button class="quantity-minus w-icon-minus"
-                                                            @click="quantity = Math.max(1, quantity - 1); updateCart({{ $item->cart_id }}, quantity)"></button>
+                                                        <input class="form-control" placeholder="{{ $item->quantity }}"
+                                                            type="text" value="{{ $item->quantity }}">
+                                                        <button class="quantity-plus w-icon-plus"></button>
+                                                        <button class="quantity-minus w-icon-minus"></button>
                                                     </div>
                                                 </td>
                                                 @php
                                                     $subtotal +=
                                                         (float) str_replace('₹', '', $item->product->price) *
                                                         $item->quantity;
-
                                                 @endphp
                                                 <td class="product-subtotal">
                                                     <span class="amount"
-                                                        style="font-family: Arial;">₹{{ $subtotal }}</span>
+                                                        style="font-family: Arial;">₹{{ number_format($subtotal,2) }}</span>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -126,38 +202,33 @@
                                         style="border-bottom: 0px rgb(102, 102, 102); width: 393.317px;">
                                         <div class="cart-summary mb-4">
                                             <h3 class="cart-title text-uppercase">Cart Totals</h3>
-                                            <div class="cart-subtotal d-flex align-items-center justify-content-between">
+                                            <div class="cart-subtotal d-flex align-items-center  justify-content-between">
                                                 <label class="ls-25">Subtotal</label>
                                                 @php
 
                                                 @endphp
-                                                <span>₹ {{ $subtotal }}</span>
+                                                <span class="amount">₹{{ number_format($subtotal,2) }}</span>
                                             </div>
 
                                             <hr class="divider">
-
-                                            <ul class="shipping-methods mb-2">
-                                                <li>
-                                                    <label
-                                                        class="shipping-title text-dark font-weight-bold">Shipping</label>
-                                                </li>
-
-                                                <li>
-                                                    <div class="custom-radio">
-                                                        <input type="radio" id="flat-rate" class="custom-control-input"
-                                                            name="shipping">
-                                                        <label for="flat-rate" class="custom-control-label color-dark">Flat
-                                                            rate:
-                                                            $5.00</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                            @php
+                                            $shipCost = 0;
+                                            foreach ($shippingCost as $key => $shipping) {                                                
+                                                if ($shipping->from <= $subtotal && $shipping->to >= $subtotal) {
+                                                    $shipCost += $shipping->cost;
+                                                }
+                                            }                                    
+                                            @endphp
+                                           <div class="cart-subtotal d-flex align-items-center  justify-content-between">
+                                            <label class="ls-25">Shipping</label>                                           
+                                            <span class="amount">₹{{ number_format($shipCost,2) }}</span>
+                                        </div>
                                             <hr class="divider mb-6">
                                             <div class="order-total d-flex justify-content-between align-items-center">
                                                 <label>Total</label>
-                                                <span class="ls-50">$100.00</span>
+                                                <span class="ls-50 amount">₹ {{ number_format($subtotal+$shipCost,2)}}</span>
                                             </div>
-                                            <a href="#"
+                                            <a href="{{route('checkout')}}"
                                                 class="btn btn-block btn-dark btn-icon-right btn-rounded  btn-checkout">
                                                 Proceed to checkout<i class="w-icon-long-arrow-right"></i></a>
                                         </div>

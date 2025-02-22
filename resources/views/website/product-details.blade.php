@@ -5,10 +5,11 @@
     function addToCart(product) {
         const url = `{{ route('cart') }}`;
         const loginUrl = `{{ route('register_login') }}`;
+        let qty = parseInt(document.getElementById('productQty').value);
 
         axios.post(url, {
                 product_id: product.product_id,
-                quantity: 1
+                quantity: qty
             })
             .then(response => {
                 Swal.fire({
@@ -212,7 +213,7 @@
                                                 <div class="product-form container">
                                                     <div class="product-qty-form">
                                                         <div class="input-group">
-                                                            <input class="quantity form-control" type="number"
+                                                            <input class="quantity form-control" id="productQty" name="quantity" type="number"
                                                                 min="1" max="10000000">
                                                             <button class="quantity-plus w-icon-plus"></button>
                                                             <button class="quantity-minus w-icon-minus"></button>

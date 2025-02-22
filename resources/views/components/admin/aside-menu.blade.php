@@ -119,5 +119,11 @@
               
             </ul>
         </li>
+        <li class="menu-item">
+            <a href="{{ url('admin/deliveries/') }}" class="menu-link">
+                <i class="menu-icon tf-icons ri-git-commit-line"></i>
+                <div data-i18n="Wizard Examples">Delivery</div>
+            </a>
+        </li>
     </ul>
 </aside>

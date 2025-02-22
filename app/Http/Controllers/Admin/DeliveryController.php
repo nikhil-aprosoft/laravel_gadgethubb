@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Delivery;
+use App\Models\Shipping;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -11,7 +11,7 @@ class DeliveryController extends Controller
     // Index method to show the list of deliveries
     public function index()
     {
-        $deliveries = Delivery::all(); 
+        $deliveries = Shipping::all(); 
         return view('admin.delivery.index', compact('deliveries'));
     }
 
@@ -25,11 +25,13 @@ class DeliveryController extends Controller
         $request->validate([
             'to' => 'required|integer',
             'from' => 'required|integer',
+            'cost'=>'required|integer'
         ]);
 
-        Delivery::create([
-            'to' => $request->to,
+        Shipping::create([
             'from' => $request->from,
+            'to' => $request->to,
+            'cost'=>$request->cost,
         ]);
 
         return redirect()->back()->with('success', 'Delivery created successfully!');
@@ -37,21 +39,22 @@ class DeliveryController extends Controller
 
     public function edit($id)
     {
-        $delivery = Delivery::findOrFail($id); 
+        $delivery = Shipping::findOrFail($id); 
         return view('admin.delivery.edit', compact('delivery'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'to' => 'required|integer',
-            'from' => 'required|integer',
-        ]);
+        // $request->validate([
+        //     'to' => 'required|integer',
+        //     'from' => 'required|integer',
+        // ]);
 
-        $delivery = Delivery::findOrFail($id);
+        $delivery = Shipping::findOrFail($id);
         $delivery->update([
-            'to' => $request->to,
             'from' => $request->from,
+            'to' => $request->to,
+            'cost'=>$request->cost,
         ]);
 
         return redirect()->route('admin.deliveries.index')->with('success', 'Delivery updated successfully!');
@@ -59,7 +62,7 @@ class DeliveryController extends Controller
 
     public function destroy($id)
     {
-        $delivery = Delivery::findOrFail($id); 
+        $delivery = Shipping::findOrFail($id); 
         $delivery->delete(); 
 
         return redirect()->back()->with('success', 'Delivery deleted successfully!');

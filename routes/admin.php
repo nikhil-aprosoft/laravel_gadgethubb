@@ -25,7 +25,10 @@ Route::get('/weekly-overview', [DashboardController::class, 'getWeeklyOverview']
 
 
 Route::prefix('deliveries')->name('deliveries.')->group(function () {
-    Route::resource('/', DeliveryController::class);
+    Route::get('/', [DeliveryController::class,'index']);
+    Route::post('store',[DeliveryController::class,'store'])->name('store');
+    Route::delete('destroy/{delivery}',[DeliveryController::class,'destroy'])->name('destroy');
+
 });
 
 Route::prefix('orders')->name('orders.')->group(function () {
