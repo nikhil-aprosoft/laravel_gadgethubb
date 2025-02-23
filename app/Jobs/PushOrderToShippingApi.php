@@ -44,7 +44,7 @@ class PushOrderToShippingApi implements ShouldQueue
 
         // Prepare shipping data
         $shippingData = [
-            "order_id" => $order->orderid,
+            "order_id" => $order->order_no,
             "order_date" => $order->created_at,
             "order_type" => "ESSENTIALS",
             "consignee_name" => $order->address->fname,
@@ -89,9 +89,11 @@ class PushOrderToShippingApi implements ShouldQueue
 
             if ($apiResponse['result'] === "1") {
                 // Success - Create a new Shipping entry
+
+               $orderID =  \DB::table('orders')->where('order_no',$apiResponse['data']['refrence_id'])->pluck('orderid')->first();
                 OrderShipping::create([
                     'shipping_id' => Str::uuid(),
-                    'order_id' => $apiResponse['data']['refrence_id'],
+                    'order_id' => $orderID,
                     'shipment_id' => $apiResponse['data']['order_id'],
                     'delivery_status' => "new",
                 ]);

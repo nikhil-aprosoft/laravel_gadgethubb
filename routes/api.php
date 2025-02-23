@@ -21,3 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // routes/web.php or routes/api.php
 
 Route::post('/payu-webhook', [PayUWebhookController::class, 'handleWebhook']);
+
+Route::get('/order-details',function(){
+
+  return  generateStylishId();
+});

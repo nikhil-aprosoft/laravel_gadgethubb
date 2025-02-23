@@ -63,20 +63,18 @@
                             <div class="tab-pane active in" id="account-dashboard">
                                 <p class="greeting">
                                     Hello
-                                    <span class="text-dark font-weight-bold">John Doe</span>
-                                    (not
-                                    <span class="text-dark font-weight-bold">John Doe</span>?
-                                    <a href="#" class="text-primary">Log out</a>)
+                                    <span class="text-dark font-weight-bold">{{ ucfirst(session('user')->name) }}
+                                    </span>                                    
                                 </p>
 
                                 <p class="mb-4">
-                                    From your account dashboard you can view your <a href="#account-orders"
+                                    {{-- From your account dashboard you can view your <a href="#account-orders"
                                         class="text-primary link-to-tab">recent orders</a>,
                                     manage your <a href="#account-addresses" class="text-primary link-to-tab">shipping
                                         and billing
                                         addresses</a>, and
                                     <a href="#account-details" class="text-primary link-to-tab">edit your password and
-                                        account details.</a>
+                                        account details.</a> --}}
                                 </p>
 
                                 <div class="row">
@@ -183,7 +181,7 @@
                                             <th class="order-actions">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody style="text-align: center;">
                                         @foreach ($orders as $order)
                                             <tr>
                                                 @php
@@ -194,17 +192,29 @@
                                                         ? $order->payments[0]->payment_status
                                                         : null;
                                                 @endphp
-                                                <td class="order-id">{{ $order->order_no }}</td>
-                                                <td class="order-date">{{ $order->created_at->format('F j, Y, g:i A') }}
+                                                <td class="order-id"><strong>{{ $order->order_no }}</strong></td>
+                                                <td class="order-date">
+                                                    <strong>
+                                                        {{ $order->created_at->format('F j, Y, g:i A') }}
+                                                    </strong>
                                                 </td>
-                                                <td class="order-status">{{ $status }}</td>
+                                                <td class="order-status"><strong>
+                                                        {{ $status }}
+                                                    </strong>
+                                                </td>
                                                 <td class="order-total">
-                                                    <span class="order-price">{{ $price }}</span>
+                                                    <span class="order-price" style="font-family: Arial;font-weight:500">
+                                                        <strong>
+                                                            ₹ {{ $price }}
+                                                        </strong>
+                                                    </span>
                                                 </td>
                                                 <td class="order-action">
-                                                    <a href="#"
-                                                        class="btn btn-outline btn-default btn-block btn-sm btn-rounded">View</a>
+                                                    <a href="{{ url('order-details/'.$order->order_no)}}"
+                                                       class="btn btn-outline btn-default btn-block btn-sm btn-rounded">View</a>
                                                 </td>
+                                                
+                                                
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -239,11 +249,14 @@
                                 </div>
                                 {{-- <p>The following addresses will be used on the checkout page
                                     by default.</p> --}}
-                                    @php
-                                        $address = App\Models\Address::where('user_id',$user->userid)->latest()->limit(1)->first();
-                                    @endphp
+                                @php
+                                    $address = App\Models\Address::where('user_id', $user->userid)
+                                        ->latest()
+                                        ->limit(1)
+                                        ->first();
+                                @endphp
                                 <div class="row">
-                                    
+
                                     <div class="col-sm-6 mb-6">
                                         <div class="ecommerce-address shipping-address pr-lg-8">
                                             <h4 class="title title-underline ls-25 font-weight-bold">Shipping Address</h4>
@@ -252,31 +265,31 @@
                                                     <tbody>
                                                         <tr>
                                                             <th>Name:</th>
-                                                            <td>{{$address->fname}}</td>
+                                                            <td>{{ $address->fname }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>State:</th>
-                                                            <td>{{$address->state}}</td>
-                                                        </tr>                                                        
+                                                            <td>{{ $address->state }}</td>
+                                                        </tr>
                                                         <tr>
                                                             <th>City:</th>
-                                                            <td>{{$address->city}}</td>
+                                                            <td>{{ $address->city }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>Area:</th>
-                                                            <td>{{$address->area}}</td>
+                                                            <td>{{ $address->area }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>Phone:</th>
-                                                            <td>{{$address->phone_no}}</td>
+                                                            <td>{{ $address->phone_no }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>Pincode:</th>
-                                                            <td>{{$address->pincode}}</td>
+                                                            <td>{{ $address->pincode }}</td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                            </address>                                           
+                                            </address>
                                         </div>
                                     </div>
                                 </div>

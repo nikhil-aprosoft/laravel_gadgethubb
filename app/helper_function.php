@@ -1,7 +1,8 @@
 <?php
 
-use App\Models\Product\Color;
+use Illuminate\Support\Str;
 use App\Models\Product\Size;
+use App\Models\Product\Color;
 use Illuminate\Support\Carbon;
 
 function getDealExpireTime($obj)
@@ -50,13 +51,11 @@ function removeCurrency($value)
 }
 function generateStylishId()
 {
-    $prefix = 'GZ';
+    $prefix = strtoupper(Str::random(2)); 
+    $timestamp = base_convert(microtime(true) * 10000, 10, 36); 
+    $randomString = Str::random(6);
 
-    $timestamp = substr(time(), -5);
-
-    $randomString = getRandomString(4);
-
-    return sprintf('%s-%s-%s', $prefix, $timestamp, $randomString);
+    return sprintf('%s-%s-%s', $prefix, $timestamp, strtoupper($randomString));
 }
 
 function getRandomString($length)

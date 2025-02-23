@@ -19,6 +19,7 @@ class SessionGuard
         // Check if the user is authenticated
         $user = session('user');
         if (!$user) {
+            \Log::alert("SessionGuard");
             return redirect()->route('register-login');
         }
         // If authenticated, proceed to the next request

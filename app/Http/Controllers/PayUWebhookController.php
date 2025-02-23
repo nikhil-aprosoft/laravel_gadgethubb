@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\PaymentTransaction;
 
 class PayUWebhookController extends Controller
 {
@@ -16,14 +17,9 @@ class PayUWebhookController extends Controller
         // Log the received data (for debugging purposes)
         Log::info('PayU Webhook received: ', $data);
 
-        // You can verify the signature here (depending on your PayU configuration)
-        // You should validate the hash or signature sent by PayU
-        if (!$this->isValidSignature($data)) {
-            return response()->json(['error' => 'Invalid signature'], 400);
-        }
-
+        PaymentTransaction::create(['transaction_data' => $data]);
         // Process the payment status and update the order status
-        $order = Order::where('orderid', $data['order_id'])->first();
+        $order = Order::where('orderid', $data['udf1'])->first();
 
         if (!$order) {
             return response()->json(['error' => 'Order not found'], 404);

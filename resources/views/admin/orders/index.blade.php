@@ -174,11 +174,12 @@
                                                      @if ($order->payments && $order->payments->isNotEmpty())
                                                          @php $payment = $order->payments->first(); @endphp
                                                          <td>
-                                                             <h6
-                                                                 class="mb-0 w-px-100 d-flex align-items-center text-warning">
-                                                                 <i class="ri-circle-fill ri-10px me-1"></i>
-                                                                 {{ $payment->payment_status }}
-                                                             </h6>
+                                                            <h6 class="mb-0 w-px-100 d-flex align-items-center 
+                                                            {{ $payment->payment_status == 'Paid' ? 'text-success' : 'text-warning' }}">
+                                                            <i class="ri-circle-fill ri-10px me-1"></i>
+                                                            {{ $payment->payment_status }}
+                                                        </h6>
+                                                        
                                                          </td>
                                                          <td>
                                                              <div class="d-flex align-items-center text-nowrap">

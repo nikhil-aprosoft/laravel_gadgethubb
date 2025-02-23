@@ -16,6 +16,7 @@ class Authenticate extends Middleware
     {
 
         if (! $request->expectsJson()) {
+            \Log::notice("expectsJson [Authenticate] ");
             return view('website.register-login');
         }
     

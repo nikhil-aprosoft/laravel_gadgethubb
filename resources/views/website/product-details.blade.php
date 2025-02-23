@@ -5,6 +5,8 @@
     function addToCart(product) {
         const url = `{{ route('cart') }}`;
         const loginUrl = `{{ route('register-login') }}`;
+        var qty = document.getElementById('productQty').value;
+
 
         axios.post(url, {
                 product_id: product.product_id,
@@ -39,7 +41,7 @@
     }
 </script>
     <div class="page-wrapper">
-        <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
+        <h1 class="d-none"></h1>
 
         <!-- Start of Header -->
         @include('website.partials.header')

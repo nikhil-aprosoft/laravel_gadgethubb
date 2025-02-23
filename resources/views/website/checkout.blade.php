@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Area *</label>
-                                    <input type="text" class="form-control form-control-md" name="area">
+                                    <input type="text" class="form-control form-control-md" required name="area">
                                 </div>
                                 <div class="form-group">
                                     <label>Alternate Phone (optional)</label>

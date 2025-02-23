@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Order\Order;
-use App\Models\Order\OrderPayment;
 use App\Models\User;
+use App\Models\Order\Order;
 use Illuminate\Http\Request;
+use App\Models\Order\OrderPayment;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
@@ -63,6 +64,15 @@ class OrderController extends Controller
     public function orderDetails($order_no)
     {
         $order = Order::where('order_no', $order_no)->first();
+
+        $response = Http::withHeaders([
+            "Accept" => "*/*",
+            "Content-Type" => "application/json",
+            "User-Agent" => "Laravel API Client",
+            "private-key" => env('SHIPMOJO_PRIVATE_KEY'),
+            "public-key" => env('SHIPMOJO_PUBLIC_KEY'),
+        ])->get("https://shipping-api.com/app/api/v1/track-order?awb_number=3394432268");
+    
 
         return view('admin.orders.details', compact('order'));
     }
