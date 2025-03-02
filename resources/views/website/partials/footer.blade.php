@@ -213,7 +213,12 @@
                     <li><a href="{{ url('index') }}">Home</a></li>
                     <li><a href="{{ route('products') }}">Products</a></li>
                     <li><a href="{{ route('daily-deals') }}">Daily Deals</a></li>
-                    <li><a href="{{ route('contact-us') }}">/Contact Us</a></li>
+                    <li><a href="{{ route('contact-us') }}">Contact Us</a></li>
+                    @if (session()->has('user'))                        
+                    <li><a href="{{ route('myaccount') }}">My Account</a></li>
+                    @else
+                    <li><a href="{{ route('register-login') }}">Register-Login</a></li>
+                    @endif
                 </ul>
             </div>
 

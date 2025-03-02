@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Order\Order;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -83,4 +84,12 @@ class UserController extends Controller
         session()->forget('user');
         return redirect('/');
     }
-}
+    public function userOrders(){
+        $user = session('user');
+        if(! $user){
+            return view('website.index');
+        }
+        $orders = Order::with('items','payments','shipping','address')->where('user_id',$user->userid)->latest()->get();
+        return view('website.user-orders',compact('orders'));
+    }
+}   

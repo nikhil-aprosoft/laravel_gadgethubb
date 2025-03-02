@@ -46,6 +46,8 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/signup', 'signUp')->name('signup');
     Route::get("/logout", 'logout')->name('logout');
     Route::get('myaccount', 'myaccount')->name('myaccount')->middleware('session');
+    Route::get('user-orders','userOrders')->name('user-orders')->middleware('session');
+
 });
 Route::controller(ProductController::class)->group(function () {
     Route::get('product-details/{slug}', 'productDetails')->name('product-details');
@@ -79,4 +81,7 @@ Route::controller(OrderController::class)->group(function () {
     Route::post('payment-request','paymentRequest')->name('payment-request')->middleware('session');
     Route::match(['get', 'post'], 'payment-success', 'paymentSuccess')->name('payment-success');
     Route::match(['get', 'post'], 'payment-failure', 'paymentFailure')->name('payment-failure');
+    Route::get('latestorder','latestOrder')->middleware('session');
+    Route::get('order-details/{order_no}', 'orderDetails')->name('order-details')->middleware('session');
+
 });

@@ -18,6 +18,7 @@ class Order extends Model
         'orderid',
         'user_id',
         'address_id',
+        'shipcost',
     ];
     public function user()
     {

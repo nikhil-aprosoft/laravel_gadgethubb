@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayUWebhookController;
+use App\Http\Controllers\admin\ShipMojoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // routes/web.php or routes/api.php
 
 Route::post('/payu-webhook', [PayUWebhookController::class, 'handleWebhook']);
+
+Route::post('/order-tracking-status',[ShipMojoController::class,'shipMojoWebhookResponse']);

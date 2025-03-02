@@ -77,8 +77,7 @@
                                                         aria-label=""></th>
                                                     <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all"
                                                         rowspan="1" colspan="1" style="width: 18px;"
-                                                        data-col="1" aria-label=""><input type="checkbox"
-                                                            class="form-check-input"></th>
+                                                        data-col="1" aria-label="">#</th>
                                                     <th class="w-50 sorting_disabled" rowspan="1" colspan="1"
                                                         style="width: 366px;" aria-label="products">products</th>
                                                     <th class="sorting_disabled" rowspan="1" colspan="1"
@@ -93,15 +92,15 @@
                                                 @php
                                                     $total = $order->items->sum('price');
                                                 @endphp
-                                                @foreach ($order->items as $item)
+                                                @foreach ($order->items as $key => $item)
                                                     @php
                                                         $product = $item->product;
                                                     @endphp
                                                     <tr class="odd">
                                                         <td class="control" style="display: none;" tabindex="0">
                                                         </td>
-                                                        <td class="  dt-checkboxes-cell"><input type="checkbox"
-                                                                class="dt-checkboxes form-check-input"></td>
+                                                        <td class="  dt-checkboxes-cell"> {{ $key == 0 ? 1 : $key }}
+                                                        </td>
                                                         <td class="sorting_1">
                                                             <div
                                                                 class="d-flex justify-content-start align-items-center product-name">
@@ -159,70 +158,39 @@
                                     <div class="card-header">
                                         <h5 class="card-title m-0">Shipping activity</h5>
                                     </div>
-                                    <div class="card-body mt-3">
-                                        <ul class="timeline pb-0 mb-0">
-                                            <li class="timeline-item timeline-item-transparent border-primary">
-                                                <span class="timeline-point timeline-point-primary"></span>
-                                                <div class="timeline-event">
-                                                    <div class="timeline-header mb-1">
-                                                        <h6 class="mb-0">Order was placed (Order ID: #32543)</h6>
-                                                        <small class="text-muted">Tuesday 11:29 AM</small>
-                                                    </div>
-                                                    <p class="mt-1 mb-3">Your order has been placed successfully</p>
+                                   @if ($order->shipping->first() && isset($order->shipping->first()->tracking_code))
+                                   <div class="card-body mt-3">
+                                    <ul class="timeline pb-0 mb-0">
+                                        <li class="timeline-item timeline-item-transparent border-primary">
+                                            <span class="timeline-point timeline-point-primary"></span>
+                                            <div class="timeline-event">
+                                                <div class="timeline-header mb-1">
+                                                    <h6 class="mb-0">Order was placed (Order ID: #32543)</h6>
+                                                    <small class="text-muted">Tuesday 11:29 AM</small>
                                                 </div>
-                                            </li>
-                                            <li class="timeline-item timeline-item-transparent border-primary">
-                                                <span class="timeline-point timeline-point-primary"></span>
-                                                <div class="timeline-event">
-                                                    <div class="timeline-header mb-1">
-                                                        <h6 class="mb-0">Pick-up</h6>
-                                                        <small class="text-muted">Wednesday 11:29 AM</small>
-                                                    </div>
-                                                    <p class="mt-1 mb-3">Pick-up scheduled with courier</p>
+                                                <p class="mt-1 mb-3">Your order has been placed successfully</p>
+                                            </div>
+                                        </li>                                     
+                                    </ul>
+                                </div>
+                                @else
+                                <div class="card-body mt-3">
+                                    <ul class="timeline pb-0 mb-0">                                
+                                        <li class="timeline-item timeline-item-transparent border-primary">
+                                            <span class="timeline-point timeline-point-primary"></span>
+                                            <div class="timeline-event">
+                                                <div class="timeline-header mb-1">
+                                                    <h6 class="mb-0">Not pick-up yet</h6>
+                                                    <small class="text-muted">{{$order->created_at->format('l h:i A')
+                                                    }}</small>
                                                 </div>
-                                            </li>
-                                            <li class="timeline-item timeline-item-transparent border-primary">
-                                                <span class="timeline-point timeline-point-primary"></span>
-                                                <div class="timeline-event">
-                                                    <div class="timeline-header mb-1">
-                                                        <h6 class="mb-0">Dispatched</h6>
-                                                        <small class="text-muted">Thursday 11:29 AM</small>
-                                                    </div>
-                                                    <p class="mt-1 mb-3">Item has been picked up by courier</p>
-                                                </div>
-                                            </li>
-                                            <li class="timeline-item timeline-item-transparent border-primary">
-                                                <span class="timeline-point timeline-point-primary"></span>
-                                                <div class="timeline-event">
-                                                    <div class="timeline-header mb-1">
-                                                        <h6 class="mb-0">Package arrived</h6>
-                                                        <small class="text-muted">Saturday 15:20 AM</small>
-                                                    </div>
-                                                    <p class="mt-1 mb-3">Package arrived at an Amazon facility, NY</p>
-                                                </div>
-                                            </li>
-                                            <li class="timeline-item timeline-item-transparent">
-                                                <span class="timeline-point timeline-point-primary"></span>
-                                                <div class="timeline-event">
-                                                    <div class="timeline-header mb-1">
-                                                        <h6 class="mb-0">Dispatched for delivery</h6>
-                                                        <small class="text-muted">Today 14:12 PM</small>
-                                                    </div>
-                                                    <p class="mt-1 mb-3">Package has left an Amazon facility, NY</p>
-                                                </div>
-                                            </li>
-                                            <li
-                                                class="timeline-item timeline-item-transparent border-transparent pb-0">
-                                                <span class="timeline-point timeline-point-secondary"></span>
-                                                <div class="timeline-event pb-0">
-                                                    <div class="timeline-header mb-1">
-                                                        <h6 class="mb-0">Delivery</h6>
-                                                    </div>
-                                                    <p class="mt-1 mb-3">Package will be delivered by tomorrow</p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                                <p class="mt-1 mb-3">Waiting for a courier to be assigned</p>
+                                            </div>
+                                        </li>                                      
+                                    </ul>
+                                </div>
+                                   @endif
+                                   
                                 </div>
                             </div>
                             <div class="col-12 col-lg-4">
@@ -235,8 +203,8 @@
                                                     alt="Avatar" class="rounded-circle">
                                             </div>
                                             <div class="d-flex flex-column">
-                                                <a href="{{url('admin/orders/user-details/'.$order->user_id)}}">
-                                                    <h6 class="mb-0">{{ $order->user->name }}</h6>
+                                                <a href="{{ url('admin/orders/user-details/' . $order->user_id) }}">
+                                                    <h6 class="mb-0">{{ ucfirst($order->user->name) }}</h6>
                                                 </a>
                                                 <span>Mail: {{ $order->user->email }}</span>
                                             </div>
@@ -254,17 +222,14 @@
                                             {{-- <h6 class="mb-1"><a href=" javascript:;" data-bs-toggle="modal"
                                                     data-bs-target="#editUser">Edit</a></h6> --}}
                                         </div>
-                                        <p class="mb-1">Email: Shamus889@yahoo.com</p>
+                                        <p class="mb-1">City:{{ $order->address->city }} </p>
+                                        {{-- <p class="mb-1">Pincode:{{ $order->address->pincode }}  </p> --}}
                                         <p class="mb-0">Mobile:{{ $order->address->phone_no }} </p>
                                     </div>
                                 </div>
-
                                 <div class="card mb-6">
-
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <h5 class="card-title mb-1">Shipping address</h5>
-                                        {{-- <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal"
-                                                data-bs-target="#addNewAddress">Edit</a></h6> --}}
                                     </div>
                                     <div class="card-body">
                                         <p class="mb-0">{{ $order->address->address }}
@@ -276,325 +241,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Edit User Modal -->
-                        <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-simple modal-edit-user">
-                                <div class="modal-content">
-                                    <div class="modal-body p-0">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                        <div class="text-center mb-6">
-                                            <h4 class="mb-2">Edit User Information</h4>
-                                            <p class="mb-6">Updating user details will receive a privacy audit.</p>
-                                        </div>
-                                        <form id="editUserForm" class="row g-5" onsubmit="return false">
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalEditUserFirstName"
-                                                        name="modalEditUserFirstName" class="form-control"
-                                                        value="Oliver" placeholder="Oliver" />
-                                                    <label for="modalEditUserFirstName">First Name</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalEditUserLastName"
-                                                        name="modalEditUserLastName" class="form-control"
-                                                        value="Queen" placeholder="Queen" />
-                                                    <label for="modalEditUserLastName">Last Name</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalEditUserName"
-                                                        name="modalEditUserName" class="form-control"
-                                                        value="oliver.queen" placeholder="oliver.queen" />
-                                                    <label for="modalEditUserName">Username</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalEditUserEmail"
-                                                        name="modalEditUserEmail" class="form-control"
-                                                        value="oliverqueen@gmail.com"
-                                                        placeholder="oliverqueen@gmail.com" />
-                                                    <label for="modalEditUserEmail">Email</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <select id="modalEditUserStatus" name="modalEditUserStatus"
-                                                        class="form-select" aria-label="Default select example">
-                                                        <option value="1" selected>Active</option>
-                                                        <option value="2">Inactive</option>
-                                                        <option value="3">Suspended</option>
-                                                    </select>
-                                                    <label for="modalEditUserStatus">Status</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalEditTaxID" name="modalEditTaxID"
-                                                        class="form-control modal-edit-tax-id"
-                                                        placeholder="123 456 7890" />
-                                                    <label for="modalEditTaxID">Tax ID</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="input-group input-group-merge">
-                                                    <span class="input-group-text">US (+1)</span>
-                                                    <div class="form-floating form-floating-outline">
-                                                        <input type="text" id="modalEditUserPhone"
-                                                            name="modalEditUserPhone"
-                                                            class="form-control phone-number-mask"
-                                                            value="+1 609 933 4422" placeholder="+1 609 933 4422" />
-                                                        <label for="modalEditUserPhone">Phone Number</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <select id="modalEditUserLanguage" name="modalEditUserLanguage"
-                                                        class="select2 form-select" multiple>
-                                                        <option value="">Select</option>
-                                                        <option value="english" selected>English</option>
-                                                        <option value="spanish">Spanish</option>
-                                                        <option value="french">French</option>
-                                                        <option value="german">German</option>
-                                                        <option value="dutch">Dutch</option>
-                                                        <option value="hebrew">Hebrew</option>
-                                                        <option value="sanskrit">Sanskrit</option>
-                                                        <option value="hindi">Hindi</option>
-                                                    </select>
-                                                    <label for="modalEditUserLanguage">Language</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <select id="modalEditUserCountry" name="modalEditUserCountry"
-                                                        class="select2 form-select" data-allow-clear="true">
-                                                        <option value="">Select</option>
-                                                        <option value="Australia">Australia</option>
-                                                        <option value="Bangladesh">Bangladesh</option>
-                                                        <option value="Belarus">Belarus</option>
-                                                        <option value="Brazil">Brazil</option>
-                                                        <option value="Canada">Canada</option>
-                                                        <option value="China">China</option>
-                                                        <option value="France">France</option>
-                                                        <option value="Germany">Germany</option>
-                                                        <option value="India" selected>India</option>
-                                                        <option value="Indonesia">Indonesia</option>
-                                                        <option value="Israel">Israel</option>
-                                                        <option value="Italy">Italy</option>
-                                                        <option value="Japan">Japan</option>
-                                                        <option value="Korea">Korea, Republic of</option>
-                                                        <option value="Mexico">Mexico</option>
-                                                        <option value="Philippines">Philippines</option>
-                                                        <option value="Russia">Russian Federation</option>
-                                                        <option value="South Africa">South Africa</option>
-                                                        <option value="Thailand">Thailand</option>
-                                                        <option value="Turkey">Turkey</option>
-                                                        <option value="Ukraine">Ukraine</option>
-                                                        <option value="United Arab Emirates">United Arab Emirates
-                                                        </option>
-                                                        <option value="United Kingdom">United Kingdom</option>
-                                                        <option value="United States">United States</option>
-                                                    </select>
-                                                    <label for="modalEditUserCountry">Country</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-check form-switch">
-                                                    <input type="checkbox" class="form-check-input"
-                                                        id="editBillingAddress" />
-                                                    <label for="editBillingAddress" class="text-heading">Use as a
-                                                        billing
-                                                        address?</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 text-center">
-                                                <button type="submit" class="btn btn-primary me-3">Submit</button>
-                                                <button type="reset" class="btn btn-outline-secondary"
-                                                    data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Edit User Modal -->
-
-                        <!-- Add New Address Modal -->
-                        <div class="modal fade" id="addNewAddress" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
-                                <div class="modal-content">
-                                    <div class="modal-body p-0">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                        <div class="text-center mb-6">
-                                            <h4 class="address-title mb-2">Add New Address</h4>
-                                            <p class="address-subtitle">Add new address for express delivery</p>
-                                        </div>
-                                        <form id="addNewAddressForm" class="row g-5" onsubmit="return false">
-
-                                            <div class="col-12">
-                                                <div class="row g-5">
-                                                    <div class="col-md mb-md-0">
-                                                        <div class="form-check custom-option custom-option-basic">
-                                                            <label class="form-check-label custom-option-content"
-                                                                for="customRadioHome">
-                                                                <input name="customRadioTemp" class="form-check-input"
-                                                                    type="radio" value=""
-                                                                    id="customRadioHome" checked />
-                                                                <span class="custom-option-header">
-                                                                    <span class="h6 mb-0 d-flex align-items-center"><i
-                                                                            class="ri-home-smile-2-line ri-20px me-1"></i>Home</span>
-                                                                </span>
-                                                                <span class="custom-option-body">
-                                                                    <small>Delivery time (9am – 9pm)</small>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md mb-md-0">
-                                                        <div class="form-check custom-option custom-option-basic">
-                                                            <label class="form-check-label custom-option-content"
-                                                                for="customRadioOffice">
-                                                                <input name="customRadioTemp" class="form-check-input"
-                                                                    type="radio" value=""
-                                                                    id="customRadioOffice" />
-                                                                <span class="custom-option-header">
-                                                                    <span class="h6 mb-0 d-flex align-items-center"><i
-                                                                            class="ri-building-line ri-20px me-1"></i>Office</span>
-                                                                </span>
-                                                                <span class="custom-option-body">
-                                                                    <small>Delivery time (9am – 5pm) </small>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalAddressFirstName"
-                                                        name="modalAddressFirstName" class="form-control"
-                                                        placeholder="John" />
-                                                    <label for="modalAddressFirstName">First Name</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalAddressLastName"
-                                                        name="modalAddressLastName" class="form-control"
-                                                        placeholder="Doe" />
-                                                    <label for="modalAddressLastName">Last Name</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-floating form-floating-outline">
-                                                    <select id="modalAddressCountry" name="modalAddressCountry"
-                                                        class="select2 form-select" data-allow-clear="true">
-                                                        <option value="">Select</option>
-                                                        <option value="Australia">Australia</option>
-                                                        <option value="Bangladesh">Bangladesh</option>
-                                                        <option value="Belarus">Belarus</option>
-                                                        <option value="Brazil">Brazil</option>
-                                                        <option value="Canada">Canada</option>
-                                                        <option value="China">China</option>
-                                                        <option value="France">France</option>
-                                                        <option value="Germany">Germany</option>
-                                                        <option value="India">India</option>
-                                                        <option value="Indonesia">Indonesia</option>
-                                                        <option value="Israel">Israel</option>
-                                                        <option value="Italy">Italy</option>
-                                                        <option value="Japan">Japan</option>
-                                                        <option value="Korea">Korea, Republic of</option>
-                                                        <option value="Mexico">Mexico</option>
-                                                        <option value="Philippines">Philippines</option>
-                                                        <option value="Russia">Russian Federation</option>
-                                                        <option value="South Africa">South Africa</option>
-                                                        <option value="Thailand">Thailand</option>
-                                                        <option value="Turkey">Turkey</option>
-                                                        <option value="Ukraine">Ukraine</option>
-                                                        <option value="United Arab Emirates">United Arab Emirates
-                                                        </option>
-                                                        <option value="United Kingdom">United Kingdom</option>
-                                                        <option value="United States">United States</option>
-                                                    </select>
-                                                    <label for="modalAddressCountry">Country</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalAddressAddress1"
-                                                        name="modalAddressAddress1" class="form-control"
-                                                        placeholder="12, Business Park" />
-                                                    <label for="modalAddressAddress1">Address Line 1</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalAddressAddress2"
-                                                        name="modalAddressAddress2" class="form-control"
-                                                        placeholder="Mall Road" />
-                                                    <label for="modalAddressAddress2">Address Line 2</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalAddressLandmark"
-                                                        name="modalAddressLandmark" class="form-control"
-                                                        placeholder="Nr. Hard Rock Cafe" />
-                                                    <label for="modalAddressLandmark">Landmark</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalAddressCity"
-                                                        name="modalAddressCity" class="form-control"
-                                                        placeholder="Los Angeles" />
-                                                    <label for="modalAddressCity">City</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalAddressState"
-                                                        name="modalAddressState" class="form-control"
-                                                        placeholder="California" />
-                                                    <label for="modalAddressLandmark">State</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="modalAddressZipCode"
-                                                        name="modalAddressZipCode" class="form-control"
-                                                        placeholder="99950" />
-                                                    <label for="modalAddressZipCode">Zip Code</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-check form-switch">
-                                                    <input type="checkbox" class="form-check-input"
-                                                        id="billingAddress" />
-                                                    <label for="billingAddress">Use as a billing address?</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 text-center">
-                                                <button type="submit" class="btn btn-primary me-3">Submit</button>
-                                                <button type="reset" class="btn btn-outline-secondary"
-                                                    data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Add New Address Modal -->
-
-
-
                     </div>
                     <!-- / Content -->
                 </div>

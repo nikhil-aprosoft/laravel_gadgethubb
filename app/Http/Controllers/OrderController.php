@@ -10,41 +10,27 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Order\OrderItem;
 use App\Models\Order\OrderPayment;
+use Illuminate\Support\Facades\Log;
 use App\Jobs\PushOrderToShippingApi;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $user = session('user');
-       
+
         $cartData = Cart::with('product')->where('user_id', $user->userid)->get();
-        
+
         $shippingCost = Shipping::all();
 
         $cartData->transform(function ($item) {
             // Clean and convert the price to a float
             $cleanPrice = str_replace(['₹', ','], '', $item->product->price);
-            $item->subtotal = floatval($cleanPrice) * $item->quantity; // Explicit conversion to float
+            $item->subtotal = floatval($cleanPrice) * $item->quantity;
             return $item;
         });
 
-        return view('website.checkout', compact('cartData','shippingCost'));
+        return view('website.checkout', compact('cartData', 'shippingCost'));
     }
 
     /**
@@ -65,7 +51,7 @@ class OrderController extends Controller
         $order = Order::create([
             'orderid' => Str::uuid(),
             'user_id' => $user->userid,
-            'address_id' => $address->addressid,
+            'address_id' => $address->addressid,          
         ]);
 
         session(['orderid' => $order->orderid]);
@@ -76,20 +62,33 @@ class OrderController extends Controller
     {
         $user = session('user');
         $cartItems = Cart::with('product')->where('user_id', $user->userid)->get();
-
+        $totalPrice = 0;
+        
         foreach ($cartItems as $cartItem) {
             $productPrice = floatval(str_replace('₹', '', $cartItem->product->price));
-            $totalPrice = $productPrice * $cartItem->quantity;
-
+            $totalPrice += $productPrice * $cartItem->quantity;
+    
             OrderItem::create([
                 'order_item_id' => Str::uuid(),
                 'order_id' => $orderId,
                 'product_id' => $cartItem->product_id,
                 'quantity' => $cartItem->quantity,
-                'price' => $totalPrice, // Store the total price
+                'price' => $productPrice * $cartItem->quantity,
             ]);
         }
+    
+        $shippingCost = Shipping::all();
+        $shipCost = 0;
+        
+        foreach ($shippingCost as $shipping) {
+            if ($shipping->from <= $totalPrice && $shipping->to >= $totalPrice) {
+                $shipCost += $shipping->cost;
+            }
+        }
+    
+        \DB::table('orders')->where('orderid', $orderId)->update(['shipcost' => $shipCost]);
     }
+    
 
     public function paymentRequest(Request $request)
     {
@@ -111,15 +110,14 @@ class OrderController extends Controller
             $cleanPrice = str_replace(['₹', ','], '', $item->product->price);
             return floatval($cleanPrice) * $item->quantity; // Explicitly convert to a float
         });
-// return $amount;
+        // return $amount;
         $productInfo = $productNamesString;
         $firstName = $request->fname;
         $email = $user->email;
         $phone = $request->phone_no;
         $txnId = "TXN" . time();
-        $surl = config('app.url') . "payment-success?order_id=" . $orderId;
-        $furl = config('app.url') . "payment-failure";
-        $webhookUrl = config('app.url') . "api/payu-webhook";
+        $surl = config('app.url') . "/payment-success?order_id=" . $orderId;
+        $furl = config('app.url') . "/payment-failure";
 
         $params = [
             "key" => $merchantKey,
@@ -173,33 +171,37 @@ class OrderController extends Controller
         // Generate the hash
         return hash("sha512", $hashString);
     }
-
     public function paymentSuccess(Request $request)
     {
+        $user = session('user');
+        //Log::info('Step 1: Session ID before processing: ' . session()->getId()); 
+        //Log::info('Step 2: User Data before processing: ' . json_encode($user));
         try {
             $orderId = $request->query('order_id');
+            //Log::info('Step 3: Order ID from query: ' . $orderId); // Log the order ID from the query
 
             $chkTxnId = OrderPayment::where('txnid', $request->txnid)->get();
+
             if ($chkTxnId->isNotEmpty()) {
-                //Order already exist
-                return view('website.order-view', compact('orderId'));
+                // Log::info('Step 5: Order already exists for txnid: ' . $request->txnid);
+                return redirect('latestorder')->with('success', 'Your order is placed');
             }
 
+            //Log::info('Step 6: Processing new order for order ID: ' . $orderId);
             $this->orderPayment($request->all(), $orderId);
             $this->orderStatus($orderId);
 
-            return view('website.order-view', compact('orderId'));
+            //Log::info('Step 7: Order successfully processed, redirecting to latestorder.');
+            return redirect('latestorder')->with('success', 'Your order is placed');
+
         } catch (\Throwable $th) {
-            \Log::error('An error occurred: ' . $th->getMessage(), [
+            Log::error('Step 8: An error occurred during payment success processing: ' . $th->getMessage(), [
                 'exception' => $th,
                 'trace' => $th->getTraceAsString(),
             ]);
-            return redirect('/');
+            return redirect('/')->with('error', 'An error occurred, please try again later.');
         }
-
-        // return response()->json(['status' => 'success', 'data' => $request->all()]);
     }
-
     public function paymentFailure(Request $request)
     {
         \Log::info('Payment Failure Data:', $request->all());
@@ -209,101 +211,115 @@ class OrderController extends Controller
 
     public function orderPayment($data, $orderId)
     {
-        $mihpayid = $data['mihpayid'];
-        $mode = $data['mode'];
-        $status = $data['status'];
-        $txnid = $data['txnid'];
-        $amount = $data['amount'];
-        $net_amount_debit = $data['net_amount_debit'];
-        $addedon = $data['addedon'];
-        $productinfo = $data['productinfo'];
-        $email = $data['email'];
-        $phone = $data['phone'];
-        $payment_source = $data['payment_source'];
-        $error_message = $data['error_Message'];
-        $hash = $data['hash'];
-        $unmappedstatus = $data['unmappedstatus'];
-        $pg_type = $data['PG_TYPE'];
-        $bank_ref_num = $data['bank_ref_num'];
-        $bankcode = $data['bankcode'];
-        $error = $data['error'];
-        $cardnum = $data['cardnum'];
+        // Step 1: Log the data being passed to the payment order
+        //Log::info('Step 1: Processing order payment for Order ID: ' . $orderId);
+        // Log::info('Step 2: Payment Data: ' . json_encode($data)); // Log all payment data (ensure sensitive data is handled properly)
 
-        OrderPayment::create([
-            'order_payment_id' => Str::uuid(),
-            'order_id' => $orderId,
-            'payment_method' => 'PREPAID',
-            'amount' => $amount,
-            'payment_status' => $status,
-            'payment_date' => now(),
-            'status' => $status,
-            'txnid' => $txnid,
-            'mode' => $mode,
-            'mihpayid' => $mihpayid,
-            'net_amount_debit' => $net_amount_debit,
-            'addedon' => $addedon,
-            'hash' => $hash,
-            'unmappedstatus' => $unmappedstatus,
-            'payment_source' => $payment_source,
-            'pg_type' => $pg_type,
-            'bank_ref_num' => $bank_ref_num,
-            'bankcode' => $bankcode,
-            'error' => $error,
-            'error_message' => $error_message,
-            'productinfo' => $productinfo,
-            'email' => $email,
-            'phone' => $phone,
-            'cardnum' => $cardnum,
-        ]);
+        try {
+            $mihpayid = $data['mihpayid'];
+            $mode = $data['mode'];
+            $status = $data['status'];
+            $txnid = $data['txnid'];
+            $amount = $data['amount'];
+            $net_amount_debit = $data['net_amount_debit'];
+            $addedon = $data['addedon'];
+            $productinfo = $data['productinfo'];
+            $email = $data['email'];
+            $phone = $data['phone'];
+            $payment_source = $data['payment_source'];
+            $error_message = $data['error_Message'];
+            $hash = $data['hash'];
+            $unmappedstatus = $data['unmappedstatus'];
+            $pg_type = $data['PG_TYPE'];
+            $bank_ref_num = $data['bank_ref_num'];
+            $bankcode = $data['bankcode'];
+            $error = $data['error'];
+            $cardnum = $data['cardnum'];
+
+            // Log::info('Step 3: Payment details extracted - Transaction ID: ' . $txnid . ', Amount: ' . $amount);
+            $payment = OrderPayment::create([
+                'order_payment_id' => Str::uuid(),
+                'order_id' => $orderId,
+                'payment_method' => 'PREPAID',
+                'amount' => $amount,
+                'payment_status' => $status,
+                'payment_date' => now(),
+                'status' => $status,
+                'txnid' => $txnid,
+                'mode' => $mode,
+                'mihpayid' => $mihpayid,
+                'net_amount_debit' => $net_amount_debit,
+                'addedon' => $addedon,
+                'hash' => $hash,
+                'unmappedstatus' => $unmappedstatus,
+                'payment_source' => $payment_source,
+                'pg_type' => $pg_type,
+                'bank_ref_num' => $bank_ref_num,
+                'bankcode' => $bankcode,
+                'error' => $error,
+                'error_message' => $error_message,
+                'productinfo' => $productinfo,
+                'email' => $email,
+                'phone' => $phone,
+                'cardnum' => $cardnum,
+            ]);
+
+            // Log::info('Step 4: Payment successfully recorded for Order ID: ' . $orderId);
+            return true;
+        } catch (\Throwable $th) {
+            Log::error('Step 5: Error occurred while processing payment for Order ID: ' . $orderId, [
+                'exception' => $th,
+                'message' => $th->getMessage(),
+                'trace' => $th->getTraceAsString(),
+            ]);
+            Log::notice('Issue occurred in orderPayment: ' . $th->getMessage());
+            return false;
+        }
     }
 
     public function orderStatus($orderId)
     {
-        $order = Order::where('orderid', $orderId)->update([
-            'order_no' => generateStylishId(),
-            'isactive' => 1,
-        ]);
-       // PushOrderToShippingApi::dispatch($orderId);
-        return $order;
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        // Log::info('Step 1: Updating order status for Order ID: ' . $orderId);
+        try {
+            $order = Order::where('orderid', $orderId)->update([
+                'order_no' => generateStylishId(),
+                'isactive' => 1,
+            ]);
+            
+            PushOrderToShippingApi::dispatch($orderId);
+
+            //Log::info('Step 3: Order status updated successfully for Order ID: ' . $orderId);
+            return $order;
+        } catch (\Throwable $th) {
+
+            Log::error('Step 4: Error occurred while updating order status for Order ID: ' . $orderId, [
+                'exception' => $th,
+                'message' => $th->getMessage(),
+                'trace' => $th->getTraceAsString(),
+            ]);
+            return false;
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function latestOrder(Request $request)
     {
-        //
-    }
+        try {
+            $user = session('user');
+            $orderId = Order::where('orders.user_id', '=', $user->userid)
+                ->latest()
+                ->pluck('orderid')
+                ->first();
+            // return $userOrder;
+            return view('website.order-view', compact('orderId'));
+        } catch (\Throwable $th) {
+            Log::error("Log_from_latest_order: {$th}");
+            //throw $th;
+            return redirect()->back()->with('error', 'Something went wrong');
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function orderDetails($order_no){
+        $orderId = Order::where('order_no',$order_no)->pluck('orderid')->first();
+        return view('website.order-view', compact('orderId'));
+    }
 }

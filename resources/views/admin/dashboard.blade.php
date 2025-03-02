@@ -235,7 +235,7 @@
                                                             <p class="mb-0">{{ $source['description'] }}</p>
                                                         </div>
                                                         <div>
-                                                            <h6>₹{{ number_format((float) $source['amount'], 2) }}</h6>
+                                                            <h6>₹{{  $source['amount'] }}</h6>
 
                                                             <div class="progress bg-label-primary"
                                                                 style="height: 4px">
@@ -282,7 +282,7 @@
                                                         <i class="ri-file-word-2-line ri-24px"></i>
                                                     </div>
                                                 </div>
-                                                <div class="dropdown">
+                                                {{-- <div class="dropdown">
                                                     <button class="btn text-muted p-0" type="button"
                                                         id="totalProfitID" data-bs-toggle="dropdown"
                                                         aria-haspopup="true" aria-expanded="false">
@@ -295,7 +295,7 @@
                                                         <a class="dropdown-item" href="javascript:void(0);">Share</a>
                                                         <a class="dropdown-item" href="javascript:void(0);">Update</a>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="card-body">
                                                 <h6 class="mb-1">Last Week Profit</h6>
@@ -318,7 +318,7 @@
 
                                                     </div>
                                                 </div>
-                                                <div class="dropdown">
+                                                {{-- <div class="dropdown">
                                                     <button class="btn text-muted p-0" type="button"
                                                         id="newProjectID" data-bs-toggle="dropdown"
                                                         aria-haspopup="true" aria-expanded="false">
@@ -331,7 +331,7 @@
                                                         <a class="dropdown-item" href="javascript:void(0);">Share</a>
                                                         <a class="dropdown-item" href="javascript:void(0);">Update</a>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="card-body">
                                                 <h6 class="mb-1">Pending Orders</h6>
@@ -353,7 +353,7 @@
                                                         <i class="ri-money-dollar-circle-line ri-24px"></i>
                                                     </div>
                                                 </div>
-                                                <div class="dropdown">
+                                                {{-- <div class="dropdown">
                                                     <button class="btn text-muted p-0" type="button"
                                                         id="newProjectID" data-bs-toggle="dropdown"
                                                         aria-haspopup="true" aria-expanded="false">
@@ -366,7 +366,7 @@
                                                         <a class="dropdown-item" href="javascript:void(0);">Share</a>
                                                         <a class="dropdown-item" href="javascript:void(0);">Update</a>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="card-body">
                                                 <h6 class="mb-1">Success Orders</h6>
@@ -900,39 +900,6 @@
                         </div>
                     </div>
                     <!-- / Content -->
-
-                    <!-- Footer -->
-                    <footer class="content-footer footer bg-footer-theme">
-                        <div class="container-xxl">
-                            <div
-                                class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
-                                <div class="text-body mb-2 mb-md-0">
-                                    ©
-                                    <script>
-                                        document.write(new Date().getFullYear());
-                                    </script>
-                                    , made with <span class="text-danger"><i
-                                            class="tf-icons ri-heart-fill"></i></span> by
-                                    <a href="https://themeselection.com" target="_blank"
-                                        class="footer-link">ThemeSelection</a>
-                                </div>
-                                <div class="d-none d-lg-inline-block">
-                                    <a href="https://themeselection.com/license/" class="footer-link me-4"
-                                        target="_blank">License</a>
-                                    <a href="https://themeselection.com/" target="_blank"
-                                        class="footer-link me-4">More Themes</a>
-
-                                    <a href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/documentation/"
-                                        target="_blank" class="footer-link me-4">Documentation</a>
-
-                                    <a href="https://github.com/themeselection/materio-bootstrap-html-admin-template-free/issues"
-                                        target="_blank" class="footer-link">Support</a>
-                                </div>
-                            </div>
-                        </div>
-                    </footer>
-                    <!-- / Footer -->
-
                     <div class="content-backdrop fade"></div>
                 </div>
             </div>

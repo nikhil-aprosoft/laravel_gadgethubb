@@ -21,7 +21,12 @@ class OrderShipping extends Model
         'order_id',
         'shipment_id',
         'tracking_code',
-        'delivery_status'
+        'delivery_status',
+        'expected_delivery_date',
+        'status_time',
+        'carrier',
+        'delivery_boy_name',
+        'delivery_boy_phone',
     ];
 
     /**
