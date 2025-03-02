@@ -156,7 +156,7 @@
                                                  <tr>
                                                      <td><input type="checkbox" class="dt-checkboxes form-check-input">
                                                      </td>
-                                                     <td><a href="#">{{ $order->order_no ?? 'N/A' }}</a></td>
+                                                     <td><a href="{{ url('admin/orders/order-details', ['order' => $order->order_no]) }}">{{ $order->order_no ?? 'N/A' }}</a></td>
                                                      <td>{{ $order->created_at->format('M d, Y, H:i') }}</td>
                                                      <td>
                                                          <div

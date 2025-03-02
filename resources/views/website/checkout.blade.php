@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Checkout')
-
+<script>
+    function setCOD() {
+        document.getElementById('payment_method').value = 'cod';
+    }
+</script>
 @section('content')
     <div class="page-wrapper">
         <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
@@ -137,7 +141,7 @@
                                                     $shipCost += $shipping->cost;
                                                 }
                                             }                                    
-                                            @endphp
+                                        @endphp
                                            <tr class="cart-subtotal bb-no">
                                             <td><b>Shipping</b></td>
                                             <td><b style="font-family: Arial;">₹ {{ number_format($shipCost, 2) }}</b></td>
@@ -158,6 +162,12 @@
                                             <button type="submit" class="btn btn-dark btn-block btn-rounded">Place
                                                 Order</button>
                                         </div>
+                                        @if (env('CASH_ON_DELIVERY'))                                           
+                                            <div class="form-group place-order pt-6">
+                                                <input type="hidden" name="payment_method" id="payment_method" value="">
+                                                <button type="submit" onclick="setCOD()" class="btn btn-dark btn-block btn-rounded">Cash on Delivery</button>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

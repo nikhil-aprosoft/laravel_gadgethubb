@@ -84,19 +84,22 @@
                 </div>
             @endforeach
         </div>
-
-        <div class="cart-total">
-            <label>Subtotal:</label>
-            <span
-                class="price" style="font-family: Arial;">₹{{ $cartItems->sum(function ($item) {
-                    return (float) str_replace('₹', '', $item->product->price) * $item->quantity;
-                }) }}</span>
-        </div>
-
-        <div class="cart-action">
-            <a href="{{ route('view-cart') }}" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-            <a href="{{route('checkout')}}" class="btn btn-primary btn-rounded">Checkout</a>
-        </div>
+        @if ( $cartItems->count() > 0)
+            <div class="cart-total">
+                <label>Subtotal:</label>
+                <span
+                    class="price" style="font-family: Arial;">₹{{ $cartItems->sum(function ($item) {
+                        return (float) str_replace('₹', '', $item->product->price) * $item->quantity;
+                    }) }}</span>
+            </div>
+            <div class="cart-action">
+                <a href="{{ route('view-cart') }}" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
+                <a href="{{route('checkout')}}" class="btn btn-primary btn-rounded">Checkout</a>
+            </div>   
+            @else
+            <p class="text-center mt-4"><strong>Empty Cart</strong></p>  
+        @endif
+       
     </div>
     <!-- End of Dropdown Box -->
 </div>

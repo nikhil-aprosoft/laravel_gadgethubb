@@ -73,8 +73,8 @@ class OrderController extends Controller
             "public-key" => env('SHIPMOJO_PUBLIC_KEY'),
         ])->get("https://shipping-api.com/app/api/v1/track-order?awb_number=3394432268");
     
-
-        return view('admin.orders.details', compact('order'));
+        $trackingData  = json_decode($response, true); 
+        return view('admin.orders.details', compact('order','trackingData'));
     }
     public function userDetails($userId)
     {

@@ -110,7 +110,7 @@ class OrderController extends Controller
             $cleanPrice = str_replace(['₹', ','], '', $item->product->price);
             return floatval($cleanPrice) * $item->quantity; // Explicitly convert to a float
         });
-// return $amount;
+        // return $amount;
         $productInfo = $productNamesString;
         $firstName = $request->fname;
         $email = $user->email;
@@ -319,7 +319,7 @@ class OrderController extends Controller
         }
     }
     public function orderDetails($order_no){
-        $orderId =Order::where('order_no',$order_no)->pluck('orderid')->first();
+        $orderId = Order::where('order_no',$order_no)->pluck('orderid')->first();
         return view('website.order-view', compact('orderId'));
     }
 }

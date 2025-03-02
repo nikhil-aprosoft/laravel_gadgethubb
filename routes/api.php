@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayUWebhookController;
+use App\Http\Controllers\admin\ShipMojoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/payu-webhook', [PayUWebhookController::class, 'handleWebhook']);
 
-Route::get('/order-details',function(){
-
-  return  generateStylishId();
-});
+Route::post('/order-tracking-status',[ShipMojoController::class,'shipMojoWebhookResponse']);

@@ -235,7 +235,7 @@
                                                             <p class="mb-0">{{ $source['description'] }}</p>
                                                         </div>
                                                         <div>
-                                                            <h6>₹{{ number_format((float) $source['amount'], 2) }}</h6>
+                                                            <h6>₹{{  $source['amount'] }}</h6>
 
                                                             <div class="progress bg-label-primary"
                                                                 style="height: 4px">
