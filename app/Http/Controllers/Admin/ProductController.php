@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Support\Str;
+use App\Models\Product\Size;
+use Illuminate\Http\Request;
 use App\Models\Product\Color;
 use App\Models\Product\Product;
-use App\Models\Product\ProductAttribute;
-use App\Models\Product\Size;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Product\ProductAttribute;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ProductController extends Controller
 {
@@ -46,6 +48,8 @@ class ProductController extends Controller
         $this->handleImages($request, $product);
 
         $this->handleThumbnail($request, $product);
+
+        $this->qrCodeGenerate($product);
 
         $product->save();
 
@@ -181,6 +185,16 @@ class ProductController extends Controller
 
             $ProductAttribute->save();
         }
+    }
+    public function qrCodeGenerate($product){
+
+        $qrData = url("/api/products/{$product->product_id}");
+
+        $filePath = "qrcodes/product_{$product->product_id}.png";
+        Storage::disk('public')->put($filePath, QrCode::format('png')->size(200)->generate($qrData));
+
+        $product->qr_code = $filePath;
+
     }
     public function viewProduts(Request $request)
     {
