@@ -63,7 +63,7 @@
                 <div class="mt-4 max-h-60 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach ($order->items as $item)
                     <div class="flex items-center bg-gray-100 p-3 rounded-2xl">
-                        <img src="http://127.0.0.1:8000/storage/products/thumbnails/SjMx4uOLXku7kgJ2sDNeiDmyvCx5Fi9gYlywKMxC.jpg" class="w-64  h-50 rounded-md border mr-4">
+                        <img src="{{$item->product->thumbnail}}" class="w-64  h-50 rounded-md border mr-4">
                         <div>
                             <p class="text-gray-700 font-semibold">{{$item->product->product_name}}/p>
                             <p class="text-gray-500 font-semibold" style="font-family: Arial, Helvetica, sans-serif">{{$item->product->price }}</p>
@@ -76,7 +76,7 @@
                 <hr class="my-4">
                 <div class="flex justify-between">
                     <p class="text-gray-700 font-semibold" style="font-family: Arial, Helvetica, sans-serif">Total: ₹{{$order->payments->first()->amount ?? null}} ({{$order->items->count()}} items)</p>
-                    <button class="px-4 py-2 bg-black text-white rounded-2xl">Details</button>
+                    <a href="{{ url('order-details/'.$order->order_no) }}"><button class="px-4 py-2 bg-black text-white rounded-2xl">Details</button></a>
                 </div>
             </div>
             @endforeach
