@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
+use App\Jobs\PushOrderToShippingApi;
 use App\Models\Address;
-use App\Models\Shipping;
+use App\Models\Cart;
 use App\Models\Order\Order;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Models\Order\OrderItem;
 use App\Models\Order\OrderPayment;
+use App\Models\Shipping;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Jobs\PushOrderToShippingApi;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -29,7 +29,9 @@ class OrderController extends Controller
             $item->subtotal = floatval($cleanPrice) * $item->quantity;
             return $item;
         });
-
+        if ($cartData->isEmpty()) {
+            return redirect('/');
+        }
         return view('website.checkout', compact('cartData', 'shippingCost'));
     }
 
@@ -39,59 +41,20 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeAddress($request)
-    {
-        $address = Address::storeUserAddress($request);
-        return $address;
-    }
-    public function orderCreate($request, $address)
-    {
-        $user = session('user');
-
-        $order = Order::create([
-            'orderid' => Str::uuid(),
-            'user_id' => $user->userid,
-            'address_id' => $address->addressid,          
-        ]);
-
-        session(['orderid' => $order->orderid]);
-        $this->createOrderItems($order->orderid);
-        return true;
-    }
-    public function createOrderItems($orderId)
-    {
-        $user = session('user');
-        $cartItems = Cart::with('product')->where('user_id', $user->userid)->get();
-        $totalPrice = 0;
-        
-        foreach ($cartItems as $cartItem) {
-            $productPrice = floatval(str_replace('₹', '', $cartItem->product->price));
-            $totalPrice += $productPrice * $cartItem->quantity;
-    
-            OrderItem::create([
-                'order_item_id' => Str::uuid(),
-                'order_id' => $orderId,
-                'product_id' => $cartItem->product_id,
-                'quantity' => $cartItem->quantity,
-                'price' => $productPrice * $cartItem->quantity,
-            ]);
-        }
-    
-        $shippingCost = Shipping::all();
-        $shipCost = 0;
-        
-        foreach ($shippingCost as $shipping) {
-            if ($shipping->from <= $totalPrice && $shipping->to >= $totalPrice) {
-                $shipCost += $shipping->cost;
-            }
-        }
-    
-        \DB::table('orders')->where('orderid', $orderId)->update(['shipcost' => $shipCost]);
-    }
-    
-
     public function paymentRequest(Request $request)
     {
+        $request->validate([
+            'fname' => 'required|string|max:255',
+            'lname' => 'nullable|string|max:255',
+            'phone_no' => 'required|string|regex:/^[0-9]{10}$/',
+            'address' => 'required|string|max:500',
+            'landmark' => 'required|string|max:255',
+            'pincode' => 'required|digits:6',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'area' => 'required|string|max:255',
+        ]);
+
         $user = session('user');
         $address = $this->storeAddress($request);
         $this->orderCreate($request, $address);
@@ -106,11 +69,22 @@ class OrderController extends Controller
         $apiEndpoint = "https://test.payu.in/_payment";
 
         $amount = $cart->sum(function ($item) {
-            // Clean and convert the price to a float
             $cleanPrice = str_replace(['₹', ','], '', $item->product->price);
-            return floatval($cleanPrice) * $item->quantity; // Explicitly convert to a float
+            return floatval($cleanPrice) * $item->quantity;
         });
-        // return $amount;
+
+        $shippingCost = Shipping::all();
+        $shipCost = 0;
+
+        foreach ($shippingCost as $shipping) {
+            if ($shipping->from <= $amount && $shipping->to >= $amount) {
+                $amount += $shipping->cost;
+            }
+        }
+
+        if ($amount == 0) {
+            return redirect('/');
+        }
         $productInfo = $productNamesString;
         $firstName = $request->fname;
         $email = $user->email;
@@ -146,7 +120,55 @@ class OrderController extends Controller
         }
         return response($form);
     }
+    public function orderCreate($request, $address)
+    {
+        $user = session('user');
 
+        $order = Order::create([
+            'orderid' => Str::uuid(),
+            'user_id' => $user->userid,
+            'address_id' => $address->addressid,
+        ]);
+
+        session(['orderid' => $order->orderid]);
+        $this->createOrderItems($order->orderid);
+        return true;
+    }
+    public function createOrderItems($orderId)
+    {
+        $user = session('user');
+        $cartItems = Cart::with('product')->where('user_id', $user->userid)->get();
+        $totalPrice = 0;
+
+        foreach ($cartItems as $cartItem) {
+            $productPrice = floatval(str_replace('₹', '', $cartItem->product->price));
+            $totalPrice += $productPrice * $cartItem->quantity;
+
+            OrderItem::create([
+                'order_item_id' => Str::uuid(),
+                'order_id' => $orderId,
+                'product_id' => $cartItem->product_id,
+                'quantity' => $cartItem->quantity,
+                'price' => $productPrice * $cartItem->quantity,
+            ]);
+        }
+
+        $shippingCost = Shipping::all();
+        $shipCost = 0;
+
+        foreach ($shippingCost as $shipping) {
+            if ($shipping->from <= $totalPrice && $shipping->to >= $totalPrice) {
+                $shipCost += $shipping->cost;
+            }
+        }
+
+        \DB::table('orders')->where('orderid', $orderId)->update(['shipcost' => $shipCost]);
+    }
+    public function storeAddress($request)
+    {
+        $address = Address::storeUserAddress($request);
+        return $address;
+    }
     public function buildPaymentForm($apiEndpoint, $params)
     {
         $form = '<form id="paymentForm" method="POST" action="' . htmlspecialchars($apiEndpoint) . '">';
@@ -174,24 +196,18 @@ class OrderController extends Controller
     public function paymentSuccess(Request $request)
     {
         $user = session('user');
-        //Log::info('Step 1: Session ID before processing: ' . session()->getId()); 
-        //Log::info('Step 2: User Data before processing: ' . json_encode($user));
         try {
             $orderId = $request->query('order_id');
-            //Log::info('Step 3: Order ID from query: ' . $orderId); // Log the order ID from the query
 
             $chkTxnId = OrderPayment::where('txnid', $request->txnid)->get();
 
             if ($chkTxnId->isNotEmpty()) {
-                // Log::info('Step 5: Order already exists for txnid: ' . $request->txnid);
                 return redirect('latestorder')->with('success', 'Your order is placed');
             }
 
-            //Log::info('Step 6: Processing new order for order ID: ' . $orderId);
             $this->orderPayment($request->all(), $orderId);
             $this->orderStatus($orderId);
 
-            //Log::info('Step 7: Order successfully processed, redirecting to latestorder.');
             return redirect('latestorder')->with('success', 'Your order is placed');
 
         } catch (\Throwable $th) {
@@ -205,7 +221,6 @@ class OrderController extends Controller
     public function paymentFailure(Request $request)
     {
         \Log::info('Payment Failure Data:', $request->all());
-
         return response()->json(['status' => 'failure', 'data' => $request->all()]);
     }
 
@@ -279,16 +294,14 @@ class OrderController extends Controller
 
     public function orderStatus($orderId)
     {
-        // Log::info('Step 1: Updating order status for Order ID: ' . $orderId);
         try {
             $order = Order::where('orderid', $orderId)->update([
                 'order_no' => generateStylishId(),
                 'isactive' => 1,
             ]);
-            
+
             PushOrderToShippingApi::dispatch($orderId);
 
-            //Log::info('Step 3: Order status updated successfully for Order ID: ' . $orderId);
             return $order;
         } catch (\Throwable $th) {
 
@@ -309,17 +322,16 @@ class OrderController extends Controller
                 ->latest()
                 ->pluck('orderid')
                 ->first();
-            // return $userOrder;
+
             return view('website.order-view', compact('orderId'));
         } catch (\Throwable $th) {
             Log::error("Log_from_latest_order: {$th}");
-            //throw $th;
             return redirect()->back()->with('error', 'Something went wrong');
-
         }
     }
-    public function orderDetails($order_no){
-        $orderId = Order::where('order_no',$order_no)->pluck('orderid')->first();
+    public function orderDetails($order_no)
+    {
+        $orderId = Order::where('order_no', $order_no)->pluck('orderid')->first();
         return view('website.order-view', compact('orderId'));
     }
 }
