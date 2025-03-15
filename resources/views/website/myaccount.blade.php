@@ -40,11 +40,11 @@
                                 <a href="#account-dashboard" class="nav-link active">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('user-orders')}}" class="nav-link">Orders</a>
+                                <a href="{{route('orders-history')}}" class="nav-link">Orders</a>
                             </li>                         
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="#account-addresses" class="nav-link">Addresses</a>
-                            </li>
+                            </li> --}}
                            
                             <li class="link-item">
                                 <a href="{{ route('view-wishlist') }}" class="nav-link">Wishlist</a>
@@ -68,7 +68,7 @@
 
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                                        <a href="{{route('user-orders')}}" class="link-to-tab">
+                                        <a href="{{route('orders-history')}}" class="link-to-tab">
                                             <div class="icon-box text-center">
                                                 <span class="icon-box-icon icon-orders">
                                                     <i class="w-icon-orders"></i>
@@ -80,7 +80,7 @@
                                         </a>
                                     </div>
                                 
-                                    <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
+                                    {{-- <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
                                         <a href="#account-addresses" class="link-to-tab">
                                             <div class="icon-box text-center">
                                                 <span class="icon-box-icon icon-address">
@@ -91,9 +91,10 @@
                                                 </div>
                                             </div>
                                         </a>
-                                    </div>                                    
+                                    </div> --}}
+
                                     <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                                        <a href="{{ route('view-wishlist') }}" class="link-to-tab">
+                                        <a href="{{ route('view-wishlist') }}" class="link-to-tab">                                                                                    
                                             <div class="icon-box text-center">
                                                 <span class="icon-box-icon icon-wishlist">
                                                     <i class="w-icon-heart"></i>

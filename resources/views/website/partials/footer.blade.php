@@ -8,7 +8,7 @@
                 <div class="col-lg-4 col-sm-6">
                     <div class="widget widget-about">
                         <a href="{{ url('index') }}" class="logo-footer">
-                            <img src="assets/images/logo_footer.png" alt="logo-footer" width="144" height="45" />
+                            <img src="{{ asset('assets/images/logo.png') }}" alt="logo-footer" width="144" height="45" />
                         </a>
                         <div class="widget-body">
                             <p class="widget-about-title">Got Question? Call us 24/7</p>
@@ -32,7 +32,7 @@
                         <h3 class="widget-title">Company</h3>
                         <ul class="widget-body">
                             <li><a href="{{url('contact-us')}}">Contact Us</a></li>
-                            <li><a href="#">Order History</a></li>
+                            <li><a href="{{route('orders-history')}}">Order History</a></li>
                         </ul>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
             <i class="w-icon-cart"></i>
             <p>Cart</p>
         </a>
-        <div class="dropdown-box">
+        {{-- <div class="dropdown-box">
             <div class="products">
                 <div class="product product-cart">
                     <div class="product-detail">
@@ -150,7 +150,7 @@
                 <a href="cart.html" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
                 <a href="checkout.html" class="btn btn-primary  btn-rounded">Checkout</a>
             </div>
-        </div>
+        </div> --}}
         <!-- End of Dropdown Box -->
     </div>
 
@@ -187,13 +187,13 @@
     <!-- End of .mobile-menu-close -->
 
     <div class="mobile-menu-container scrollable">
-        <form action="#" method="get" class="input-wrapper">
+        {{-- <form action="" method="get" class="input-wrapper">
             <input type="text" class="form-control" name="search" autocomplete="off" placeholder="Search"
                 required />
             <button class="btn btn-search" type="submit">
                 <i class="w-icon-search"></i>
             </button>
-        </form>
+        </form> --}}
         <!-- End of Search Form -->
 
         <div class="tab">
@@ -225,7 +225,6 @@
             <div class="tab-pane" id="categories">
                 <ul class="mobile-menu">
                     <?php $commonData = app('commonData'); ?>
-
                     @foreach ($commonData['parentCategoriesMega'] as $cat)
                         <li>
                             <a href="#">
@@ -240,21 +239,7 @@
                                 @endforeach
                             </ul>
                         </li>
-                    @endforeach
-
-                    @foreach ($commonData['parentCategoriesNormal'] as $cat)
-                        <li>
-                            <a href="shop-fullwidth-banner.html">
-                                <i class="w-icon-heartbeat"></i>{{ $cat->name }}
-                            </a>
-                        </li>
-                    @endforeach
-
-                    <li>
-                        <a href="shop-banner-sidebar.html" class="font-weight-bold text-primary text-uppercase ls-25">
-                            View All Categories<i class="w-icon-angle-right"></i>
-                        </a>
-                    </li>
+                    @endforeach                    
                 </ul>
             </div>
         </div>

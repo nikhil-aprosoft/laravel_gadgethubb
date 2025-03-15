@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.min.css') }}">
     <!-- Add this line in your Blade template -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    {{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
