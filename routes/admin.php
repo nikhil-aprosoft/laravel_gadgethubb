@@ -16,6 +16,9 @@ use App\Http\Controllers\Admin\DashboardController;
 
 Route::view('login','admin.login');
 
+Route::get('/',function(){
+    return redirect('/admin/login');
+});
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');

@@ -54,26 +54,12 @@
                                                     @endforeach
                                                 </ul>
                                             </div>
-                                        @endif
-            
-                                            <!-- Action Buttons on the Right Side -->
-                                            {{-- <div class="d-flex align-items-baseline">
-                                                <div class="dt-action-buttons d-flex align-items-end justify-content-end gap-4 pt-0">
-                                                    <div class="dt-buttons btn-group flex-wrap">
-                                                        <button class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEcommerceCategoryList">
-                                                            <span>
-                                                                <i class="ri-add-line me-0 me-sm-1"></i>
-                                                                <span class="d-none d-sm-inline-block">Add Category</span>
-                                                            </span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
+                                        @endif                                
                                         </div>
                                                                                                         
                                         <table class="datatables-category-list table dataTable no-footer dtr-column"
                                             id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info"
-                                            style="width: 1394px;">
+                                            >
                                             <thead>
                                                 <tr>
                                                     <th class="control sorting_disabled dtr-hidden" rowspan="1"
@@ -430,18 +416,18 @@
                 }); // Refresh the preview
             }
 
-            document.addEventListener('DOMContentLoaded', function() {
-                const discardButton = document.getElementById('discard-button');
-                const form = document.getElementById('product-form');
+            // document.addEventListener('DOMContentLoaded', function() {
+            //     const discardButton = document.getElementById('discard-button');
+            //     const form = document.getElementById('product-form');
 
-                discardButton.addEventListener('click', function() {
-                    form.reset();
-                    document.getElementById("image-preview").innerHTML = "";
-                    selectedImages = []; // Clear the selected images list
-                    document.getElementById("image-upload").files = new DataTransfer()
-                        .files; // Clear the file input
-                });
-            });
+            //     discardButton.addEventListener('click', function() {
+            //         form.reset();
+            //         document.getElementById("image-preview").innerHTML = "";
+            //         selectedImages = []; // Clear the selected images list
+            //         document.getElementById("image-upload").files = new DataTransfer()
+            //             .files; // Clear the file input
+            //     });
+            // });
         </script>
         <!-- Overlay -->
         <div class="layout-overlay layout-menu-toggle"></div>
