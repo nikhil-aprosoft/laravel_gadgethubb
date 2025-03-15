@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayUWebhookController;
 use App\Http\Controllers\admin\ShipMojoController;
+use App\Http\Controllers\Offline_inventory_recordController;
+use App\Http\Controllers\Offline_userController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +26,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/payu-webhook', [PayUWebhookController::class, 'handleWebhook']);
 
 Route::post('/order-tracking-status',[ShipMojoController::class,'shipMojoWebhookResponse']);
+
+Route::controller(Offline_userController::class)->group(function () {
+    Route::post('offline_device_login', 'offline_device_login');
+});
+
+Route::controller(Offline_inventory_recordController::class)->group(function () {
+    Route::post('offline_product_scan', 'offline_product_scan');
+});

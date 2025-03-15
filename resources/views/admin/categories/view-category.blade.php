@@ -34,11 +34,16 @@
                                 <div class="card-datatable table-responsive">
                                     <div id="DataTables_Table_0_wrapper"
                                         class="dataTables_wrapper dt-bootstrap5 no-footer">
-                                        <div class="card-header d-flex rounded-0 flex-wrap py-0 pb-5 pb-md-0 m-5 justify-content-between">
+                                        <div
+                                            class="card-header d-flex rounded-0 flex-wrap py-0 pb-5 pb-md-0 m-5 justify-content-between">
                                             <!-- Search Input on the Left Side -->
                                             <div class="d-flex align-items-center me-5 ms-n2">
                                                 <div class="dt-buttons btn-group flex-wrap">
-                                                    <button class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEcommerceCategoryList">
+                                                    <button
+                                                        class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light"
+                                                        tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                        data-bs-toggle="offcanvas"
+                                                        data-bs-target="#offcanvasEcommerceCategoryList">
                                                         <span>
                                                             <i class="ri-add-line me-0 me-sm-1"></i>
                                                             <span class="d-none d-sm-inline-block">Add Category</span>
@@ -47,40 +52,25 @@
                                                 </div>
                                             </div>
                                             @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
-            
-                                            <!-- Action Buttons on the Right Side -->
-                                            {{-- <div class="d-flex align-items-baseline">
-                                                <div class="dt-action-buttons d-flex align-items-end justify-content-end gap-4 pt-0">
-                                                    <div class="dt-buttons btn-group flex-wrap">
-                                                        <button class="btn btn-secondary add-new btn-primary ms-n1 waves-effect waves-light" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEcommerceCategoryList">
-                                                            <span>
-                                                                <i class="ri-add-line me-0 me-sm-1"></i>
-                                                                <span class="d-none d-sm-inline-block">Add Category</span>
-                                                            </span>
-                                                        </button>
-                                                    </div>
+                                                <div class="alert alert-danger">
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                            <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
                                                 </div>
-                                            </div> --}}
+                                            @endif
                                         </div>
-                                                                                                        
+
                                         <table class="datatables-category-list table dataTable no-footer dtr-column"
-                                            id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info"
-                                            style="width: 1394px;">
+                                            id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
                                             <thead>
                                                 <tr>
                                                     <th class="control sorting_disabled dtr-hidden" rowspan="1"
                                                         colspan="1" style="width: 0px; display: none;"
                                                         aria-label="">
                                                     </th>
-                                                  
+
                                                     <th class="sorting sorting_desc" tabindex="0"
                                                         aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                                         style="width: 699px;"
@@ -99,16 +89,16 @@
                                                         Actions</th>
                                                 </tr>
                                             </thead>
-                                            <tbody> 
-                                            <?php
-                                            $commonData = app('commonData');
-                                            
-                                            $parentCategoriesMega = $commonData['parentCategoriesMega'];
-                                            ?>
+                                            <tbody>
+                                                <?php
+                                                $commonData = app('commonData');
+                                                
+                                                $parentCategoriesMega = $commonData['parentCategoriesMega'];
+                                                ?>
                                                 @foreach ($category as $item)
                                                     <tr class="odd">
                                                         <td class="  control" style="display: none;" tabindex="0">
-                                                        </td>                                               
+                                                        </td>
                                                         <td class="sorting_1">
                                                             <div class="d-flex align-items-center">
                                                                 <div
@@ -154,8 +144,8 @@
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h1 class="modal-title fs-5"
-                                                                        id="exampleModalLabel">Edit Category</h1>
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                        Edit Category</h1>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
@@ -241,7 +231,7 @@
                                                             preview.src = ''; // Fallback or previous image source if no file is selected
                                                         }
                                                     }
-                                                </script>                                                                                                 
+                                                </script>
                                                 <style>
                                                     .avatar-wrapper {
                                                         width: 150px;
@@ -272,16 +262,55 @@
                                             </tbody>
                                         </table>
                                         <div class="row mx-1">
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_info m-3" role="status" aria-live="polite">
-                                                    Showing {{ $category->firstItem() }} to
-                                                    {{ $category->lastItem() }} of {{ $category->total() }} entries
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_paginate paging_simple_numbers">
-                                                    {{ $category->links() }}
-                                                    <!-- This generates the pagination links -->
+                                            <!-- Pagination Container -->
+                                            <div class="pagination-container d-flex justify-content-end mt-3">
+                                                <div class="dataTables_paginate paging_simple_numbers"
+                                                    id="DataTables_Table_0_paginate">
+                                                    <ul class="pagination">
+                                                        {{-- Previous Button --}}
+                                                        @if ($category->onFirstPage())
+                                                            <li class="paginate_button page-item previous disabled"
+                                                                id="DataTables_Table_0_previous">
+                                                                <a aria-controls="DataTables_Table_0"
+                                                                    aria-disabled="true" role="link"
+                                                                    class="page-link waves-effect">Previous</a>
+                                                            </li>
+                                                        @else
+                                                            <li class="paginate_button page-item previous"
+                                                                id="DataTables_Table_0_previous">
+                                                                <a href="{{ $category->previousPageUrl() }}"
+                                                                    aria-controls="DataTables_Table_0" role="link"
+                                                                    class="page-link waves-effect">Previous</a>
+                                                            </li>
+                                                        @endif
+
+                                                        {{-- Pagination Links --}}
+                                                        @for ($i = 1; $i <= $category->lastPage(); $i++)
+                                                            <li
+                                                                class="paginate_button page-item {{ $i == $category->currentPage() ? 'active' : '' }}">
+                                                                <a href="{{ $category->url($i) }}"
+                                                                    aria-controls="DataTables_Table_0" role="link"
+                                                                    class="page-link waves-effect">{{ $i }}</a>
+                                                            </li>
+                                                        @endfor
+
+                                                        {{-- Next Button --}}
+                                                        @if ($category->hasMorePages())
+                                                            <li class="paginate_button page-item next"
+                                                                id="DataTables_Table_0_next">
+                                                                <a href="{{ $category->nextPageUrl() }}"
+                                                                    aria-controls="DataTables_Table_0" role="link"
+                                                                    class="page-link waves-effect">Next</a>
+                                                            </li>
+                                                        @else
+                                                            <li class="paginate_button page-item next disabled"
+                                                                id="DataTables_Table_0_next">
+                                                                <a aria-controls="DataTables_Table_0"
+                                                                    aria-disabled="true" role="link"
+                                                                    class="page-link waves-effect">Next</a>
+                                                            </li>
+                                                        @endif
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -430,18 +459,18 @@
                 }); // Refresh the preview
             }
 
-            document.addEventListener('DOMContentLoaded', function() {
-                const discardButton = document.getElementById('discard-button');
-                const form = document.getElementById('product-form');
+            // document.addEventListener('DOMContentLoaded', function() {
+            //     const discardButton = document.getElementById('discard-button');
+            //     const form = document.getElementById('product-form');
 
-                discardButton.addEventListener('click', function() {
-                    form.reset();
-                    document.getElementById("image-preview").innerHTML = "";
-                    selectedImages = []; // Clear the selected images list
-                    document.getElementById("image-upload").files = new DataTransfer()
-                        .files; // Clear the file input
-                });
-            });
+            //     discardButton.addEventListener('click', function() {
+            //         form.reset();
+            //         document.getElementById("image-preview").innerHTML = "";
+            //         selectedImages = []; // Clear the selected images list
+            //         document.getElementById("image-upload").files = new DataTransfer()
+            //             .files; // Clear the file input
+            //     });
+            // });
         </script>
         <!-- Overlay -->
         <div class="layout-overlay layout-menu-toggle"></div>

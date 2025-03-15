@@ -40,17 +40,12 @@
                                 <a href="#account-dashboard" class="nav-link active">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('user-orders')}}" class="nav-link">Orders</a>
-                            </li>
+                                <a href="{{route('orders-history')}}" class="nav-link">Orders</a>
+                            </li>                         
                             {{-- <li class="nav-item">
-                                <a href="#account-downloads" class="nav-link">Downloads</a>
-                            </li> --}}
-                            <li class="nav-item">
                                 <a href="#account-addresses" class="nav-link">Addresses</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#account-details" class="nav-link">Account details</a>
-                            </li>
+                            </li> --}}
+                           
                             <li class="link-item">
                                 <a href="{{ route('view-wishlist') }}" class="nav-link">Wishlist</a>
                             </li>
@@ -73,7 +68,7 @@
 
                                 <div class="row">
                                     <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                                        <a href="{{route('user-orders')}}" class="link-to-tab">
+                                        <a href="{{route('orders-history')}}" class="link-to-tab">
                                             <div class="icon-box text-center">
                                                 <span class="icon-box-icon icon-orders">
                                                     <i class="w-icon-orders"></i>
@@ -85,7 +80,7 @@
                                         </a>
                                     </div>
                                 
-                                    <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
+                                    {{-- <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
                                         <a href="#account-addresses" class="link-to-tab">
                                             <div class="icon-box text-center">
                                                 <span class="icon-box-icon icon-address">
@@ -96,21 +91,10 @@
                                                 </div>
                                             </div>
                                         </a>
-                                    </div>
+                                    </div> --}}
+
                                     <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                                        <a href="#account-details" class="link-to-tab">
-                                            <div class="icon-box text-center">
-                                                <span class="icon-box-icon icon-account">
-                                                    <i class="w-icon-user"></i>
-                                                </span>
-                                                <div class="icon-box-content">
-                                                    <p class="text-uppercase mb-0">Account Details</p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-lg-4 col-md-6 col-sm-4 col-xs-6 mb-4">
-                                        <a href="{{ route('view-wishlist') }}" class="link-to-tab">
+                                        <a href="{{ route('view-wishlist') }}" class="link-to-tab">                                                                                    
                                             <div class="icon-box text-center">
                                                 <span class="icon-box-icon icon-wishlist">
                                                     <i class="w-icon-heart"></i>
@@ -172,11 +156,13 @@
                                         ->limit(1)
                                         ->first();
                                 @endphp
+                                
                                 <div class="row">
 
                                     <div class="col-sm-6 mb-6">
                                         <div class="ecommerce-address shipping-address pr-lg-8">
                                             <h4 class="title title-underline ls-25 font-weight-bold">Shipping Address</h4>
+                                            @if ($address)
                                             <address class="mb-4">
                                                 <table class="address-table">
                                                     <tbody>
@@ -207,8 +193,13 @@
                                                     </tbody>
                                                 </table>
                                             </address>
+                                            @else
+                                          <h4 class="text-center">  No Address</h4>      
+                                            @endif
+                                          
                                         </div>
                                     </div>
+
                                 </div>
                             </div>      
                         </div>

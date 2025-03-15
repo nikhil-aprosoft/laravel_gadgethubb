@@ -21,6 +21,7 @@ class Product extends Model
         'product_id',
         'category_id',
         'product_name',
+        'qr_code',
         'slug',
         'search_product_name',
         'price',

@@ -38,7 +38,7 @@ Route::view('login', 'website.login');
 Route::controller(CategoryController::class)->group(function () {
     Route::get('index', 'index');
     Route::get('category/{slug}', 'showCategoryProducts')->name('category.product');
-    Route::get('/search', 'search')->name('search');
+    Route::get('/searchRoute', 'search')->name('searchRoute');
 });
 Route::controller(UserController::class)->group(function () {
     Route::get('register-login', 'index')->name('register-login');
@@ -46,7 +46,7 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/signup', 'signUp')->name('signup');
     Route::get("/logout", 'logout')->name('logout');
     Route::get('myaccount', 'myaccount')->name('myaccount')->middleware('session');
-    Route::get('user-orders','userOrders')->name('user-orders')->middleware('session');
+    Route::get('orders-history','userOrders')->name('orders-history')->middleware('session');
 
 });
 Route::controller(ProductController::class)->group(function () {

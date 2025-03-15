@@ -121,11 +121,11 @@
                                         <tbody>
                                             @foreach ($cartData as $item)
                                                 <tr class="bb-no">
-                                                    {{-- <td class="product-name">{{ $item->product->product_name }} <i class="fas fa-times"></i> <span class="product-quantity">1</span></td> --}}
+                                                    {{-- <td class="product-name">{{ $item->product->product_name }} <i class="fas fa-times"></i> <span class="product-quantity">1</span></td> 
                                                     {{-- <td class="product-total" style="font-family: Arial;">₹ {{ number_format($item->price, 2) }}</td> --}}
                                                 </tr>
                                                 @php
-                                                    $subtotal += $item->price; // Assuming you want to sum the price, not subtotal.
+                                                    $subtotal += $item->price * $item->quantity ; 
                                                 @endphp
                                             @endforeach
                                         </tbody>
@@ -152,7 +152,7 @@
                                                         <b>Total</b>
                                                     </th>
                                                     <td style="font-family: arial;">
-                                                        <b>₹ {{ number_format($subtotal+$shipCost, 2) }}</b>
+                                                        <b>₹ {{ number_format($subtotal+ $shipCost, 2) }}</b>
                                                     </td>
                                                 </tr>
                                             </tfoot>

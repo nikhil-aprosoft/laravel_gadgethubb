@@ -5,7 +5,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DeliveryController;
@@ -16,9 +16,12 @@ use App\Http\Controllers\Admin\DashboardController;
 
 Route::view('login','admin.login');
 
+Route::get('/',function(){
+    return redirect('/admin/login');
+});
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');
 Route::get('/weekly-overview', [DashboardController::class, 'getWeeklyOverview'])->name('admin.weekly-overview');
