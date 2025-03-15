@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Offline_user extends Model
 {
     use HasFactory;
-    protected $table = 'addresses';
+    // protected $table = 'addresses';
 }

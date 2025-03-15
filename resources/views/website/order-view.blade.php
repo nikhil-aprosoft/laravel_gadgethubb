@@ -1,162 +1,133 @@
 @extends('layouts.app')
-@section('title', 'Order-view')
+@section('title', 'Order')
+
+<script src="https://cdn.tailwindcss.com"></script>
 
 @section('content')
     <div class="page-wrapper">
+        <h1 class="d-none">Wolmart - Responsive Marketplace HTML Template</h1>
 
         @include('website.partials.header')
+        <!-- End of Header -->
+    </div>
+    <div class="bg-gray-100 py-6" style="margin: 60px;">
+        <div class=" mx-auto bg-white rounded-lg shadow-lg p-6">
+            <header class="flex justify-between items-center border-b pb-4">
+                <h1 class="text-xl font-semibold text-[#1E2A42]">
+                    Order Number <span class="text-[#6C5DD3] font-bold">#{{ $order->order_no }}</span>
+                </h1>
+                <div class="text text-gray-600">
+                    <strong class="text-gray-500">Order Created:</strong>
+                    <strong
+                        class="text-gray-500">{{ \Carbon\Carbon::parse($order->created_at)->format('D, M j, Y h:i A') }}</strong>
+                </div>
+            </header>
 
-        @php
-            $order = App\Models\Order\Order::with(['items.product', 'payments'])
-                ->where('orderid', $orderId)
-                ->first();
-        @endphp
+            <!-- Customer, Delivery, and History -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                <div class="bg-white shadow-sm p-4 rounded-lg border">
+                    <h2 class="font-semibold text-[#1E2A42]">Customer Details</h2>
+                    <p class="text-gray-600 mt-2"><strong class="text-gray-500">Name:</strong> {{ $order->address->fname }}
+                    </p>
 
-        <!-- Start of Main -->
-        <main class="main order">
-            <!-- Breadcrumb -->
-            <nav class="breadcrumb-nav">
-                <div class="container">
-                    <ul class="breadcrumb shop-breadcrumb bb-no">
-                        <li>Shopping Cart</li>
-                        <li>Checkout</li>
-                        <li class="active"><a href="#">Order Complete</a></li>
+                    <p class="text-gray-600"><strong class="text-gray-500">Email:</strong>
+                        <a href="#" class="text-[#6C5DD3] underline">{{ $order->user->email }}</a>
+                    </p>
+                    <p class="text-gray-600"><strong class="text-gray-500">Phone:</strong>+91
+                        {{ $order->address->phone_no }}</p>
+
+                </div>
+
+                <div class="bg-white shadow-sm p-4 rounded-lg border">
+                    <h2 class="font-semibold text-[#1E2A42]">Delivery Address</h2>
+                    <p class="text-gray-600 mt-2"><strong class="text-gray-500">Address:</strong>
+                        {{ $order->address->address }}</p>
+                    <p class="text-gray-600"><strong class="text-gray-500">Area:</strong> {{ $order->address->area }}</p>
+                    <p class="text-gray-600"><strong class="text-gray-500">Landmark:</strong>
+                        {{ $order->address->landmark }}</p>
+                    <p class="text-gray-600"><strong class="text-gray-500">Pincode:</strong> {{ $order->address->pincode }}
+                    </p>
+                </div>
+
+                @if (!empty($order->shipping) && $order->shipping->isNotEmpty())
+                @php $shipping = $order->shipping->sortByDesc('created_at')->first(); @endphp
+                <div class="bg-white shadow-sm p-4 rounded-lg border">
+                    <h2 class="font-semibold mb-4">Order History</h2>
+                    <ul class="text-gray-700 text-[#1E2A42]">
+                        <li class="mb-2"><strong class="text-gray-500">Expected Delivery:</strong> {{ \Carbon\Carbon::parse($shipping->expected_delivery_date)->format('D, M j, Y h:i A') }}</li>
+                        <li class="mb-2"><strong class="text-gray-500">Shipping-ID:</strong> {{ $shipping->shipment_id }}</li>
+                        <li class="mb-2"><strong class="text-gray-500">Delivery-Status:</strong> {{ ucfirst($shipping->delivery_status) }}</li>
                     </ul>
                 </div>
-            </nav>
-
-            <!-- Page Content -->
-            <div class="page-content mb-10 pb-2">
-                <div class="container">
-                    <div class="order-success text-center font-weight-bolder text-dark">
-                        <i class="fas fa-check" style="color: green;"></i>
-                        Thank you. Your order has been received.
-                    </div>
-
-                    <!-- Order Summary -->
-                    <ul class="order-view list-style-none">
-                        <li>
-                            <label>Order number</label>
-                            <strong>{{ $order->order_no }}</strong>
-                        </li>
-                        <li>
-                            <label>Status</label>
-                            <strong>{{ $order->payments->first()->payment_status }}</strong>
-                        </li>
-                        <li>
-                            <label>Date</label>
-                            <strong>{{ $order->created_at->diffForHumans() }}</strong>
-                        </li>
-                        <li>
-                            <label>Total</label>
-                            <strong class="rupessPrice" style="font-family: Arial;">₹
-                                {{ number_format($order->payments->first()->amount, 2) }}</strong>
-                        </li>
-                        <li>
-                            <label>Payment Source</label>
-                            <strong>{{ ucfirst($order->payments->first()->payment_source) }}</strong>
-                        </li>
-
+            @else
+                <div class="bg-white shadow-sm p-4 rounded-lg border">
+                    <h2 class="font-semibold mb-4">Order History</h2>
+                    <ul class="text-gray-700 text-[#1E2A42]">
+                        <li><strong class="text-gray-500">Shipping:</strong> Processing</li>
                     </ul>
+                </div>
+            @endif
+            
+            </div>
 
-                    <!-- Order Details -->
-                    <div class="order-details-wrapper mb-5">
-                        <h4 class="title text-uppercase ls-25 mb-5">Order Details</h4>
-                        <table class="order-table">
+            <!-- Item Summary & Order Summary -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                <div class="col-span-2 bg-white shadow-sm p-4 rounded-lg border">
+                    <h2 class="font-semibold text-[#1E2A42] mb-4">Item Summary</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left min-w-[600px]">
                             <thead>
-                                <tr>
-                                    <th class="text-dark">Product</th>
-                                    <th></th>
+                                <tr class="border-b text-gray-600">
+                                    <th class="p-2">Item</th>
+                                    <th class="p-2">QTY</th>
+                                    <th class="p-2">Price</th>
+                                    <th class="p-2">Total Price</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($order->items as $orderItem)
-                                    <tr>
-                                        <td>
-                                            <a
-                                                href="{{ route('product-details', ['slug' => $orderItem->product->slug]) }}">{{ $orderItem->product->product_name }}</a>&nbsp;<strong>x
-                                                {{ $orderItem->quantity }}</strong>
+                                @foreach ($order->items as $item)
+                                    <tr class="border-b">
+                                        <td class="p-2 flex items-center space-x-3">
+                                            <img src="{{ $item->product->thumbnail }}" class="w-24 h-24 rounded-md"
+                                                alt="Item">
+                                            <div>
+                                                <p class="text-[#1E2A42] font-semibold">{{ $item->product->product_name }}
+                                                </p>
+                                                {{-- <p class="text-gray-500 text-xs">Colour: Blue</p> --}}
+                                            </div>
                                         </td>
-                                        <td style="font-family: Arial;">₹{{ number_format($orderItem->price, 2) }}</td>
+                                        <td class="p-2 text-gray-800">{{ $item->quantity }}</td>
+                                        <td class="p-2 text-gray-800" style="font-family: Arial, Helvetica, sans-serif">
+                                            ₹{{ $item->price }}</td>
+                                        <td class="p-2 text-gray-800" style="font-family: Arial, Helvetica, sans-serif">
+                                            ₹{{ $item->price }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Subtotal:</th>
-                                    <td style="font-family: Arial;">
-                                        ₹{{ number_format($order->items->sum(fn($item) => $item->price * $item->quantity), 2) }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Shipping:</th>
-                                    <td style="font-family: Arial;">₹ <?php echo $order->shipcost >= 0 ? $order->shipcost : 0; ?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Payment method:</th>
-                                    <td>{{ $order->payments[0]->payment_method }}</td>
-                                </tr>
-                                <tr class="total">
-                                    <th class="border-no">Total:</th>
-                                    <td class="border-no" style="font-family: Arial;">
-                                        ₹{{ number_format($order->payments[0]->amount + $order->shipcost, 2) }}</td>
-                                </tr>
-                            </tfoot>
                         </table>
-                        <!-- start of Account Address -->
+                    </div>
+                </div>
 
-                        <div id="account-addresses mt-5">
-                            <div class="row">
-                                <div class="col-sm-6 mb-8">
-                                    <div class="ecommerce-address shipping-address" style="margin: 50px;">
-                                        <h4 class="title title-underline ls-25 font-weight-bold">Shipping Address</h4>
-                                        <address class="mb-4">
-                                            <table class="address-table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>{{ $order->address->fname }}</td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td>{{ $order->address->address }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{ $order->address->area }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{ $order->address->state }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{ $order->address->city }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{ $order->address->landmark }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{ $order->address->pincode }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>{{ $order->address->phone_no }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>92020</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </address>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of Account Address -->
+                <!-- Order Summary -->
+                <div class="bg-white shadow-sm p-4 rounded-lg border">
+                    <h2 class="font-semibold text-[#1E2A42] mb-4">Order Summary</h2>
+                    <div class="space-y-3 text-gray-700 text-sm">
+                        <p class="flex justify-between"><strong class="text-gray-500">Payment</strong> <span
+                                class="text-gray-800"><strong
+                                    class="text-gray-500">{{ $order->payments[0]->payment_method }}</strong></span></p>
+                        <p class="flex justify-between"><span><strong class="text-gray-500">Shipping Cost</strong></span>
+                            <span style="font-family: Arial, Helvetica, sans-serif">₹ <strong
+                                    class="text-gray-500">{{ $order->shipcost }}</strong></span></p>
+                        <p class="flex justify-between font-semibold text-lg">
+                        <p class="flex justify-between"><span><strong class="text-gray-500">Total</strong></span>
+                            <span style="font-family: Arial, Helvetica, sans-serif">
+                                <strong class="text-gray-500">₹ {{ $order->payments[0]->amount + $order->shipcost }}
+                                </strong>
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
-            <!-- End of Page Content -->
-
-        </main>
-
-        @include('website.partials.footer')
+        </div>
     </div>
 @endsection

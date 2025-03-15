@@ -8,6 +8,7 @@ use App\Models\Cart;
 use App\Models\Order\Order;
 use App\Models\Order\OrderItem;
 use App\Models\Order\OrderPayment;
+use App\Models\Product\Product;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -207,6 +208,7 @@ class OrderController extends Controller
 
             $this->orderPayment($request->all(), $orderId);
             $this->orderStatus($orderId);
+            $this->decreaseProductQty($orderId);
 
             return redirect('latestorder')->with('success', 'Your order is placed');
 
@@ -220,7 +222,7 @@ class OrderController extends Controller
     }
     public function paymentFailure(Request $request)
     {
-        \Log::info('Payment Failure Data:', $request->all());
+        Log::info('Payment Failure Data:', $request->all());
         return response()->json(['status' => 'failure', 'data' => $request->all()]);
     }
 
@@ -313,17 +315,51 @@ class OrderController extends Controller
             return false;
         }
     }
+    public function decreaseProductQty($orderId)
+    {
+        try {
+            $order = Order::with('items')->where('orderid', $orderId)->first();
+
+            if (!$order) {
+                Log::error("Order not found: $orderId");
+                return false;
+            }
+
+            foreach ($order->items as $item) {
+                $product = Product::where('product_id', $item->product_id)->first();
+
+                if ($product) {
+                    if ($product->quantity > 0) {
+                        $product->decrement('quantity', 1);
+                    } else {
+                        Log::warning("Product {$product->product_id} is already out of stock.");
+                    }
+                } else {
+                    Log::error("Product not found: {$item->product_id}");
+                }
+            }
+
+            return true;
+        } catch (\Throwable $th) {
+            Log::error('Error occurred while updating product quantity', [
+                'exception' => $th,
+                'message' => $th->getMessage(),
+                'trace' => $th->getTraceAsString(),
+            ]);
+            return false;
+        }
+    }
 
     public function latestOrder(Request $request)
     {
         try {
             $user = session('user');
-            $orderId = Order::where('orders.user_id', '=', $user->userid)
+            $order = Order::with(['user', 'items', 'payments', 'shipping', 'address'])
+                ->where('orders.user_id', '=', $user->userid)
                 ->latest()
-                ->pluck('orderid')
                 ->first();
 
-            return view('website.order-view', compact('orderId'));
+            return view('website.order-view', compact('order'));
         } catch (\Throwable $th) {
             Log::error("Log_from_latest_order: {$th}");
             return redirect()->back()->with('error', 'Something went wrong');
@@ -331,7 +367,19 @@ class OrderController extends Controller
     }
     public function orderDetails($order_no)
     {
-        $orderId = Order::where('order_no', $order_no)->pluck('orderid')->first();
-        return view('website.order-view', compact('orderId'));
+        try {
+            $user = session('user');
+            $order = Order::with(['user', 'items', 'payments', 'shipping', 'address'])
+                ->where('orders.user_id', '=', $user->userid)
+                ->where('order_no', $order_no)
+                ->first();
+            if ($order) {
+
+                return view('website.order-view', compact('order'));
+            }
+            return redirect('/');
+        } catch (\Throwable $th) {
+            Log::error("orderDetails: {$th}");
+        }
     }
 }

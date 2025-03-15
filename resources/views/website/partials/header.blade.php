@@ -1,3 +1,59 @@
+<style>
+    #search-results {
+        position: absolute;
+        background: white;
+        border: 1px solid #ddd;
+        max-height: 300px;
+        /* Set max height */
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+        width: 100%;
+        display: none;
+        z-index: 1000;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+    }
+
+    .search-item {
+        padding: 10px;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .search-item:last-child {
+        border-bottom: none;
+    }
+
+    .search-item a {
+        text-decoration: none;
+        color: #333;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-item-title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .search-item-price {
+        font-size: 12px;
+        color: #888;
+    }
+
+    /* Scrollbar Styling */
+    #search-results::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #search-results::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+
+    #search-results::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+</style>
 <!-- Start of Header -->
 <header class="header header-border">
     <div class="header-top">
@@ -30,7 +86,7 @@
                 <a href="{{ url('index') }}" class="logo ml-lg-0">
                     <img src="{{ asset('assets/images/logo.png') }}" alt="logo" width="144" height="45" />
                 </a>
-                <form class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
+                <form id="search-form" class="header-search hs-expanded hs-round d-none d-md-flex input-wrapper">
                     <div class="select-box">
                         <select id="category" name="category">
                             <option value="">All Categories</option>
@@ -43,15 +99,90 @@
                             @endforeach
                         </select>
                     </div>
-                    <script>
-                        var searchRoute = "{{ route('search') }}"; // Replace 'search.route' with your route name
-                    </script>
+
                     <input type="text" class="form-control" name="search" id="search" placeholder="Search in..."
                         required />
-                    <button class="btn btn-search" type="submit"><i class="w-icon-search"></i>
-                    </button>
+
+                    <button class="btn btn-search" type="submit"><i class="w-icon-search"></i></button>
                 </form>
+
                 <div id="search-results"></div>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        let debounceTimer;
+
+                        function debounce(func, wait) {
+                            return function(...args) {
+                                clearTimeout(debounceTimer);
+                                debounceTimer = setTimeout(() => func.apply(this, args), wait);
+                            };
+                        }
+
+                        var searchRoute = "{{ route('searchRoute') }}";
+                        var appUrl = "{{env('APP_URL')}}";
+                        function performSearch() {
+                            $.ajax({
+                                url: searchRoute,
+                                method: 'GET',
+                                data: {
+                                    _token: $('meta[name="csrf-token"]').attr('content'),
+                                    category: $('#category').val(),
+                                    search: $('#search').val()
+                                },
+                                dataType: 'JSON',
+                                success: function(response) {
+                                    console.log(response)
+                                    $('#search-results').empty();
+                                    if (response.data && response.data.length) {
+                                        $('#search-results').show();
+                                        response.data.forEach(product => {
+                                            $('#search-results').append(
+                                                `<div class="search-item">
+                                                    <a href="${appUrl}/product-details/${product.slug}" class="search-item-link">  
+                                                        <img src="${product.images}" alt="${product.product_name}" class="search-item-image" style="width: 100px;margin: 20px;">
+                                                        <div class="search-item-details">
+                                                            <h4 class="search-item-title">${product.product_name}</h4>
+                                                            <p class="search-item-price" style="font-family: Arial;">${product.price}</p>
+                                                        </div>
+                                                    </a>
+                                                </div>`
+                                            );
+                                        });
+                                    } else {
+                                        $('#search-results').hide();
+                                    }
+                                },
+                                error: function() {
+                                    $('#search-results').empty().append(
+                                        '<p>An error occurred. Please try again.</p>'
+                                    ).show();
+                                }
+                            });
+                        }
+
+                        function positionSearchResults() {
+                            const searchInput = $('#search');
+                            const searchResults = $('#search-results');
+                            const offset = searchInput.offset();
+                            searchResults.css({
+                                top: offset.top + searchInput.outerHeight(),
+                                left: offset.left,
+                                width: searchInput.outerWidth()
+                            });
+                        }
+
+                        const debouncedSearch = debounce(performSearch, 300);
+
+                        $('#search, #category').on('input change', function() {
+                            debouncedSearch();
+                            positionSearchResults();
+                        });
+
+                        $(window).on('resize', positionSearchResults);
+                    });
+                </script>
+
             </div>
             <div class="header-right ml-4">
                 <div class="header-call d-xs-show d-lg-flex align-items-center">

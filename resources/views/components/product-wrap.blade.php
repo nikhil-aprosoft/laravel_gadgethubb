@@ -66,23 +66,21 @@
 <div class="main-content">
     <nav class="toolbox sticky-toolbox sticky-content fix-top">
         <div class="toolbox-left">
-            <a href="#"
-                class="btn btn-primary btn-outline btn-rounded left-sidebar-toggle 
-                btn-icon-left"><i
-                    class="w-icon-category"></i><span>Filters</span></a>
             <div class="toolbox-item toolbox-sort select-box text-dark">
                 <label>Sort By :</label>
-                <select name="orderby" class="form-control">
-                    <option value="default" selected="selected">Default sorting</option>
-                    <option value="popularity">Sort by popularity</option>
-                    <option value="rating">Sort by average rating</option>
-                    <option value="date">Sort by latest</option>
-                    <option value="price-low">Sort by pric: low to high</option>
-                    <option value="price-high">Sort by price: high to low</option>
+                <select name="orderby" id="sort-by" class="form-control">
+                    <option value="default" {{ request('orderby') == 'default' ? 'selected' : '' }}>Default sorting
+                    </option>                   
+                    <option value="rating" {{ request('orderby') == 'rating' ? 'selected' : '' }}>Sort by average rating
+                    </option>
+                    <option value="date" {{ request('orderby') == 'date' ? 'selected' : '' }}>Sort by latest</option>
+                    <option value="price-low" {{ request('orderby') == 'price-low' ? 'selected' : '' }}>Sort by price:
+                        low to high</option>
+                    <option value="price-high" {{ request('orderby') == 'price-high' ? 'selected' : '' }}>Sort by price:
+                        high to low</option>
                 </select>
             </div>
         </div>
-
     </nav>
     <div class="product-wrapper row cols-xl-6 cols-lg-5 cols-md-4 cols-sm-3 cols-2">
         @foreach ($products as $item)
@@ -98,16 +96,12 @@
 
                             <a href="#" onClick="wishList({{ json_encode($item) }})"
                                 class="btn-product-icon btn-wishlist w-icon-heart" title="Wishlist"></a>
-                            <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quick View"
-                                data-product="{{ json_encode($item) }}">
+                            {{-- <a href="#" class="btn-product-icon btn-quickview w-icon-search" title="Quick View"
+                                data-product="{{ json_encode($item) }}"> --}}
                             </a>
                         </div>
                     </figure>
                     <div class="product-details">
-                        {{-- <div class="product-cat">
-
-                            <a href="shop-banner-sidebar.html">{{ $item->category->category_name }}</a>
-                        </div> --}}
                         <h3 class="product-name">
                             <a
                                 href="{{ route('product-details', ['slug' => $item->slug]) }}">{{ $item->product_name }}</a>
@@ -141,6 +135,12 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <script>
+                document.getElementById('sort-by').addEventListener('change', function() {
+                let selectedSort = this.value;
+                let url = new URL(window.location.href);
+                url.searchParams.set('orderby', selectedSort);
+                window.location.href = url.toString();
+            });
             $(document).ready(function() {
                 $('.btn-quickview').on('click', function(e) {
                     e.preventDefault();
@@ -153,33 +153,42 @@
                 });
             });
         </script>
-
-
-
-
     </div>
-
+    @php
+        $perPage = 12; // Number of products per page
+        $page = request()->query('page', 1); // Get current page, default is 1
+        $offset = ($page - 1) * $perPage; // Calculate offset
+        $totalPages = ceil($products->count() / $perPage); // Total pages
+    @endphp
     <div class="toolbox toolbox-pagination justify-content-between">
         <p class="showing-info mb-2 mb-sm-0">
-            Showing<span>1-12 of 60</span>Products
+            Showing <span>{{ $offset + 1 }}-{{ min($offset + $products->count(), $products->count()) }} of
+                {{ $products->count() }}</span> Products
         </p>
+
         <ul class="pagination">
-            <li class="prev disabled">
-                <a href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                    <i class="w-icon-long-arrow-left"></i>Prev
-                </a>
-            </li>
-            <li class="page-item active">
-                <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#">2</a>
-            </li>
-            <li class="next">
-                <a href="#" aria-label="Next">
-                    Next<i class="w-icon-long-arrow-right"></i>
-                </a>
-            </li>
+            @if ($page > 1)
+                <li class="prev">
+                    <a href="{{ request()->fullUrlWithQuery(['page' => $page - 1]) }}" aria-label="Previous">
+                        <i class="w-icon-long-arrow-left"></i> Prev
+                    </a>
+                </li>
+            @endif
+
+            @for ($i = 1; $i <= $totalPages; $i++)
+                <li class="page-item {{ $i == $page ? 'active' : '' }}">
+                    <a class="page-link"
+                        href="{{ request()->fullUrlWithQuery(['page' => $i]) }}">{{ $i }}</a>
+                </li>
+            @endfor
+
+            @if ($page < $totalPages)
+                <li class="next">
+                    <a href="{{ request()->fullUrlWithQuery(['page' => $page + 1]) }}" aria-label="Next">
+                        Next <i class="w-icon-long-arrow-right"></i>
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
 </div>

@@ -211,7 +211,7 @@
                             </span>
                             <div class="icon-box-content">
                                 <h4 class="icon-box-title font-weight-bold mb-1">Free Shipping & Returns</h4>
-                                <p class="text-default">For all orders over $99</p>
+                                <p class="text-default" style="font-family: Arial;">For all orders over ₹2000</p>
                             </div>
                         </div>
                         <div class="swiper-slide icon-box icon-box-side icon-box-primary">
@@ -603,7 +603,7 @@
                                                             <div class="product product-widget bb-no">
                                                                 <figure class="product-media">
                                                                     <a
-                                                                        href="{{ route('product-details', ['slug' => $bS]) }}">
+                                                                        href="{{ route('product-details', ['slug' => $bS->slug]) }}">
                                                                         <img src="{{ $bS->thumbnail }}"
                                                                             alt="Product" width="105"
                                                                             height="118" />
