@@ -56,6 +56,7 @@ class Offline_userController extends Controller
                 'success' => true,
                 'msg'     => 'Login successful - Device updated',
                 'data'    => [
+                    'offline_user_id' => $offlineUser->offline_user_id,
                     'phone'     => $phone,
                     'device_id' => $device_id,
                 ],
