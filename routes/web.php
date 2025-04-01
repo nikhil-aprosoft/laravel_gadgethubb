@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\AddressController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\DailyDealController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\WishlistController;
+use App\Jobs\GenerateQrCodeJob;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\DailyDealController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,3 +87,7 @@ Route::controller(OrderController::class)->group(function () {
     Route::get('order-details/{order_no}', 'orderDetails')->name('order-details')->middleware('session');
 
 });
+
+Route::get('qr',function(){
+    GenerateQrCodeJob::dispatch("faa");
+ });
