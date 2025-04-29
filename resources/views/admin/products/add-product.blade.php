@@ -72,6 +72,17 @@
                                             <div class="card-header">
                                                 <h5 class="card-title mb-0">Product Information</h5>
                                             </div>
+                                            <div>
+                                                <label for="parent_product_id">Is this an accessory for any main product?</label>
+                                                <select name="parent_product_id" id="parent_product_id">
+                                                    <option value="">No, it's a main product</option>
+                                                  
+                                                    @foreach($products as $product)
+                                                        <option value="{{ $product->product_id }}">{{ $product->product_name	 }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            
                                             <div class="card-body">
                                                 <div class="form-floating form-floating-outline mb-5">
                                                     <input type="text" class="form-control" id="product_name"
@@ -469,11 +480,7 @@
                                             });
 
                                             // Example: Prepopulate specifications if editing an existing product
-                                            @if (isset($product))
-                                                @foreach ($product->specifications as $spec)
-                                                    addSpecificationField('{{ $spec->key }}', '{{ $spec->value }}');
-                                                @endforeach
-                                            @endif
+                                         
                                         });
                                     </script>
                                     <!-- /Second column -->

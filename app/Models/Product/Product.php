@@ -53,7 +53,10 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'category_id');
     }
-
+    public function accessories()
+    {
+        return $this->hasMany(Product::class, 'parent_product_id');
+    }
     public function getCategoryAttribute()
     {
         return DB::table('categories')->where('category_id', $this->category_id)->first();
@@ -141,6 +144,10 @@ class Product extends Model
         }, $imagePaths);
     }
     public function getThumbnailAttribute($value)
+    {
+        return Storage::disk('public')->url($value);
+    }
+    public function getQrCodeAttribute($value)
     {
         return Storage::disk('public')->url($value);
     }

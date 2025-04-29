@@ -9,7 +9,7 @@ class DailyDealController extends Controller
 {
     public function dailyDeal(Request $request)
     {
-        $dailyDeals = DailyDeal::with('product')->get();
+        $dailyDeals = DailyDeal::with('product')->where('status','active')->get();
 
         $products = $dailyDeals->map->product->filter(); 
     

@@ -36,6 +36,13 @@
             });
     }
 </script>
+<style>
+    .dropdown-box .products {
+        max-height: 300px;  /* Adjust as needed */
+        overflow-y: auto;
+        overflow-x: hidden; /* Hide horizontal scroll if content is too wide */
+    }
+</style>
 
 <div class="dropdown cart-dropdown cart-offcanvas mr-0 mr-lg-2">
     <div class="cart-overlay"></div>
@@ -78,45 +85,26 @@
                     </figure>
                     <button class="btn btn-link btn-close"
                         onclick="removeCartProduct({{ json_encode($item->cart_id) }})" aria-label="button"
-                        data-id="{{ $item->cart_id }}">
+                        style="margin-right: 15px;"  data-id="{{ $item->cart_id }}">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             @endforeach
         </div>
-        @if ( $cartItems->count() > 0)
+        @if ($cartItems->count() > 0)
             <div class="cart-total">
                 <label>Subtotal:</label>
-                <span
-                    class="price" style="font-family: Arial;">₹{{ $cartItems->sum(function ($item) {
-                        return (float) str_replace('₹', '', $item->product->price) * $item->quantity;
-                    }) }}</span>
+                <span class="price" style="font-family: Arial;">₹{{ cart_total($cartItems) }}</span>
             </div>
             <div class="cart-action">
                 <a href="{{ route('view-cart') }}" class="btn btn-dark btn-outline btn-rounded">View Cart</a>
-                <a href="{{route('checkout')}}" class="btn btn-primary btn-rounded">Checkout</a>
-            </div>   
-            @else
-            <p class="text-center mt-4"><strong>Empty Cart</strong></p>  
+                <a href="{{ route('checkout') }}" class="btn btn-primary btn-rounded">Checkout</a>
+            </div>
+        @else
+            <p class="text-center mt-4"><strong>Empty Cart</strong></p>
         @endif
-       
+
     </div>
     <!-- End of Dropdown Box -->
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Use event delegation
-    document.body.addEventListener('click', (event) => {
-        if (event.target.closest('.btn-cart')) {
-            // Your event handler code here
-            console.log('Add to Cart button clicked!');
-            // You can also access other data if needed
-            window.appData = {
-            cartId: 123, // Example data
-            userId: 456
-        };
-        }
-    });
-});
 
-</script>

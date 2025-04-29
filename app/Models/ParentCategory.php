@@ -12,6 +12,7 @@ class ParentCategory extends Model
 
     protected $table = 'parent_categories';
   
+    
     protected $fillable = [
         'name',
         'rank',

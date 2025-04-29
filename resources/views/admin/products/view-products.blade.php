@@ -29,14 +29,14 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Content -->
-                    <div class="container-xxl flex-grow-1 container-p-y">                       
+                    <div class="container-xxl flex-grow-1 container-p-y">
                         @php
                             $globalService = app('commonData');
                         @endphp
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="mb-0">Filter</h5>
-                                <form method="GET" action="{{url('admin/products/show')}}">
+                                <form method="GET" action="{{ url('admin/products/show') }}">
                                     <!-- Update with your route -->
                                     <div
                                         class="d-flex justify-content-between align-items-center row pt-4 gap-4 gap-md-0">
@@ -111,17 +111,17 @@
                                                 rowspan="1" colspan="1" style="width: 140px;"
                                                 aria-label="category: activate to sort column ascending">category
                                             </th>
-                                            {{-- <th class="sorting_disabled" rowspan="1" colspan="1"
-                                                style="width: 55px;" aria-label="stock">stock</th> --}}
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                            <th class="sorting_disabled" rowspan="1" colspan="1"
+                                                style="width: 55px;" aria-label="stock">QR</th>
+                                            {{-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                 rowspan="1" colspan="1" style="width: 46px;"
-                                                aria-label="sku: activate to sort column ascending">sku</th>
+                                                aria-label="sku: activate to sort column ascending">sku</th> --}}
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                 rowspan="1" colspan="1" style="width: 76px;"
                                                 aria-label="price: activate to sort column ascending">price</th>
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                            {{-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                 rowspan="1" colspan="1" style="width: 36px;"
-                                                aria-label="qty: activate to sort column ascending">qty</th>
+                                                aria-label="qty: activate to sort column ascending">qty</th> --}}
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
                                                 rowspan="1" colspan="1" style="width: 99px;"
                                                 aria-label="status: activate to sort column ascending">status</th>
@@ -157,17 +157,17 @@
                                                                 class="ri-computer-line"></i></span>{{ $item->category->category_name }}
                                                     </h6>
                                                 </td>
-                                                {{-- <td>
+                                                <td>
                                                     <div class="form-check form-switch">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            role="switch"
-                                                            id="flexSwitchCheckChecked{{ $item->product_id }}"
-                                                            @if ($item->quantity > 0) checked @endif>
+                                                        <a href="{{ $item->qr_code }}" download="{{$item->product_name}}" class="btn btn-primary">
+                                                         
+                                                            Download QR 
+                                                        </a>
                                                     </div>
-                                                </td> --}}
-                                                <td><span>{{ $item->sku }}</span></td>
+                                                </td>
+                                                {{-- <td><span>{{ $item->sku }}</span></td> --}}
                                                 <td><span>{{ $item->price }}</span></td>
-                                                <td><span>{{ $item->quantity }}</span></td>
+                                                {{-- <td><span>{{ $item->quantity }}</span></td> --}}
                                                 <td><span
                                                         class="badge rounded-pill bg-label-{{ $item->is_active == 1 ? 'success' : 'danger' }}"
                                                         text-capitalized="">{{ $item->is_active == 1 ? 'Published' : 'Deactivated' }}</span>

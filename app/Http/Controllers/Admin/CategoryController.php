@@ -2,20 +2,54 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\ParentCategory;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\ParentCategory;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
+    public function index(){
+        $parentCategories = ParentCategory::latest()->get();
+        return view('admin.parent-categories.index',compact('parentCategories'));
+    }
+    public function createParentCategory(Request $request){
+       
+        ParentCategory::create([
+            'name' => $request->name,     
+        ]);
+        
+        return redirect()->back()->with('success', 'Category added successfully!');
+    }
+    public function destroyParentCategory($id)
+    {
+        $category = ParentCategory::findOrFail($id);
+        $category->delete(); // This will soft delete
+
+        return redirect()->back()->with('success', 'Category deleted successfully!');
+    }
+    public function updateParentCategory(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+    
+        $category = ParentCategory::findOrFail($id);
+    
+        $category->update([
+            'name' => $request->name,
+        ]);
+    
+        return redirect()->back()->with('success', 'Category updated successfully!');
+    }
+    
     public function create()
     {
-        $parentCategory = ParentCategory::all();
+        $parentCategory = ParentCategory::latest()->get();
         return view('admin.categories.add-category', compact('parentCategory'));
     }
 
@@ -60,12 +94,14 @@ class CategoryController extends Controller
     public function viewCategory(Category $category)
     {
         $category = Category::paginate(10);
-        return view('admin.categories.view-category', compact('category'));
+        $parentCategories = ParentCategory::all();
+        return view('admin.categories.view-category', compact('category','parentCategories'));
     }
 
     public function edit(Category $category)
     {
         $categories = Category::all();
+       
         return view('categories.edit', compact('category', 'categories'));
     }
 

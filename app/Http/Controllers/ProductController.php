@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function productDetails($slug)
     {
-        $product = Product::with('attributes.color', 'attributes.size')->where('slug', $slug)->firstOrFail();
+        $product = Product::with('attributes.color', 'attributes.size','accessories')->where('slug', $slug)->firstOrFail();
         $frequentlyBoughtProduct = FrequentlyBoughtProduct::with('product')->latest()->limit(3)->get();
         $latestProduct = Product::latest()->limit(9)->get();
 

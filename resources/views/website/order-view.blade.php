@@ -10,7 +10,7 @@
         @include('website.partials.header')
         <!-- End of Header -->
     </div>
-    <div class="bg-gray-100 py-6" style="margin: 60px;">
+    <div class="bg-gray-100 py-6 latestCheckout">
         <div class=" mx-auto bg-white rounded-lg shadow-lg p-6">
             <header class="flex justify-between items-center border-b pb-4">
                 <h1 class="text-xl font-semibold text-[#1E2A42]">
@@ -50,24 +50,28 @@
                 </div>
 
                 @if (!empty($order->shipping) && $order->shipping->isNotEmpty())
-                @php $shipping = $order->shipping->sortByDesc('created_at')->first(); @endphp
-                <div class="bg-white shadow-sm p-4 rounded-lg border">
-                    <h2 class="font-semibold mb-4">Order History</h2>
-                    <ul class="text-gray-700 text-[#1E2A42]">
-                        <li class="mb-2"><strong class="text-gray-500">Expected Delivery:</strong> {{ \Carbon\Carbon::parse($shipping->expected_delivery_date)->format('D, M j, Y h:i A') }}</li>
-                        <li class="mb-2"><strong class="text-gray-500">Shipping-ID:</strong> {{ $shipping->shipment_id }}</li>
-                        <li class="mb-2"><strong class="text-gray-500">Delivery-Status:</strong> {{ ucfirst($shipping->delivery_status) }}</li>
-                    </ul>
-                </div>
-            @else
-                <div class="bg-white shadow-sm p-4 rounded-lg border">
-                    <h2 class="font-semibold mb-4">Order History</h2>
-                    <ul class="text-gray-700 text-[#1E2A42]">
-                        <li><strong class="text-gray-500">Shipping:</strong> Processing</li>
-                    </ul>
-                </div>
-            @endif
-            
+                    @php $shipping = $order->shipping->sortByDesc('created_at')->first(); @endphp
+                    <div class="bg-white shadow-sm p-4 rounded-lg border">
+                        <h2 class="font-semibold mb-4">Order History</h2>
+                        <ul class="text-gray-700 text-[#1E2A42]">
+                            <li class="mb-2"><strong class="text-gray-500">Expected Delivery:</strong>
+                                {{ \Carbon\Carbon::parse($shipping->expected_delivery_date)->format('D, M j, Y h:i A') }}
+                            </li>
+                            <li class="mb-2"><strong class="text-gray-500">Shipping-ID:</strong>
+                                {{ $shipping->shipment_id }}</li>
+                            <li class="mb-2"><strong class="text-gray-500">Delivery-Status:</strong>
+                                {{ ucfirst($shipping->delivery_status) }}</li>
+                        </ul>
+                    </div>
+                @else
+                    <div class="bg-white shadow-sm p-4 rounded-lg border">
+                        <h2 class="font-semibold mb-4">Order History</h2>
+                        <ul class="text-gray-700 text-[#1E2A42]">
+                            <li><strong class="text-gray-500">Shipping:</strong> Processing</li>
+                        </ul>
+                    </div>
+                @endif
+
             </div>
 
             <!-- Item Summary & Order Summary -->
@@ -117,11 +121,14 @@
                                     class="text-gray-500">{{ $order->payments[0]->payment_method }}</strong></span></p>
                         <p class="flex justify-between"><span><strong class="text-gray-500">Shipping Cost</strong></span>
                             <span style="font-family: Arial, Helvetica, sans-serif">₹ <strong
-                                    class="text-gray-500">{{ $order->shipcost }}</strong></span></p>
+                                    class="text-gray-500">{{ $order->shipcost }}</strong></span>
+                        </p>
                         <p class="flex justify-between font-semibold text-lg">
                         <p class="flex justify-between"><span><strong class="text-gray-500">Total</strong></span>
                             <span style="font-family: Arial, Helvetica, sans-serif">
-                                <strong class="text-gray-500">₹ {{ $order->payments[0]->amount + $order->shipcost }}
+                                <strong class="text-gray-500">₹
+                                    {{ number_format($order->payments[0]->amount + $order->shipcost, 2) }}
+
                                 </strong>
                             </span>
                         </p>
@@ -130,4 +137,18 @@
             </div>
         </div>
     </div>
+    <style>
+        .latestCheckout {
+            margin: 60px;
+            /* Desktop margin */
+        }
+
+        /* Media query for small screens */
+        @media (max-width: 768px) {
+            .latestCheckout {
+                margin: 14px;
+                /* Smaller margin for mobile */
+            }
+        }
+    </style>
 @endsection

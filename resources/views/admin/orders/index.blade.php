@@ -35,6 +35,23 @@
                                              <div
                                                  class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
                                                  <div>
+                                                     <h4 class="mb-0">{{ $todayOrders }}</h4>
+                                                     <p class="mb-0">Today Orders </p>
+                                                 </div>
+                                                 <div class="avatar me-sm-6">
+                                                     <span
+                                                         class="avatar-initial rounded bg-label-secondary text-heading">
+                                                         <i class="ri-calendar-2-line ri-24px"></i>
+                                                     </span>
+                                                 </div>
+
+                                             </div>
+                                             <hr class="d-none d-sm-block d-lg-none me-6">
+                                         </div>
+                                         {{-- <div class="col-sm-6 col-lg-3">
+                                             <div
+                                                 class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-4 pb-sm-0">
+                                                 <div>
                                                      <h4 class="mb-0">{{ $pendingPayments }}</h4>
                                                      <p class="mb-0">Pending Payment</p>
                                                  </div>
@@ -44,9 +61,10 @@
                                                          <i class="ri-calendar-2-line ri-24px"></i>
                                                      </span>
                                                  </div>
+                                                 
                                              </div>
                                              <hr class="d-none d-sm-block d-lg-none me-6">
-                                         </div>
+                                         </div> --}}
                                          <div class="col-sm-6 col-lg-3">
                                              <div
                                                  class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-4 pb-sm-0">
@@ -107,10 +125,16 @@
                                          <div>
                                              <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                                  <form method="GET" action="{{ route('orders.index') }}">
-                                                     <input type="search" name="search"
-                                                         class="form-control form-control-sm ms-0"
-                                                         placeholder="Search Order" value="{{ request('search') }}">
+                                                     <div class="input-group">
+                                                         <input type="search" name="search"
+                                                             class="form-control form-control-sm ms-0"
+                                                             placeholder="Search Order" value="{{ request('search') }}">
+                                                         <button type="submit" class="btn btn-sm btn-primary">
+                                                             Search
+                                                         </button>
+                                                     </div>
                                                  </form>
+
                                              </div>
                                          </div>
                                          <div class="d-flex align-items-md-baseline justify-content-md-end gap-4">
@@ -119,10 +143,13 @@
                                                      <select name="length" aria-controls="DataTables_Table_0"
                                                          class="form-select form-select-sm"
                                                          onchange="this.form.submit()">
+                                                         <option value="5"
+                                                             {{ request('length') == 5 ? 'selected' : '' }}>5</option>
                                                          <option value="10"
                                                              {{ request('length') == 10 ? 'selected' : '' }}>10</option>
                                                          <option value="40"
-                                                             {{ request('length') == 40 ? 'selected' : '' }}>40</option>
+                                                             {{ request('length') == 40 ? 'selected' : '' }}>40
+                                                         </option>
                                                          <option value="60"
                                                              {{ request('length') == 60 ? 'selected' : '' }}>60
                                                          </option>
@@ -141,7 +168,6 @@
                                          id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
                                          <thead>
                                              <tr>
-                                                 <th><input type="checkbox" class="form-check-input"></th>
                                                  <th>Order</th>
                                                  <th>Date</th>
                                                  <th>Customers</th>
@@ -154,9 +180,10 @@
                                          <tbody>
                                              @forelse ($orders as $order)
                                                  <tr>
-                                                     <td><input type="checkbox" class="dt-checkboxes form-check-input">
+
+                                                     <td><a
+                                                             href="{{ url('admin/orders/order-details', ['order' => $order->order_no]) }}">{{ $order->order_no ?? 'N/A' }}</a>
                                                      </td>
-                                                     <td><a href="{{ url('admin/orders/order-details', ['order' => $order->order_no]) }}">{{ $order->order_no ?? 'N/A' }}</a></td>
                                                      <td>{{ $order->created_at->format('M d, Y, H:i') }}</td>
                                                      <td>
                                                          <div
@@ -174,12 +201,13 @@
                                                      @if ($order->payments && $order->payments->isNotEmpty())
                                                          @php $payment = $order->payments->first(); @endphp
                                                          <td>
-                                                            <h6 class="mb-0 w-px-100 d-flex align-items-center 
+                                                             <h6
+                                                                 class="mb-0 w-px-100 d-flex align-items-center 
                                                             {{ $payment->payment_status == 'Paid' ? 'text-success' : 'text-warning' }}">
-                                                            <i class="ri-circle-fill ri-10px me-1"></i>
-                                                            {{ $payment->payment_status }}
-                                                        </h6>
-                                                        
+                                                                 <i class="ri-circle-fill ri-10px me-1"></i>
+                                                                 {{ $payment->payment_status }}
+                                                             </h6>
+
                                                          </td>
                                                          <td>
                                                              <div class="d-flex align-items-center text-nowrap">
@@ -202,9 +230,10 @@
                                                                  <i class="ri-more-2-line"></i>
                                                              </button>
                                                              <div class="dropdown-menu dropdown-menu-end m-0">
-                                                                <a href="{{ url('admin/orders/order-details', ['order' => $order->order_no]) }}" class="dropdown-item">View</a>
+                                                                 <a href="{{ url('admin/orders/order-details', ['order' => $order->order_no]) }}"
+                                                                     class="dropdown-item">View</a>
 
-                                                            </div>
+                                                             </div>
                                                          </div>
                                                      </td>
                                                  </tr>
@@ -216,59 +245,64 @@
                                          </tbody>
                                      </table>
                                      <div class="row mx-1 m-4">
-                                      <div class="col-sm-12 col-md-6">
-                                          <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
-                                              Displaying {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of {{ $orders->total() }} entries
-                                          </div>
-                                      </div>
-                                      <div class="col-sm-12 col-md-6">
-                                          <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                              <ul class="pagination">
-                                                  <!-- Previous Page -->
-                                                  <li class="paginate_button page-item {{ $currentPage <= 1 ? 'disabled' : '' }}" id="DataTables_Table_0_previous">
-                                                      <a href="{{ $currentPage > 1 ? route('orders.index', ['page' => $currentPage - 1]) : '#' }}" 
-                                                         aria-controls="DataTables_Table_0" 
-                                                         aria-disabled="{{ $currentPage <= 1 }}" 
-                                                         role="link" 
-                                                         data-dt-idx="previous" 
-                                                         tabindex="-1" 
-                                                         class="page-link">Previous</a>
-                                                  </li>
-                                  
-                                                  <!-- Page Numbers -->
-                                                  @for ($i = 1; $i <= $totalPages; $i++)
-                                                      <li class="paginate_button page-item {{ $currentPage == $i ? 'active' : '' }}">
-                                                          <a href="{{ route('orders.index', ['page' => $i]) }}"
+                                         <div class="col-sm-12 col-md-6">
+                                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status"
+                                                 aria-live="polite">
+                                                 Displaying {{ $orders->firstItem() }} to {{ $orders->lastItem() }} of
+                                                 {{ $orders->total() }} entries
+                                             </div>
+                                         </div>
+                                         <div class="col-sm-12 col-md-6">
+                                             <div class="dataTables_paginate paging_simple_numbers"
+                                                 id="DataTables_Table_0_paginate">
+                                                 <ul class="pagination">
+                                                     <!-- Previous Page -->
+                                                     <li class="paginate_button page-item {{ $currentPage <= 1 ? 'disabled' : '' }}"
+                                                         id="DataTables_Table_0_previous">
+                                                         <a href="{{ $currentPage > 1 ? route('orders.index', ['page' => $currentPage - 1]) : '#' }}"
                                                              aria-controls="DataTables_Table_0"
-                                                             role="link"
-                                                             data-dt-idx="{{ $i - 1 }}"
-                                                             tabindex="{{ $i }}"
-                                                             class="page-link">{{ $i }}</a>
-                                                      </li>
-                                                  @endfor
-                                  
-                                                  <!-- Ellipsis (if necessary) -->
-                                                  @if($totalPages > 5 && $currentPage < $totalPages - 2)
-                                                      <li class="paginate_button page-item disabled" id="DataTables_Table_0_ellipsis">
-                                                          <a aria-controls="DataTables_Table_0" aria-disabled="true" role="link" data-dt-idx="ellipsis" tabindex="-1" class="page-link">…</a>
-                                                      </li>
-                                                  @endif
-                                  
-                                                  <!-- Next Page -->
-                                                  <li class="paginate_button page-item {{ $currentPage >= $totalPages ? 'disabled' : '' }}" id="DataTables_Table_0_next">
-                                                      <a href="{{ $currentPage < $totalPages ? route('orders.index', ['page' => $currentPage + 1]) : '#' }}" 
-                                                         aria-controls="DataTables_Table_0" 
-                                                         role="link" 
-                                                         data-dt-idx="next" 
-                                                         tabindex="{{ $currentPage + 1 }}" 
-                                                         class="page-link">Next</a>
-                                                  </li>
-                                              </ul>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  
-                                     <div style="width: 1%;"></div>                                     
+                                                             aria-disabled="{{ $currentPage <= 1 }}" role="link"
+                                                             data-dt-idx="previous" tabindex="-1"
+                                                             class="page-link">Previous</a>
+                                                     </li>
+
+                                                     <!-- Page Numbers -->
+                                                     @for ($i = 1; $i <= $totalPages; $i++)
+                                                         <li
+                                                             class="paginate_button page-item {{ $currentPage == $i ? 'active' : '' }}">
+                                                             <a href="{{ route('orders.index', ['page' => $i]) }}"
+                                                                 aria-controls="DataTables_Table_0" role="link"
+                                                                 data-dt-idx="{{ $i - 1 }}"
+                                                                 tabindex="{{ $i }}"
+                                                                 class="page-link">{{ $i }}</a>
+                                                         </li>
+                                                     @endfor
+
+                                                     <!-- Ellipsis (if necessary) -->
+                                                     @if ($totalPages > 5 && $currentPage < $totalPages - 2)
+                                                         <li class="paginate_button page-item disabled"
+                                                             id="DataTables_Table_0_ellipsis">
+                                                             <a aria-controls="DataTables_Table_0"
+                                                                 aria-disabled="true" role="link"
+                                                                 data-dt-idx="ellipsis" tabindex="-1"
+                                                                 class="page-link">…</a>
+                                                         </li>
+                                                     @endif
+
+                                                     <!-- Next Page -->
+                                                     <li class="paginate_button page-item {{ $currentPage >= $totalPages ? 'disabled' : '' }}"
+                                                         id="DataTables_Table_0_next">
+                                                         <a href="{{ $currentPage < $totalPages ? route('orders.index', ['page' => $currentPage + 1]) : '#' }}"
+                                                             aria-controls="DataTables_Table_0" role="link"
+                                                             data-dt-idx="next" tabindex="{{ $currentPage + 1 }}"
+                                                             class="page-link">Next</a>
+                                                     </li>
+                                                 </ul>
+                                             </div>
+                                         </div>
+                                     </div>
+
+                                     <div style="width: 1%;"></div>
                                  </div>
                              </div>
                          </div>

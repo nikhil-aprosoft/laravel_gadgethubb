@@ -163,7 +163,7 @@
                                                                                 name="parent_category_id">
                                                                                 <option selected>Open this select menu
                                                                                 </option>
-                                                                                @foreach ($parentCategoriesMega as $prM)
+                                                                                @foreach ($parentCategories as $prM)
                                                                                     <option value="{{ $prM->id }}"
                                                                                         {{ $prM->id == $item->parent_category_id ? 'selected' : '' }}>
                                                                                         {{ $prM->name }}
@@ -342,7 +342,7 @@
                                                         class="form-select form-select-sm"
                                                         data-placeholder="Select Category">
                                                         <option value="">Select Parent Category</option>
-                                                        @foreach ($parentCategoriesMega as $pC)
+                                                        @foreach ($parentCategories as $pC)
                                                             <option value="{{ $pC->id }}">
                                                                 {{ $pC->name }}</option>
                                                         @endforeach

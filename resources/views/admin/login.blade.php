@@ -7,8 +7,29 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
     <title>Admin-Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
     <x-admin.head />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.querySelector('.input-group-text');
+            const passwordField = document.querySelector('#password');
+        
+            if (togglePassword && passwordField) {
+                togglePassword.addEventListener('click', function () {
+                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordField.setAttribute('type', type);
+        
+                    // Toggle the eye icons
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('ri-eye-off-line');
+                    icon.classList.toggle('ri-eye-line');
+                });
+            }
+        });
+        </script>
+        
+
 </head>
 
 <body>

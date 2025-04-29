@@ -51,6 +51,20 @@
               <div class="badge bg-danger rounded-pill ms-auto">5</div>
             </a>
           </li>
+          
+          <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-git-commit-line"></i>
+                <div data-i18n="Dashboards">Parent-categories</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="{{ url('admin/parent-categories') }}" class="menu-link">
+                        <div data-i18n="Checkout">Parent-Category</div>
+                    </a>
+                </li>                
+            </ul>
+        </li>
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-git-commit-line"></i>

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('offline_user_id');
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
-            $table->string('password')();
+            $table->string('password');
             $table->string('device_id')->nullable();
             $table->tinyInteger('isactive')->default(1);
             $table->timestamps();

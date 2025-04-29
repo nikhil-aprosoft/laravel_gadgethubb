@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Phone number *</label>
+                                    <label>Phone number without country code *</label>
                                     <input type="text" class="form-control form-control-md" name="phone_no" required>
                                 </div>
                                 <div class="form-group">

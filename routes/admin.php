@@ -2,44 +2,40 @@
 
 // routes/admin.php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\DeliveryController;
 use App\Http\Controllers\Admin\DailyDealController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DeliveryController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ProductController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
+Route::view('login', 'admin.login');
 
-
-Route::view('login','admin.login');
-
-Route::get('/',function(){
+Route::get('/', function () {
     return redirect('/admin/login');
 });
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-Route::get('dashboard',[DashboardController::class,'dashboard'])->name('admin.dashboard');
+Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
 Route::get('/weekly-overview', [DashboardController::class, 'getWeeklyOverview'])->name('admin.weekly-overview');
 
-
 Route::prefix('deliveries')->name('deliveries.')->group(function () {
-    Route::get('/', [DeliveryController::class,'index']);
-    Route::post('store',[DeliveryController::class,'store'])->name('store');
-    Route::delete('destroy/{delivery}',[DeliveryController::class,'destroy'])->name('destroy');
+    Route::get('/', [DeliveryController::class, 'index']);
+    Route::post('store', [DeliveryController::class, 'store'])->name('store');
+    Route::delete('destroy/{delivery}', [DeliveryController::class, 'destroy'])->name('destroy');
 
 });
 
 Route::prefix('orders')->name('orders.')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('index');
-    Route::get('/order-details/{order_no}',[OrderController::class,'orderDetails']);
-    Route::get('/user-details/{userid}',[OrderController::class,'userDetails']);
+    Route::get('/order-details/{order_no}', [OrderController::class, 'orderDetails']);
+    Route::get('/user-details/{userid}', [OrderController::class, 'userDetails']);
 });
-
 
 Route::prefix('products')->name('products.')->group(function () {
     Route::get('create', [ProductController::class, 'create'])->name('create');
@@ -50,6 +46,14 @@ Route::prefix('products')->name('products.')->group(function () {
     Route::get('update/{slug}', [ProductController::class, 'show']);
     Route::put('update/{product_id}', [ProductController::class, 'update'])->name('update');
 });
+
+//parent-category
+Route::get('/parent-categories', [CategoryController::class, 'index'])->name('parent-categories');
+Route::post('/create-parent-categories', [CategoryController::class, 'createParentCategory'])->name('create-parent-categories');
+Route::put('/update-parent-categories/{id}', [CategoryController::class, 'updateParentCategory'])->name('update-parent-categories');
+Route::delete('/delete-parent-category/{id}', [CategoryController::class, 'destroyParentCategory']);
+
+
 Route::prefix('categories')->name('categories.')->group(function () {
     Route::get('create', [CategoryController::class, 'create'])->name('create');
     Route::post('/', [CategoryController::class, 'store'])->name('store');

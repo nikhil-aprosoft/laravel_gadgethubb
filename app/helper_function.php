@@ -4,6 +4,7 @@ use Illuminate\Support\Str;
 use App\Models\Product\Size;
 use App\Models\Product\Color;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 function getDealExpireTime($obj)
 {
@@ -47,7 +48,8 @@ function cleanText($text)
 }
 function removeCurrency($value)
 {
-    return ((float) str_replace('₹', '', $value));
+    $cleanValue = preg_replace('/[^\d.]+/', '', $value);
+    return (float) $cleanValue;
 }
 function generateStylishId()
 {
@@ -67,4 +69,16 @@ function getRandomString($length)
         $randomString .= $characters[mt_rand(0, $charactersLength - 1)];
     }
     return $randomString;
+}
+
+function cart_total($cartItems) {
+    $total = $cartItems->sum(function ($item) {
+      
+        $price = removeCurrency($item->product->price);
+        $subtotal = $price * $item->quantity;
+
+        return $subtotal;
+    });
+
+    return $total;
 }

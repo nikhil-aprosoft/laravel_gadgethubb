@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Order\Order;
 use Illuminate\Http\Request;
@@ -30,9 +31,12 @@ class OrderController extends Controller
 
         // Eager load related models
         $ordersQuery->with(['payments', 'shipping', 'user']);
-
+        $ordersQuery->orderBy('created_at', 'desc');
         $orders = $ordersQuery->paginate($request->get('length', 10));
         $totalPages = $orders->lastPage();
+
+          // Today's order count
+             $todayOrdersCount = Order::whereDate('created_at', Carbon::today())->count();
 
         // Aggregated counts
         $pendingPaymentsCount = Order::whereHas('payments', function ($query) {
@@ -53,6 +57,7 @@ class OrderController extends Controller
 
         return view('admin.orders.index', [
             'orders' => $orders,
+            'todayOrders' => $todayOrdersCount,
             'pendingPayments' => $pendingPaymentsCount,
             'completedOrders' => $completedOrdersCount,
             'refundedOrders' => $refundedOrdersCount,

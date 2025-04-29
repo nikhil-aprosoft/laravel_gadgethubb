@@ -99,7 +99,7 @@
 
                                                                     <div class="d-flex flex-column"><span
                                                                             class="text-nowrap text-heading fw-medium">{{ $deal->product->product_name }}</span>
-                                                                        <small class="text-truncate d-none d-sm-block">
+                                                                        {{-- <small class="text-truncate d-none d-sm-block">
                                                                             @php
                                                                                 $words = explode(
                                                                                     ' ',
@@ -121,7 +121,7 @@
                                                                                     <li>{{ trim($desc) }}</li>
                                                                                 @endif
                                                                             @endforeach
-                                                                        </small>
+                                                                        </small> --}}
                                                                     </div>
                                                             </td>
                                                             <!-- Assuming there's a relationship with Product -->

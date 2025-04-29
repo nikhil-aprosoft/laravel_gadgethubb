@@ -29,7 +29,9 @@ class ProductController extends Controller
         $colors = colors();
         $sizes = size();
 
-        return view('admin.products.add-product', compact('categories', 'colors', 'sizes'));
+        $products = Product::whereNull('parent_product_id')->get();
+
+        return view('admin.products.add-product', compact('categories', 'colors', 'sizes','products'));
     }
     public function store(Request $request)
     {
@@ -42,6 +44,8 @@ class ProductController extends Controller
         $product->product_id = $productId;
 
         $product->category_id = $request->category_id;
+
+        $product->parent_product_id = $request->parent_product_id;
 
         $this->setProductAttributes($product, $request);
 
@@ -188,7 +192,9 @@ class ProductController extends Controller
     }
     public function qrCodeGenerate($product){
 
-        $qrData = url("/api/products/{$product->product_id}");
+        // $qrData = url("/api/products/{$product->product_id}");
+
+        $qrData = $product->product_id;
 
         $filePath = "qrcodes/product_{$product->product_id}.png";
         Storage::disk('public')->put($filePath, QrCode::format('png')->size(200)->generate($qrData));
@@ -215,7 +221,7 @@ class ProductController extends Controller
             $query->where('stock','>', $request->stock);
         }
     
-        $products = $query->paginate(10);
+        $products = $query->latest()->paginate(10);
     
         return view('admin.products.view-products', compact('products'));
     }

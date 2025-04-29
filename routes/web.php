@@ -90,4 +90,5 @@ Route::controller(OrderController::class)->group(function () {
 
 Route::get('qr',function(){
     GenerateQrCodeJob::dispatch("faa");
+    return "job run";
  });

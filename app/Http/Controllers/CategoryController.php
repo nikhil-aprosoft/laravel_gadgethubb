@@ -21,7 +21,7 @@ class CategoryController extends Controller
         $parentCategoriesNormal = ParentCategory::with('categories')->whereNull('rank')->get();
         $banners = $this->banners();
         $featureBanners = $this->featureBanners();
-        $dailyDeals = DailyDeal::With('product.attributes')->latest()->get();
+        $dailyDeals = DailyDeal::With('product.attributes')->where('status','active')->latest()->get();
         $bestSeller = $this->bestSeller();
         $newArrival = Product::latest()->limit(10)->get();
         $shoesSection = Product::where('category_id', '=', "841922dd-11b7-460f-95ff-2f3b0dc2de2a")->limit(8)->get();

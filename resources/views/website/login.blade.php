@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group mb-0">
                         <label>Password *</label>
-                        <input type="text" class="form-control" name="password" id="password" required>
+                        <input type="password" class="form-control" name="password" id="password" required>
                     </div>
                     <div class="form-checkbox d-flex align-items-center justify-content-between">
                         <input type="checkbox" class="custom-checkbox" id="remember" name="remember" >
@@ -41,7 +41,7 @@
                 </div>
                 <div class="form-group mb-5">
                     <label>Password *</label>
-                    <input type="text" class="form-control" name="password" id="password_1" required>
+                    <input type="password" class="form-control" name="password" id="password_1" required>
                 </div>
                 <p>Your personal data will be used to support your experience
                     throughout this website, to manage access to your account,

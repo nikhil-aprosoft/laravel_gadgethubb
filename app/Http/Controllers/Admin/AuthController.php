@@ -33,8 +33,7 @@ class AuthController extends Controller
 
             // Redirect based on role
             if (auth()->user()->role == 'admin') {
-                // return redirect()->route('admin.dashboard');
-                return "sucrss login";
+                 return redirect()->route('admin.dashboard');
             }
 
             return redirect()->route('home');
